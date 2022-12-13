@@ -1,0 +1,2 @@
+##### HỆ THỐNG SỬ DỤNG UBUNTU START UP FILE #####
+

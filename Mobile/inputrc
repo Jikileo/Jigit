@@ -1,0 +1,53 @@
+##### TINH CHINH CAC HE THONG TU BASH SHELL #####
+
+# Cong Command khong xuong hang
+
+set horizontal-srcoll-mode off
+
+# Mo 8-bit 
+
+set meta-flag on
+
+set input-meta on
+
+# Chinh 8-bit stripping
+
+set convert-meta off
+
+# Giu 8-bit tren man hinh
+
+set output-meta on
+
+# Chinh audio
+
+set bell-style none
+
+# Bash completion khong su dung
+
+set page-completions on
+
+# Tren xterm
+
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
+# Chinh dung chuong trinh sai txt
+
+$if mode=vis
+
+set editing-mode vis
+
+set keymap vis
+
+$endif
+
+$if Bash
+		"\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+		"\C-x"": "\"\"\C-b"
+		"\C-x\\": "\\"
+		"\C-xq": "\eb\"\ef\""
+		"\C-xr": redraw-current-line
+		"\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+$endif
+
+
