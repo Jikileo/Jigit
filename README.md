@@ -80,7 +80,7 @@
 
 ## Hinh anh Git Branch va SSH
 
-![SSH](https://github.com/Jikileo/Jigit/blob/master/Misc/SSH.xcf)
+![SSH](https://github.com/Jikileo/Jigit/blob/master/Misc/SSH.png)
 
 ![ISH](https://github.com/Jikileo/Jigit/blob/master/Misc/ISH.png)
 
