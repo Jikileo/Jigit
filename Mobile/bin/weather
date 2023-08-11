@@ -1,0 +1,80 @@
+#!/bin/bash
+##### HE THONG DU BAO THOI TIET TREN TERMINAL #####
+#------------------   Jiki   ---------------------#
+#
+# Shell Script:		weather
+# Author:		Jikileo
+# Version:		1.1
+# Email Address:	micae_vu@yahoo.com
+# Description:	Du bao thoi tiet cho ban biet
+#------------------   End   -----------------------#
+
+# Thiet lap cac bien mau sac
+
+default=`echo -en "\e[39m"`
+red=`echo -en "\e[31m"`
+orange=`echo -en "\e[33m"`
+blue=`echo -en "\e[34m"`
+green=`echo -en "\e[32m"`
+
+bold=`echo -en "\e[1m"`
+normal=`echo -en "\e[0m"`
+
+# Thiet lap cac bien cho emoji
+
+troinangnong="☀"
+nhieumay="☁"
+troinang="⛅"
+troimua="⛈"
+
+# Thiet lap cac bien de in ra man hinh
+
+thanhpho="$(wget -qO- http://wttr.in/?format=j1|sed 's/"//g'|sed 's/,//g'|sed 's/://g'|head -n40|tail -n1|awk '{print $2, $3, $4, $5}')"
+quocgia="$(wget -qO- http://wttr.in/?format=j1|sed 's/"//g'|sed 's/,//g'|sed 's/://g'|head -n45|tail -n1|awk '{print $2, $3, $4}')"
+
+temp="$(wget -qO- http://wttr.in/?format=j1|head -n 14|tail -n 1|tail -c 5|cut -c 1-2)" 
+humidity="$(wget -qO- http://wttr.in/?format=j1|head -n 7|tail -n 1|tail -c 5|cut -c 1-2)"
+dof="$(wget -qO- http://wttr.in/?format=j1|head -n15|tail -n1|cut -c 24-25)"
+description="$(wget -qO- http://wttr.in/?format=j1|head -n22|tail -n1|awk '{print $2, $3, $4, $5}'|sed 's/"//g')"
+wind="$(wget -qO- http://wttr.in/?format=j1|head -n32|tail -n1|sed 's/"//g'|sed 's/,//g'|awk '{print $2}')"
+
+# Thiet lap nhiet do khi vuot 30 se doi mau do
+
+if [[ ${temp} > 33 ]]
+then
+  color=${red}
+elif [[ ${temp} > 30 ]]
+then
+  color=${orange}
+elif [[ ${temp} > 27 ]]
+then
+  color=${blue}
+else
+  color=${green}
+fi
+
+# Thiet lap emoji cho Thoi tiet
+
+if [[ ${description} != "Partly cloudy" ]]
+then
+  thoitiet="Nhiều Mây ${nhieumay}"
+elif [[ ${description} != "Patchy rain possible" ]]
+then
+  thoitiet="Trời Mưa ${troimua}"
+elif [[ ${description} != "Sunny" ]]
+then
+  thoitiet="Trời Nắng Nóng ${troinangnong}"
+else
+  thoitiet="Trời Quang Đãng ${troinang}"
+fi
+
+# Tuy chon cac bien va mau sac de in ra man hinh
+
+echo "Khu Vuc: ${green}${thanhpho} ${quocgia}${normal} ⚜"
+echo `date +"%r %A, %B, %-d, %Y"`
+echo ``
+echo "Thoi Tiet: ${bold}${thoitiet}${normal}"
+echo "Nhiet Do: ${color}${temp}°C${default}"
+echo "Do °F: ${blue}${dof}°F${normal}"
+echo "Do Am: ${humidity}%"
+echo "Suc Gio: ${wind} km/h"

@@ -1,0 +1,32 @@
+##### DAY LA TAP TIN CAU HINH TERMINAL #####
+
+
+                   #____ __
+    #___  _______  / _(_) /__
+ #_ / _ \/ __/ _ \/ _/ / / -_)
+#(_) .__/_/  \___/_//_/_/\__/
+ #/_/
+
+
+
+# Ket thuc tim tap tin *.sh tai profile.d
+
+for script in /etc/bash.d/*.sh ; do
+		if [ -r $script ] ; then
+				. $script
+		fi
+done
+
+unset script
+
+for i in /etc/profile.d/*.sh ; do
+		if [ -r $i ] ; then
+				. $i
+		fi
+done
+
+unset i
+# KET THUC
+
+
+
