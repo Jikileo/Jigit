@@ -84,5 +84,35 @@
 
 ![ISH](https://github.com/Jikileo/Jigit/blob/master/Misc/ISH.png)
 
+## Dung UFW de chan va mo lai FireWall ngan SSH vao he thong
+
+- Dau tien ban can tai ve UFW (Uncomplicated Firewall)
+
+`sudo apt-get install ufw`
+
+- Kiem tra trang thai ufw da mo hay chua
+
+`sudo ufw status`
+
+- De mo FireWall
+
+`sudo ufw enable`
+
+- De tat FireWall
+
+`sudo ufw disable`
+
+- Dung FireWall chan SSH
+
+`sudo ufw reject out ssh`
+
+- Dung FireWall mo ket noi SSH
+
+`sudo ufw allow openssh`
+
+- Vay la ban co the tu quan ly mo hay chan SSH bang FireWall
+
+- Chuc cac ban thanh cong va vui ve !!!
+
  
 
