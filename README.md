@@ -40,4 +40,49 @@
 
 - Vay la co the hien Git Branch tren Terminal chuc cac ban thanh cong va vui ve
 
+# <LAPTOP> SSH IPHONE IPAD VOI UBUNTU
+
+- Dau tien ban tai ssh ve Ubuntu :
+
+`sudo apt-get install openssh.server`
+
+- Sau do kiem tra xem SSH da open chua
+
+`sudo systemctl status ssh`
+
+- Neu no da Active ban co the ket noi SSH den dien thoai cua ban
+
+- O tren Iphone Ipad ban tai get-ip minh de trong thu muc bin ve bo vao thu muc bin tren Iphone Ipad
+
+`chmod +x ~/bin/get-ip`
+
+- Cai nay lay IP tren Iphone Ipad Ubuntu
+
+`get-ip`
+
+- Sau do ban co the SSH
+  + Neu Dung Ubuntu
+
+    'ssh mobile@"IP vua lay cua Iphone Ipad"`
+    `(voi passwd mobile)`
+
+    `ssh root@"IP vua lay cua Iphone Ipad"`
+    `(voi passwd root)`
+
+  + Neu Su dung Iphone Ipad
+
+    `ssh "ten user"@"IP vua lay cua Ubuntu"`
+    `(voi passwd Ubuntu)`
+
+- Vay la ban da SSH duoc vao Ubuntu Iphone Ipad
+
+- Chuc cac ban thanh cong va vui ve
+
+## Hinh anh Git Branch va SSH
+
+![SSH](https://github.com/Jikileo/Jigit/blob/master/Misc/SSH.png)
+
+![ISH](https://github.com/Jikileo/Jigit/blob/master/Misc/ISH.png)
+
+ 
 
