@@ -12,7 +12,7 @@
 
 ## Diem khac biet giua Cmd va Terminal ???
 
-| [Cmd voi Terminal](https://bigtop.vn/blog/24497/command-prompt-so-voi-powershell-va-windows-terminal-chung-khac-nhau-ra-sao)
+| [Cmd voi Terminal](https://bigtop.vn/blog/24497/command-prompt-so-voi-powershell-va-windows-terminal-chung-khac-nhau-ra-sao) |
 
 # <LAPTOP> UBUNTU 22.04
 
@@ -63,7 +63,7 @@
 - Sau do ban co the SSH
   + Neu Dung Ubuntu
 
-    'ssh mobile@"IP vua lay cua Iphone Ipad"`
+    `ssh mobile@"IP vua lay cua Iphone Ipad"`
     `(voi passwd mobile)`
 
     `ssh root@"IP vua lay cua Iphone Ipad"`
