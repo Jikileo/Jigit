@@ -110,6 +110,10 @@
 
 `sudo ufw allow openssh`
 
+- Dung de Reset lai UFW
+
+`sudo ufw reset`
+
 - Vay la ban co the tu quan ly mo hay chan SSH bang FireWall
 
 - Chuc cac ban thanh cong va vui ve !!!
