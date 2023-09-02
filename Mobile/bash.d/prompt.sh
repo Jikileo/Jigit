@@ -15,15 +15,15 @@ BLUE="\[\e[1;34m\]"
 
 if [[ $EUID == 501 ]] ; then
   if [[ $SHLVL == 1 ]] ; then
-    PS1="$GREEN\u [ $NONE$BLUE\W$NONE$GREEN ]$NONE$TIM\$(parse_git_branch)$NONE$GREEN\$$NONE $NORMAL$NORMAL"
+    PS1="\[\033[38;5;82m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;82m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;82m\]\$\[\033[00m\] "
   else
-    PS1="$GRAY\u [ $NONE$BLUE\W$NONE$GRAY ]$NONE$TIM\$(parse_git_branch)$NONE$GRAY#$NONE $NORMAL$NORMAL"
+    PS1="\[\033[38;5;244m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;244m\] ]\[\033[00m\]\[\033[1;94m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;244m\]#\[\033[00m\] "
   fi
 else
   if [[ shopt -eq login_shell ]] ; then
-    PS1="$RED\u [ $NONE$BLUE\W$NONE$RED ]$NONE$TIM\$(parse_git_branch)$NONE$RED#$NONE $NORMAL$NORMAL"
+    PS1="\[\033[38;5;196m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;196m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;196m\]#\[\033[00m\] "
   else
-    PS1="$GRAY\u [ $NONE$BLUE\W$NONE$GRAY ]$NONE$TIM\$(parse_git_branch)$NONE$GRAY#$NONE $NORMAL$NORMAL"
+    PS1="\[\033[38;5;244m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;244m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;244m\]#\[\033[00m\] "
   fi
 fi
 
@@ -32,15 +32,15 @@ fi
 if [[ "$SSH_CLIENT" != "" ]] ; then
     if [[ $EUID == 0 ]] ; then
         if [[ $SHLVL == 2 ]] ; then
-            PS1="$MAGENTA\u [ $NONE$BLUE\W$NONE$MAGENTA ]$NONE$TIM\$(parse_git_branch)$NONE$MAGENTA#$NONE $NORMAL$NORMAL"
+            PS1="\[\033[38;5;165m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;165m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;165m\]#\[\033[00m\] "
         else
-            PS1="$MAGENTA\u [ $NONE$BLUE\W$NONE$MAGENTA ]$NONE$TIM\$(parse_git_branch)$NONE$MAGENTA#$NONE $NORMAL$NORMAL"
+            PS1="\[\033[38;5;165m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;165m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;165m\]#\[\033[00m\] "
         fi
     else
         if [[ $SHLVL == 1 ]] ; then
-            PS1="$CYAN\u [ $NONE$BLUE\W$NONE$CYAN ]$NONE$TIM\$(parse_git_branch)$NONE$CYAN#$NONE $NORMAL$NORMAL"
+            PS1="\[\033[38;5;208m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;208m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;208m\]#\[\033[00m\] "
         else
-            PS1="$CYAN\u [ $NONE$BLUE\W$NONE$CYAN ]$NONE$TIM\$(parse_git_branch)$NONE$CYAN#$NONE $NORMAL$NORMAL"
+            PS1="\[\033[38;5;208m\]\u [ \[\033[00m\]\[\033[1;34m\]\W\[\033[00m\]\[\033[38;5;208m\] ]\[\033[00m\]\[\033[1;91m\]\$(parse_git_branch)\[\033[00m\]\[\033[38;5;208m\]#\[\033[00m\] "
         fi
     fi
 fi
