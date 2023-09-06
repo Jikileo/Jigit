@@ -61,9 +61,9 @@ function parse_git_branch() {
 }
 
 if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+	PS1='${debian_chroot:+($debian_chroot)}\[\033[38;05;82m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[38;05;197m\]$(parse_git_branch)\[\033[00m\]\$ '
 else
-	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+	PS1='${debian_chroot:+($debian_chroot)}\[\033[38;05;214m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[38;05;197m\]$(parse_git_branch)\[\033[00m\]\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -93,12 +93,12 @@ fi
 
 # some more ls aliases
 alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+#alias la='ls -A'
+#alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+#alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -108,6 +108,8 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+alias setvolume='amixer sset Master toggle'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -119,3 +121,5 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+
