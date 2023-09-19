@@ -5,7 +5,6 @@ user=$(whoami)
 hostname=$(hostname | sed 's/.local//g')
 modellaptop=$(hostnamectl | tail -1 | awk '{print $3, $4}')
 venderlaptop=$(hostnamectl | head -9 | tail -1 | awk '{print $3}')
-temp="$(wget -qO- http://wttr.in/?format=j1|head -n 14|tail -n 1|tail -c 5|cut -c 1-2)"
 datee=$(date +"%r %A %D")
 
 tempi="${temp}°C"
@@ -146,7 +145,7 @@ cpuText="${textColor}CPU:${normal}"
 gpuText="${textColor}GPU:${normal}"
 memoryText="${textColor}Memory:${normal}"
 diskText="${textColor}Disk:${normal}"
-tempiText="${textColor}Weather:${normal}"
+tempiText="${textColor}Time:${normal}"
 
 print() {
 	echo -e "$ORANGE$1"
@@ -171,7 +170,7 @@ print "                                       $cpuText $cpu"
 print "                                       $gpuText $gpu"
 print "                                       $memoryText $usedram / $ram"
 print "                                       $diskText $disk"
-print "                                       $tempiText $tempi $datee"
+print "                                       $tempiText $datee"
 print "                                       $hostIpText $ipAddress ${normal}"
 print ""
 print ""
