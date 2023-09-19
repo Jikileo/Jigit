@@ -122,6 +122,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH=$PATH:/home/jiki/bin
+export PATH=$PATH:$HOME/bin
 jikileo
 
