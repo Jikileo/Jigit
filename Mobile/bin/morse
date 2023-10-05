@@ -4,7 +4,7 @@
 #
 # Name script:
 # Author:		Jikileo
-# Version:	1.1
+# Version:	1.0
 # Email:		micae_vu@yahoo.com
 # Description:
 #---------------------   Ket Thuc  ------------------------#
@@ -142,18 +142,24 @@ ${BROWN}Usage Examples${NORMAL}:
   Dịch văn bản tập tin thành mã morse
   \$ ${BLUE}morse -e example.txt${NORMAL}
 
+  Lưu tập tin đã chuyển thành mã morse
+  \$ ${BLUE}morse -e example.txt > code-morse.txt${NORMAL}
+
   Chuyển dịch từ tập tin chứa mã morse sang văn bản thường
   \$ ${BLUE}morse -d code-morse.txt${NORMAL}
+
+  Lưu tập tin đã chuyển thành văn bản
+  \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
 
 if [[ "$1" = "-a" ]] || [[ "$1" = "--alphabet" ]]
 then
-  line="$@"
-  for (( i = 0; i < ${#line}; i++ ))
+  foo="$@"
+  for (( i = 0; i < ${#foo}; i++ ))
   do
-    char="${line:$i:1}"
+    char="${foo:$i:1}"
     j=0
     char="$(echo "$char"|tr 'A-Z' 'a-z')"
     flag="0"
