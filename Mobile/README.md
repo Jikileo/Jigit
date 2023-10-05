@@ -490,9 +490,17 @@
 
 `morse -e example.txt`
 
+- Các bạn cũng có thể trích xuất bản encode để lưu lại:
+
+`morse -e example.txt > code-morse.txt`
+
 - Để decode tập tin bạn nhập lệnh sau:
 
 `morse -d code-morse.txt`
+
+- Các bạn cũng có thể trích xuất bản decode để lưu lại:
+
+`morse -d code-morse.txt > example.txt`
 
 - Phiên bản sau mình sẽ update dịch chuỗi và nếu có thể mình sẽ update tiếp phần điện tín mã morse bang âm thanh
 - Chúc các bạn thành công và vui vẻ
