@@ -44,7 +44,7 @@ export -f pathremove pathprepend pathappend
 
 # Nhap bien luc khoi dau cua duong dan (PATH)
 
-export PATH=$HOME/bin:/usr/local/bin:/user/bin:/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin
 
 # Thu cung cap va tich hop them vao PATH
 
