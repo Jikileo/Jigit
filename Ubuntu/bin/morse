@@ -160,10 +160,10 @@ ${BROWN}Usage Examples${NORMAL}:
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
 function morse_code() {
-  foo="$@"
-  for (( i=0; i<${#foo}; i++ ))
+  line="$@"
+  for (( i=3; i<${#line}; i++ ))
   do
-    char="${foo:$i:1}"
+    char="${line:$i:1}"
     j=0
     char=$(echo "$char" | tr 'A-Z' 'a-z')
     flag="0"
@@ -229,10 +229,10 @@ function dien_tin() {
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
-  cat /dev/nul > sounds
-  foo=$alphabet
-  for (( i=0; i<${#foo}; i++ )); do
-    char="${foo:$i:1}"
+  cat /dev/null > sounds
+  line=$alphabet
+  for (( i=0; i<${#line}; i++ )); do
+    char="${line:$i:1}"
     if [[ $char == "." ]]; then
       echo "file 'dot.wav'" >> sounds
       echo "file 'pause.wav'" >> sounds
