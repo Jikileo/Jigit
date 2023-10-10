@@ -219,7 +219,7 @@ then
   echo " "
   done < "$2"
 else
-  echo "Xin hãy sử dụng -a / -e hay -d"
+  echo "Xin hãy sử dụng -a / -e / -d hay -dt"
 fi
 
 function dien_tin() {
@@ -245,7 +245,7 @@ function dien_tin() {
   done
   rm dientin.wav 2>/dev/null
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
-  ffplay dientin.wav
+  aplay dientin.wav
 }
 
 # Menu cho scrip code
