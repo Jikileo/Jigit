@@ -502,9 +502,17 @@
 
 `morse -d code-morse.txt > example.txt`
 
+- Để chuyển chuỗi string thành một điện tín bạn dùng Option sau:
+
+`morse -a -dt Hello Jiki`
+
 - Phiên bản sau mình sẽ update dịch chuỗi và nếu có thể mình sẽ update tiếp phần điện tín mã morse bang âm thanh
 - Chúc các bạn thành công và vui vẻ
 - Đã update 1.1 nhưng vẫn bị lỗi nó dịch luôn -a đang tìm cách khắc phục 
+- Mình đã hoàn thành nốt điện tín mã morse nhưng vẫn bị lỗi dịch luôn option mình sẽ cố gắng hoàn thành bản sửa lỗi 
+trong thời gian ngắn nhất
+- Đã update phiên bản 1.2
+
 ## Hình ảnh mã morse
 
 ![morse](https://github.com/Jikileo/Jigit/blob/master/Misc/morse.png)
