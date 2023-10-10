@@ -1,0 +1,279 @@
+#!/bin/bash
+############### TAP TIN DUOC TAO BOI JIKILEO ###############
+#-----------------------   Jiki   -------------------------#
+#
+# Name script: Morse
+# Author:		Jikileo
+# Version:	1.2
+# Email:		micae_vu@yahoo.com
+# Description: Chuong trinh chuyen dich ma morse
+#---------------------   Ket Thuc  ------------------------#
+#
+##### START #####
+
+# Kiem tra shell
+#set -e
+
+# Them cac bien mau sac
+# Colors
+BLUE='\e[38;5;105m'
+BROWN='\e[38;5;100m'
+GREEN='\e[38;5;119m'
+NORMAL='\e[0m'
+RED="\e[38;5;197m"
+YELLOW='\e[38;5;190m'
+
+# Nhap chuoi encode_char va decode_char
+encode_char(){
+    declare -A morse_my
+    morse_my[A]=".-";
+    morse_my[B]="-...";
+    morse_my[C]="-.-.";
+    morse_my[D]="-..";
+    morse_my[E]=".";
+    morse_my[F]="..-.";
+    morse_my[G]="--.";
+    morse_my[H]="....";
+    morse_my[I]="..";
+    morse_my[J]=".---";
+    morse_my[K]="-.-";
+    morse_my[L]=".-..";
+    morse_my[M]="--";
+    morse_my[N]="-.";
+    morse_my[O]="---";
+    morse_my[P]=".--.";
+    morse_my[Q]="--.-";
+    morse_my[R]=".-.";
+    morse_my[S]="...";
+    morse_my[T]="-";
+    morse_my[U]="..-";
+    morse_my[V]="...-";
+    morse_my[W]=".--";
+    morse_my[X]="-..-";
+    morse_my[Y]="-.--";
+    morse_my[Z]="--..";
+    morse_my[1]=".----";
+    morse_my[2]="..---";
+    morse_my[3]="...--";
+    morse_my[4]="....-";
+    morse_my[5]=".....";
+    morse_my[6]="-....";
+    morse_my[7]="--...";
+    morse_my[8]="---..";
+    morse_my[9]="----.";
+    morse_my[0]="-----";
+    morse_my[ ]="/";
+
+    morse_my[space]="/";
+    morse_my[return]="\n";
+
+    echo -ne "${morse_my[${1}]:-/} "
+}
+
+decode_char(){
+    declare -A letter
+    letter[.-]="A";
+    letter[-...]="B";
+    letter[-.-.]="C";
+    letter[-..]="D";
+    letter[.]="E";
+    letter[..-.]="F";
+    letter[--.]="G";
+    letter[....]="H";
+    letter[..]="I";
+    letter[.---]="J";
+    letter[-.-]="K";
+    letter[.-..]="L";
+    letter[--]="M";
+    letter[-.]="N";
+    letter[---]="O";
+    letter[.--.]="P";
+    letter[--.-]="Q";
+    letter[.-.]="R";
+    letter[...]="S";
+    letter[-]="T";
+    letter[..-]="U";
+    letter[...-]="V";
+    letter[.--]="W";
+    letter[-..-]="X";
+    letter[-.--]="Y";
+    letter[--..]="Z";
+    letter[-----]="0";
+    letter[.----]="1";
+    letter[..---]="2";
+    letter[...--]="3";
+    letter[....-]="4";
+    letter[.....]="5";
+    letter[-....]="6";
+    letter[--...]="7";
+    letter[---..]="8";
+    letter[----.]="9";
+    letter[/]=" ";
+
+    letter[space]=" ";
+    
+    echo -ne "${letter[${1}]}"
+    
+}
+
+str="a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 \. \, \! \?"
+giaima=($str)
+str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- .---. ..--.."
+mahoa=($str)
+
+# HUONG DAN SU DUNG
+USAGE="
+${BROWN}Usage${NORMAL}: morse [Option] [File|String]
+Shell script này dùng để encode va decode mã morse với chuỗi và tập tin
+  ${GREEN}1${NORMAL}) Biên dịch chuỗi
+  ${GREEN}2${NORMAL}) Biên dịch tập tin
+
+${BROWN}Options${NORMAL}:
+Bao gồm 3 loại
+  [-a/--alphabet] Dịch chuỗi
+  [-e/--encode]   Chuyển tập tin thành mã morse
+  [-d/--decode]   Dịch tập tin
+"
+HELP="
+${BROWN}Usage Examples${NORMAL}:
+  Dịch đoạn văn bản input
+  \$ ${BLUE}morse -a Hello Jiki${NORMAL}
+
+  Lưu đoạn văn bản đã dịch
+  \$ ${BLUE}morse -a Hello Jiki > hello.txt${NORMAL}
+
+  Dịch văn bản tập tin thành mã morse
+  \$ ${BLUE}morse -e example.txt${NORMAL}
+
+  Lưu tập tin đã chuyển thành mã morse
+  \$ ${BLUE}morse -e example.txt > code-morse.txt${NORMAL}
+
+  Chuyển dịch từ tập tin chứa mã morse sang văn bản thường
+  \$ ${BLUE}morse -d code-morse.txt${NORMAL}
+
+  Lưu tập tin đã chuyển thành văn bản
+  \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
+
+  Điện tín mã morse
+  \$ ${BLUE}morse -a --dientin Hello Jiki${NORMAL}
+
+  Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
+"
+function morse_code() {
+  foo="$@"
+  for (( i=0; i<${#foo}; i++ ))
+  do
+    char="${foo:$i:1}"
+    j=0
+    char=$(echo "$char" | tr 'A-Z' 'a-z')
+    flag="0"
+    while [[ $j -lt ${#giaima[@]} ]]
+    do
+      if [[ $char == ${giaima[$j]} ]]
+      then
+        echo -n "${mahoa[$j]} "
+        flag="1"
+      fi
+      j=$(( $j + 1 ))
+    done
+    if [[ $char == " " ]]
+    then
+      echo -ne "/ "
+      flag="1"
+    elif [[ $char == "\\" ]]
+    then
+      echo -ne "/ "
+      i=$(($i + 1))
+      flag="1"
+    fi
+    if [[ ! -z $char && $flag == "0" ]]
+    then
+      echo -n "#"
+    fi
+  done
+  echo 
+}
+
+if [[ "$1" = "-e" ]] || [[ "$1" = "--encode" ]]
+then
+  while IFS= read -re line1 || [[ -n "$line1" ]]
+  do
+    #echo "Đoạn văn bản là : $line1"
+    #echo "Biên dịch ma morse : "
+    for ch in $(echo "${line1^^}" | grep -o . | sed 's/ /space/g')
+    do
+      encode_char "$ch"
+    done
+    echo " "
+  done < "$2"
+elif [[ "$1" = "-d" ]] || [[ "$1" = "--decode" ]]
+then
+  while IFS= read -re line2 || [[ -n "$line2" ]]
+  do
+    #echo "Mã morse là : $line2"
+    #echo "Được biên dịch : "
+    for ch in $(echo "${line2}" | sed 's./.\nspace\n.g')
+    do
+      decode_char "$ch"
+    done
+  echo " "
+  done < "$2"
+else
+  echo "Xin hãy sử dụng -a / -e hay -d"
+fi
+
+function dien_tin() {
+  rm -rf dot.wav
+  rm -rf dash.wav
+  rm -rf pause.wav
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
+  cat /dev/nul > sounds
+  foo=$alphabet
+  for (( i=0; i<${#foo}; i++ )); do
+    char="${foo:$i:1}"
+    if [[ $char == "." ]]; then
+      echo "file 'dot.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    elif [[ $char == "-" ]]; then
+      echo "file 'dash.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    else
+      echo "file 'pause.wav'" >> sounds
+    fi
+  done
+  rm dientin.wav 2>/dev/null
+  ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
+  ffplay dientin.wav
+}
+
+# Menu cho scrip code
+argument=""
+
+for arg in "$@"
+do
+  if [ "$arg" = "-a" ] || [ "$arg" = "--alphabet" ]
+  then
+    alphabet=$(morse_code "$@")
+    echo -e "$alphabet"
+  elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
+  then
+    MODE="decode"
+  elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
+  then
+    MODE="encode"
+  elif [ "$arg" = "-dt" ] || [ "$arg" = "--dientin" ]
+  then
+    MODE="dientin"
+    dien_tin
+  elif [ "$arg" = "-h" ] || [ "$arg" = "help" ] || [ "$arg" = "--help" ]
+  then  
+    echo -e "$USAGE$HELP"
+    exit 0
+  else
+    argument="$argument $arg"
+  fi
+done
+
+# THE END
