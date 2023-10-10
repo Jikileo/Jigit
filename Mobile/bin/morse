@@ -2,11 +2,11 @@
 ############### TAP TIN DUOC TAO BOI JIKILEO ###############
 #-----------------------   Jiki   -------------------------#
 #
-# Name script:
+# Name script: Morse
 # Author:		Jikileo
 # Version:	1.0
 # Email:		micae_vu@yahoo.com
-# Description:
+# Description: Chuong trinh chuyen dich ma morse
 #---------------------   Ket Thuc  ------------------------#
 #
 ##### START #####
@@ -139,6 +139,9 @@ ${BROWN}Usage Examples${NORMAL}:
   Dịch đoạn văn bản input
   \$ ${BLUE}morse -a Hello Jiki${NORMAL}
 
+  Lưu đoạn văn bản đã dịch
+  \$ ${BLUE}morse -a Hello Jiki > hello.txt${NORMAL}
+
   Dịch văn bản tập tin thành mã morse
   \$ ${BLUE}morse -e example.txt${NORMAL}
 
@@ -151,35 +154,36 @@ ${BROWN}Usage Examples${NORMAL}:
   Lưu tập tin đã chuyển thành văn bản
   \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
 
+  Điện tín mã morse
+  \$ ${BLUE}morse -a --dientin Hello Jiki${NORMAL}
+
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
-
-if [[ "$1" = "-a" ]] || [[ "$1" = "--alphabet" ]]
-then
+function morse_code() {
   foo="$@"
-  for (( i = 0; i < ${#foo}; i++ ))
+  for (( i=0; i<${#foo}; i++ ))
   do
     char="${foo:$i:1}"
     j=0
-    char="$(echo "$char"|tr 'A-Z' 'a-z')"
+    char=$(echo "$char" | tr 'A-Z' 'a-z')
     flag="0"
     while [[ $j -lt ${#giaima[@]} ]]
     do
       if [[ $char == ${giaima[$j]} ]]
       then
-        echo -en "${mahoa[$j]} "
+        echo -n "${mahoa[$j]} "
         flag="1"
       fi
-      j="$(( $j + 1 ))"
+      j=$(( $j + 1 ))
     done
     if [[ $char == " " ]]
     then
-      echo -en "/ "
+      echo -ne "/ "
       flag="1"
     elif [[ $char == "\\" ]]
     then
       echo -ne "/ "
-      i="$(( $i + 1))"
+      i=$(($i + 1))
       flag="1"
     fi
     if [[ ! -z $char && $flag == "0" ]]
@@ -187,8 +191,10 @@ then
       echo -n "#"
     fi
   done
-  echo
-elif [[ "$1" = "-e" ]] || [[ "$1" = "--encode" ]]
+  echo 
+}
+
+if [[ "$1" = "-e" ]] || [[ "$1" = "--encode" ]]
 then
   while IFS= read -re line1 || [[ -n "$line1" ]]
   do
@@ -210,11 +216,38 @@ then
     do
       decode_char "$ch"
     done
-    echo " "
+  echo " "
   done < "$2"
 else
   echo "Xin hãy sử dụng -a / -e hay -d"
 fi
+
+function dien_tin() {
+  rm -rf dot.wav
+  rm -rf dash.wav
+  rm -rf pause.wav
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
+  cat /dev/nul > sounds
+  foo=$alphabet
+  for (( i=0; i<${#foo}; i++ )); do
+    char="${foo:$i:1}"
+    if [[ $char == "." ]]; then
+      echo "file 'dot.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    elif [[ $char == "-" ]]; then
+      echo "file 'dash.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    else
+      echo "file 'pause.wav'" >> sounds
+    fi
+  done
+  rm dientin.wav 2>/dev/null
+  ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
+  play dientin.wav
+}
+
 # Menu cho scrip code
 argument=""
 
@@ -222,13 +255,18 @@ for arg in "$@"
 do
   if [ "$arg" = "-a" ] || [ "$arg" = "--alphabet" ]
   then
-    MODE="alphabet"
+    alphabet=$(morse_code "$@")
+    echo -e "$alphabet"
   elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
   then
     MODE="decode"
   elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
   then
     MODE="encode"
+  elif [ "$arg" = "-dt" ] || [ "$arg" = "--dientin" ]
+  then
+    MODE="dientin"
+    dien_tin
   elif [ "$arg" = "-h" ] || [ "$arg" = "help" ] || [ "$arg" = "--help" ]
   then  
     echo -e "$USAGE$HELP"
@@ -237,3 +275,5 @@ do
     argument="$argument $arg"
   fi
 done
+
+# THE END
