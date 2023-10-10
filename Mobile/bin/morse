@@ -155,7 +155,7 @@ ${BROWN}Usage Examples${NORMAL}:
   \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
 
   Điện tín mã morse
-  \$ ${BLUE}morse -a --dientin Hello Jiki${NORMAL}
+  \$ ${BLUE}morse -a -dt Hello Jiki${NORMAL}
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
