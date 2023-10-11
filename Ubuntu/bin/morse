@@ -245,7 +245,7 @@ function dien_tin() {
   done
   rm dientin.wav 2>/dev/null
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
-  aplay dientin.wav
+  jplay dientin.wav
 }
 
 # Menu cho scrip code
@@ -266,6 +266,7 @@ do
   elif [ "$arg" = "-dt" ] || [ "$arg" = "--dientin" ]
   then
     MODE="dientin"
+    dientin="dien_tin"
     dien_tin
   elif [ "$arg" = "-h" ] || [ "$arg" = "help" ] || [ "$arg" = "--help" ]
   then  

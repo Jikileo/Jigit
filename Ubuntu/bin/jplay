@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Xoa nhung tap tin dash.wav dot.wav pause.wav sounds
+rm -rf dash.wav dot.wav pause.wav sounds
+
+# Kiem tra thu muc xem co file *.wav
+if ls *.wav 1> /dev/null 2>&1
+then
+  for file in *.wav
+  do
+    aplay "$file"
+  done
+else
+  echo "Khong tim thay file *.wav trong thu muc"
+fi
+
+# THE END
+

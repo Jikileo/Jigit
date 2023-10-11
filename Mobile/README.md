@@ -512,7 +512,9 @@
 - Mình đã hoàn thành nốt điện tín mã morse nhưng vẫn bị lỗi dịch luôn option mình sẽ cố gắng hoàn thành bản sửa lỗi 
 trong thời gian ngắn nhất
 - Đã update phiên bản 1.2
-
+- Ở phiên bản 1.3 minh đã thêm jplay để làm gọn những file dot.wav dash.wav pause.wav sounds và chỉ tạo ra file dientin.wav
+- Các bạn download thêm file jplay bỏ vào thư mục ~/bin
+- Chúc các bạn thành công và vui vẻ
 ## Hình ảnh mã morse
 
 ![morse](https://github.com/Jikileo/Jigit/blob/master/Misc/morse.png)
