@@ -478,13 +478,21 @@
 
 `morse help`
 
-- Shell script này gồm có 3 phần :
+- Shell script này gồm có 4 phần :
   - alphabet kí tự
   - encode tập tin
   - decode tập tin
 - Để chuyển chuỗi string thành mã morse bạn nhập lệnh sau
 
-`morse -a "Hello Jiki"`
+`morse "Hello Jiki"`
+
+- Lưu đoạn văn bản đã chuyển dịch thành tập tin
+
+`morse "Hello Jiki" > code-morse.txt`
+
+- Dùng lệnh cat để chuyển dịch mã morse
+
+`cat example.txt | morse`
 
 - Để encode tập tin bạn nhập lệnh sau:
 
@@ -504,17 +512,19 @@
 
 - Để chuyển chuỗi string thành một điện tín bạn dùng Option sau:
 
-`morse -a -dt Hello Jiki`
+`morse -dt Hello Jiki`
 
 - Phiên bản sau mình sẽ update dịch chuỗi và nếu có thể mình sẽ update tiếp phần điện tín mã morse bang âm thanh
-- Chúc các bạn thành công và vui vẻ
 - Đã update 1.1 nhưng vẫn bị lỗi nó dịch luôn -a đang tìm cách khắc phục 
 - Mình đã hoàn thành nốt điện tín mã morse nhưng vẫn bị lỗi dịch luôn option mình sẽ cố gắng hoàn thành bản sửa lỗi 
 trong thời gian ngắn nhất
 - Đã update phiên bản 1.2
 - Ở phiên bản 1.3 minh đã thêm jplay để làm gọn những file dot.wav dash.wav pause.wav sounds và chỉ tạo ra file dientin.wav
 - Các bạn download thêm file jplay bỏ vào thư mục ~/bin
+- Đã update phiên bản 1.4 các bạn không cần nhập option -a nữa . Kèm theo đó các bạn có thể dùng lệnh cat tập tin để chuyển dịch mã morse
+- Còn vài options như dịch ngược chuỗi mã morse mình sẽ cố gắng hoàn tất
 - Chúc các bạn thành công và vui vẻ
+
 ## Hình ảnh mã morse
 
 ![morse](https://github.com/Jikileo/Jigit/blob/master/Misc/morse.png)

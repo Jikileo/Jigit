@@ -127,20 +127,24 @@ ${BROWN}Usage${NORMAL}: morse [Option] [File|String]
 Shell script này dùng để encode va decode mã morse với chuỗi và tập tin
   ${GREEN}1${NORMAL}) Biên dịch chuỗi
   ${GREEN}2${NORMAL}) Biên dịch tập tin
-
+  ${GREEN}3${NORMAL}) Điện tín mã morse
 ${BROWN}Options${NORMAL}:
-Bao gồm 3 loại
-  [-a/--alphabet] Dịch chuỗi
+Bao gồm 4 loại
+                  Dịch chuỗi
   [-e/--encode]   Chuyển tập tin thành mã morse
   [-d/--decode]   Dịch tập tin
+  [-dt]           Điện tín mã morse
 "
 HELP="
 ${BROWN}Usage Examples${NORMAL}:
   Dịch đoạn văn bản input
-  \$ ${BLUE}morse -a Hello Jiki${NORMAL}
+  \$ ${BLUE}morse Hello Jiki${NORMAL}
 
   Lưu đoạn văn bản đã dịch
-  \$ ${BLUE}morse -a Hello Jiki > hello.txt${NORMAL}
+  \$ ${BLUE}morse Hello Jiki > hello.txt${NORMAL}
+
+  Dùng lệnh cat và chuyển dịch sang mã morse
+  \$ ${BLUE}cat example.txt | morse${NORMAL}
 
   Dịch văn bản tập tin thành mã morse
   \$ ${BLUE}morse -e example.txt${NORMAL}
@@ -155,13 +159,13 @@ ${BROWN}Usage Examples${NORMAL}:
   \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
 
   Điện tín mã morse
-  \$ ${BLUE}morse -a -dt Hello Jiki${NORMAL}
+  \$ ${BLUE}morse -dt Hello Jiki${NORMAL}
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
 function morse_code() {
   line="$@"
-  for (( i=3; i<${#line}; i++ ))
+  for (( i=0; i<${#line}; i++ ))
   do
     char="${line:$i:1}"
     j=0
@@ -221,17 +225,13 @@ then
 fi
 
 function dien_tin() {
-  rm -rf dot.wav
-  rm -rf dash.wav
-  rm -rf pause.wav
-  rm -rf slash.wav
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=0:duration=0.3" slash.wav 2>/dev/null
   cat /dev/null > sounds
-  line="$alphabet"
-  for (( i=0; i<${#line}; i++ ))
+  line=$alphabet
+  for (( i=8; i<${#line}; i++ ))
   do
     char="${line:$i:1}"
     if [[ $char == "." ]]
@@ -250,6 +250,7 @@ function dien_tin() {
       echo "file 'pause.wav'" >> sounds
     fi
   done
+  rm -rf dientin.wav
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
   jplay
 }
@@ -259,21 +260,17 @@ argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "-a" ] || [ "$arg" = "--alphabet" ]
-  then
-    MODE="alphabet"
-    alphabet=$(morse_code "$@")
-    echo -e "$alphabet"
-  elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
+  if [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
   then
     MODE="decode"
   elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
   then
     MODE="encode"
-  elif [ "$arg" = "-dt" ] || [ "$arg" = "--dientin" ]
+  elif [ "$arg" = "-dt" ]
   then
     MODE="dientin"
     dientin="dien_tin"
+    alphabet=$(morse_code "$@")
     dien_tin
   elif [ "$arg" = "-h" ] || [ "$arg" = "help" ] || [ "$arg" = "--help" ]
   then  
@@ -283,5 +280,27 @@ do
     argument="$argument $arg"
   fi
 done
+
+if [ -t 0 ]
+then
+  trimmed_arguments="${argument// }"
+  if [ -f "$trimmed_arguments" ]
+  then
+    while read -re line
+    do
+      morse_code "$line"
+    done < <(cat "$trimmed_argumnets")
+  else
+    while read -re line
+    do
+      morse_code "$line"
+    done < <(echo "$argument")
+  fi
+else
+  while IFS= read -re line
+  do
+    morse_code "$line"
+  done
+fi
 
 # THE END
