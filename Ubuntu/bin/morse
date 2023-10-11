@@ -12,7 +12,7 @@
 ##### START #####
 
 # Kiem tra shell
-#set -e
+set -e
 
 # Them cac bien mau sac
 # Colors
@@ -155,7 +155,7 @@ ${BROWN}Usage Examples${NORMAL}:
   \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
 
   Điện tín mã morse
-  \$ ${BLUE}morse -a --dientin Hello Jiki${NORMAL}
+  \$ ${BLUE}morse -a -dt Hello Jiki${NORMAL}
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
@@ -218,34 +218,40 @@ then
     done
   echo " "
   done < "$2"
-else
-  echo "Xin hãy sử dụng -a / -e / -d hay -dt"
 fi
 
 function dien_tin() {
   rm -rf dot.wav
   rm -rf dash.wav
   rm -rf pause.wav
+  rm -rf slash.wav
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.3" slash.wav 2>/dev/null
   cat /dev/null > sounds
-  line=$alphabet
-  for (( i=0; i<${#line}; i++ )); do
+  line="$alphabet"
+  for (( i=0; i<${#line}; i++ ))
+  do
     char="${line:$i:1}"
-    if [[ $char == "." ]]; then
+    if [[ $char == "." ]]
+    then
       echo "file 'dot.wav'" >> sounds
       echo "file 'pause.wav'" >> sounds
-    elif [[ $char == "-" ]]; then
+    elif [[ $char == "-" ]]
+    then
       echo "file 'dash.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    elif [[ $char == "/" ]]
+    then
+      echo "file 'slash.wav'" >> sounds
       echo "file 'pause.wav'" >> sounds
     else
       echo "file 'pause.wav'" >> sounds
     fi
   done
-  rm dientin.wav 2>/dev/null
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
-  jplay dientin.wav
+  jplay
 }
 
 # Menu cho scrip code
@@ -255,6 +261,7 @@ for arg in "$@"
 do
   if [ "$arg" = "-a" ] || [ "$arg" = "--alphabet" ]
   then
+    MODE="alphabet"
     alphabet=$(morse_code "$@")
     echo -e "$alphabet"
   elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]

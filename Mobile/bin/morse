@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	1.0
+# Version:	1.2
 # Email:		micae_vu@yahoo.com
 # Description: Chuong trinh chuyen dich ma morse
 #---------------------   Ket Thuc  ------------------------#
@@ -12,7 +12,7 @@
 ##### START #####
 
 # Kiem tra shell
-#set -e
+set -e
 
 # Them cac bien mau sac
 # Colors
@@ -218,34 +218,40 @@ then
     done
   echo " "
   done < "$2"
-else
-  echo "Xin hãy sử dụng -a / -e hay -d"
 fi
 
 function dien_tin() {
   rm -rf dot.wav
   rm -rf dash.wav
   rm -rf pause.wav
+  rm -rf slash.wav
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.3" slash.wav 2>/dev/null
   cat /dev/null > sounds
-  line=$alphabet
-  for (( i=0; i<${#line}; i++ )); do
+  line="$alphabet"
+  for (( i=0; i<${#line}; i++ ))
+  do
     char="${line:$i:1}"
-    if [[ $char == "." ]]; then
+    if [[ $char == "." ]]
+    then
       echo "file 'dot.wav'" >> sounds
       echo "file 'pause.wav'" >> sounds
-    elif [[ $char == "-" ]]; then
+    elif [[ $char == "-" ]]
+    then
       echo "file 'dash.wav'" >> sounds
+      echo "file 'pause.wav'" >> sounds
+    elif [[ $char == "/" ]]
+    then
+      echo "file 'slash.wav'" >> sounds
       echo "file 'pause.wav'" >> sounds
     else
       echo "file 'pause.wav'" >> sounds
     fi
   done
-  rm dientin.wav 2>/dev/null
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
-  jplay dientin.wav
+  jplay
 }
 
 # Menu cho scrip code
@@ -255,6 +261,7 @@ for arg in "$@"
 do
   if [ "$arg" = "-a" ] || [ "$arg" = "--alphabet" ]
   then
+    MODE="alphabet"
     alphabet=$(morse_code "$@")
     echo -e "$alphabet"
   elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
