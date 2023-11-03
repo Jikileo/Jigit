@@ -257,7 +257,7 @@ function dien_tin() {
   then
     for file in *.wav
     do
-      echo "Xin vui long nhap dia chi IP Adress : "
+      echo "Xin vui lòng nhập địa chỉ IP : "
       read IP_ADRESS
       MOBILE_HOST="$IP_ADRESS"
       MOBILE_PORT="22"
@@ -274,7 +274,7 @@ function dien_tin() {
       rm -rf "$TEMP_FILE"
     done
   else
-    echo "Khong tim thay file *.wav trong thu muc"
+    echo "Không tìm thấy tập tin *.wav trong thư mục"
   fi
 }
 
