@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	1.2
+# Version:	1.5
 # Email:		micae_vu@yahoo.com
 # Description: Chuong trinh chuyen dich ma morse
 #---------------------   Ket Thuc  ------------------------#
@@ -252,7 +252,30 @@ function dien_tin() {
   done
   rm -rf dientin.wav
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
-  jplay
+  rm -rf dot.wav dash.wav slash.wav pause.wav sounds
+  if ls *.wav 1> /dev/null 2>&1
+  then
+    for file in *.wav
+    do
+      echo "Xin vui long nhap dia chi IP Adress : "
+      read IP_ADRESS
+      MOBILE_HOST="$IP_ADRESS"
+      MOBILE_PORT="22"
+      MOBILE_USER="mobile"
+      LOCAL_FILE="/var/mobile/$file"
+      # Tao mot tap tin tam thoi
+      TEMP_FILE=$(mktemp)
+      mv "$file" "$TEMP_FILE"
+      # Gui tap tin tam thoi bang ssh server
+      scp -P "$MOBILE_PORT" "$TEMP_FILE" "$MOBILE_USER@$MOBILE_HOST:$LOCAL_FILE"
+      echo "Đã gửi đến $IP_ADRESS ... !!!"
+      # Don dep tap tin tam thoi
+      aplay "$TEMP_FILE"
+      rm -rf "$TEMP_FILE"
+    done
+  else
+    echo "Khong tim thay file *.wav trong thu muc"
+  fi
 }
 
 # Menu cho scrip code
