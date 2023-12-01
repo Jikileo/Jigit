@@ -1,4 +1,15 @@
 #!/bin/bash
+############### TAP TIN DUOC TAO BOI JIKILEO ###############
+#-----------------------   Jiki   -------------------------#
+#
+# Name script: doc-email
+# Author:		Jikileo
+# Version:	1.0
+# Email:		micae_vu@yahoo.com
+# Description: Chuong trinh doc email su dung code python
+#---------------------   Ket Thuc  ------------------------#
+#
+##### START #####
 
 # Kiểm tra xem có Python đã cài đặt hay chưa
 if ! command -v python3 &> /dev/null; then

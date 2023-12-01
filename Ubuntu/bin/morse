@@ -4,9 +4,9 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	1.5
+# Version:	1.6
 # Email:		micae_vu@yahoo.com
-# Description: Chuong trinh chuyen dich ma morse
+# Description: Chương trình chuyển dịch mã morse
 #---------------------   Ket Thuc  ------------------------#
 #
 ##### START #####
@@ -14,7 +14,7 @@
 # Kiem tra shell
 set -e
 
-# Them cac bien mau sac
+# Thêm các biến màu sắc
 # Colors
 BLUE='\e[38;5;105m'
 BROWN='\e[38;5;100m'
@@ -23,7 +23,7 @@ NORMAL='\e[0m'
 RED="\e[38;5;197m"
 YELLOW='\e[38;5;190m'
 
-# Nhap chuoi encode_char va decode_char
+# Nhập chuỗi encode_char và decode_char
 encode_char(){
     declare -A morse_my
     morse_my[A]=".-";
@@ -141,7 +141,7 @@ giaima=($str)
 str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- -.-.-- ..--.. -..-. ---... -.-.-. -...- .-.-. ..--.- .--.-."
 mahoa=($str)
 
-# HUONG DAN SU DUNG
+# HƯỚNG DẪN SỬ DỤNG
 USAGE="
 ${BROWN}Usage${NORMAL}: morse [Option] [File|String]
 Shell script này dùng để encode va decode mã morse với chuỗi và tập tin
@@ -378,7 +378,7 @@ do
     MODE="textmorse"
     read -p "Nhập morse code : " input_morse
     textmorse=$(morse_to_text "$input_morse")
-    echo "Được chuyển dịch : $textmorse"
+    echo -e "${BROWN}Được chuyển dịch :${NORMAL} $textmorse"
     exit 1
   elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
   then
@@ -426,8 +426,8 @@ fi
 # Kiem tra ffmpeg command
 if ! command -v ffmpeg >/dev/null 2>&1
 then
-  echo "Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!"
-  echo "Trên Ubuntu/Debian : sudo apt-get install ffmpeg"
+  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!${NORMAL}"
+  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install ffmpeg${NORMAL}"
   exit 1
 fi
 
