@@ -1,0 +1,131 @@
+#!/bin/bash
+
+# Kiểm tra xem có Python đã cài đặt hay chưa
+if ! command -v python3 &> /dev/null; then
+    echo "Yêu cầu cài đặt Python 3 để chạy script."
+    exit 1
+fi
+
+# Thay thế các giá trị sau đây bằng thông tin tài khoản Yahoo của bạn
+yahoo_email="Noi day thay bang email yahoo"
+yahoo_password="Noi day thay bang mat khau 2 cap cua yahoo"
+
+# Tạo các biến nếu bạn muốn dùng Yahoo API
+#yahoo_client_id="Nhap client id o day"
+#yahoo_client_secret="Nhap client secret o day"
+#yahoo_redirect_uri="Nhap redirect link o day"
+#oauth_url="https://api.login.yahoo.com/oauth2/request_auth"
+#token_url="https://api.login.yahoo.com/oauth2/get_token"
+#yahoo_scope="sdps-r"
+
+# Tạo URL cho quy trình OAuth2
+#auth_url="https://api.login.yahoo.com/oauth2/request_auth?client_id=${yahoo_client_id}&redirect_uri=${yahoo_redirect_uri}&response_type=code&scope=${yahoo_scope}"
+# Hiển thị URL cho người dùng và yêu cầu nhập mã xác nhận
+#echo "Vui lòng truy cập đường link sau để xác thực và lấy mã xác nhận:"
+#echo $auth_url
+
+# Nếu bạn bỏ qua password bằng curl và dùng Oauth2 thì bạn tiếp tuc mở dòng này để nhận authorization_code
+#read -p "Nhập mã xác nhận: " authorization_code
+
+# Sử dụng mã xác nhận để đổi lấy token truy cập
+#response=$(curl -s -d "client_id=${yahoo_client_id}&client_secret=${yahoo_client_secret}&redirect_uri=${yahoo_redirect_uri}&code=${authorization_code}&grant_type=authorization_code" ${token_url})
+
+# Lấy giá trị access token từ phản hồi
+#access_token=$(echo $response | jq -r '.access_token')
+
+# Kiểm tra xem access token có tồn tại không
+#if [ -z "$access_token" ]; then
+  #echo "Lỗi khi lấy access token."
+  #exit 1
+#fi
+
+# Mình để Curl ở đây nếu bạn có một key ở trên một trang web
+# Hiển thị URL bằng curl
+
+#password_url="Nhap URL chua password o day"
+#content=$(curl -s "$password_url")
+
+# Kiểm tra xem curl đã tải thành công hay chưa
+#if [ $? -ne 0 ]
+#then
+  #echo "Lỗi khi tải trang web. Vui lòng kiểm tra lại URL."
+  #exit 1
+#fi
+
+#echo "$content"
+#echo
+
+
+# Nếu bạn có một tập tin chứa password ở trong máy hãy dùng lệnh cat để mở tập tin chứa password
+#cat /path_of_files/password
+
+# Nếu bạn dùng Curl hay Cat hãy mở các dòng function dưới đây để nhập mật khẩu
+# NOTE: Neu dung OAuth2 thi bo dong nay di
+# Hàm để nhập mật khẩu một cách an toàn 
+#read_password() {
+    #prompt="Nhập mật khẩu cho $yahoo_email: "
+    #while IFS= read -p "$prompt" -r -s -n 1 char; do
+        #if [[ $char == $'\0' ]]; then
+            #break
+        #fi
+        #prompt='*'
+        #password+="$char"
+    #done
+    #echo
+#}
+
+# Goi ham
+#read_password
+
+# NOTE: Nếu các bạn không dùng xác thực OAuth2 , Curl hay Cat để nhận password thì bạn có thể nhập password ở dòng dưới email
+# -- Nếu các bạn dùng OAuth 2 , Curl hay Cat thì xóa dòng đó đi
+# ===>>> Ở đây mình để vậy cho tiện
+
+
+# NOTE: ===>>> Neu cac ban dung Curl hay Cat thi doi dong "$yahoo_password" ===>>> "$password"
+# Script Python để đọc email từ tài khoản Yahoo
+python_script=$(cat <<EOF
+import imaplib
+import email
+from email.header import decode_header
+
+# Thông tin tài khoản Yahoo
+yahoo_email = "$yahoo_email"
+yahoo_password = "$yahoo_password"
+
+# Kết nối đến dịch vụ IMAP của Yahoo
+mail = imaplib.IMAP4_SSL("imap.mail.yahoo.com")
+mail.login(yahoo_email, yahoo_password)
+
+# Chọn hộp thư "inbox"
+mail.select("inbox")
+
+# Tìm tất cả các email trong hộp thư
+status, messages = mail.search(None, "ALL")
+messages = messages[0].split()
+
+# Lấy nội dung của 5 email đầu tiên
+for i in range(min(5, len(messages))):
+    _, msg_data = mail.fetch(messages[i], "(RFC822)")
+    for response_part in msg_data:
+        if isinstance(response_part, tuple):
+            email_message = email.message_from_bytes(response_part[1])
+            subject, encoding = decode_header(email_message["Subject"])[0]
+            if isinstance(subject, bytes):
+                subject = subject.decode(encoding or "utf-8")
+            print(f"Subject: {subject}")
+            print(f"From: {email_message.get('From')}")
+            print(f"Date: {email_message.get('Date')}")
+            print("Body:")
+            for part in email_message.walk():
+                if part.get_content_type() == "text/plain":
+                    print(part.get_payload(decode=True).decode("utf-8"))
+            print("=" * 50)
+
+# Đóng kết nối
+mail.logout()
+EOF
+)
+
+# Chạy script Python
+python3 -c "$python_script"
