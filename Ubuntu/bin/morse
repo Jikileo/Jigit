@@ -52,6 +52,16 @@ encode_char(){
     morse_my[X]="-..-";
     morse_my[Y]="-.--";
     morse_my[Z]="--..";
+    morse_my[.]=".-.-.-";
+    morse_my[,]="--..--";
+    morse_my[?]="..--..";
+    morse_my[!]="-.-.--";
+    morse_my[/]="-..-.";
+    morse_my[:]="---...";
+    morse_my[;]="-.-.-.";
+    morse_my[=]="-...-";
+    morse_my[+]=".-.-.";
+    morse_my[_]="..--.-";
     morse_my[1]=".----";
     morse_my[2]="..---";
     morse_my[3]="...--";
@@ -63,7 +73,6 @@ encode_char(){
     morse_my[9]="----.";
     morse_my[0]="-----";
     morse_my[ ]="/";
-
     morse_my[space]="/";
     morse_my[return]="\n";
 
@@ -108,6 +117,17 @@ decode_char(){
     letter[--...]="7";
     letter[---..]="8";
     letter[----.]="9";
+    letter[.-.-.-]=".";
+    letter[--..--]=",";
+    letter[..--..]="?";
+    letter[-.-.--]="!";
+    letter[-..-.]="/";
+    letter[---...]=":";
+    letter[-.-.-.]=";";
+    letter[-...-]="=";
+    letter[.-.-.]="+";
+    letter[..--.-]="_";
+    letter[.--.-.]="@";
     letter[/]=" ";
 
     letter[space]=" ";
@@ -116,9 +136,9 @@ decode_char(){
     
 }
 
-str="a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 \. \, \! \?"
+str="a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 \. \, \! \? \/ \: \; \= \+ \_ \@"
 giaima=($str)
-str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- .---. ..--.."
+str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- -.-.-- ..--.. -..-. ---... -.-.-. -...- .-.-. ..--.- .--.-."
 mahoa=($str)
 
 # HUONG DAN SU DUNG
@@ -145,6 +165,9 @@ ${BROWN}Usage Examples${NORMAL}:
 
   Dùng lệnh cat và chuyển dịch sang mã morse
   \$ ${BLUE}cat example.txt | morse${NORMAL}
+
+  Dùng option -t hoặc --text để dịch ngược chuỗi mã morse
+  \$ ${BLUE}morse --text
 
   Dịch văn bản tập tin thành mã morse
   \$ ${BLUE}morse -e example.txt${NORMAL}
@@ -196,6 +219,74 @@ function morse_code() {
     fi
   done
   echo 
+}
+
+function morse_to_text() {
+  local morse_line="$1"
+  local text=""
+  local code
+  local char
+
+  IFS=" " read -ra codes <<< "$morse_line"
+
+  for code in "${codes[@]}"
+  do
+    case "$code" in
+      ".-") char="a" ;;
+      "-...") char="b" ;;
+      "-.-.") char="c" ;;
+      "-..") char="d" ;;
+      ".") char="e" ;;
+      "..-.") char="f" ;;
+      "--.") char="g" ;;
+      "....") char="h" ;;
+      "..") char="i" ;;
+      ".---") char="j" ;;
+      "-.-") char="k" ;;
+      ".-..") char="l" ;;
+      "--") char="m" ;;
+      "-.") char="n" ;;
+      "---") char="o" ;;
+      ".--.") char="p" ;;
+      "--.-") char="q" ;;
+      ".-.") char="r" ;;
+      "...") char="s" ;;
+      "-") char="t" ;;
+      "..-") char="u" ;;
+      "...-") char="v" ;;
+      ".--") char="w" ;;
+      "-..-") char="x" ;;
+      "-.--") char="y" ;;
+      "--..") char="z" ;;
+      "-----") char="0" ;;
+      ".----") char="1" ;;
+      "..---") char="2" ;;
+      "...--") char="3" ;;
+      "....-") char="4" ;;
+      ".....") char="5" ;;
+      "-....") char="6" ;;
+      "--...") char="7" ;;
+      "---..") char="8" ;;
+      "----.") char="9" ;;
+      ".-.-.-") char="." ;;
+      "--..--") char="," ;;
+      "..--..") char="?" ;;
+      "-.-.--") char="!" ;;
+      "-..-.") char="/" ;;
+      "---...") char=":" ;;
+      "-.-.-.") char=";" ;;
+      "-...-") char="=" ;;
+      ".-.-.") char="+" ;;
+      "..--.-") char="_" ;;
+      ".--.-.") char="@" ;;
+      "/") char=" " ;;
+      *) char="$code" ;;
+    esac
+
+    text+="$char"
+  done
+
+  echo "$text"
 }
 
 if [[ "$1" = "-e" ]] || [[ "$1" = "--encode" ]]
@@ -257,7 +348,7 @@ function dien_tin() {
   then
     for file in *.wav
     do
-      echo "Xin vui lòng nhập địa chỉ IP : "
+      echo "Xin vui lòng nhập địa chỉ IP Adress : "
       read IP_ADRESS
       MOBILE_HOST="$IP_ADRESS"
       MOBILE_PORT="22"
@@ -270,7 +361,6 @@ function dien_tin() {
       scp -P "$MOBILE_PORT" "$TEMP_FILE" "$MOBILE_USER@$MOBILE_HOST:$LOCAL_FILE"
       echo "Đã gửi đến $IP_ADRESS ... !!!"
       # Don dep tap tin tam thoi
-      aplay "$TEMP_FILE"
       rm -rf "$TEMP_FILE"
     done
   else
@@ -283,7 +373,14 @@ argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
+  if [ "$arg" = "-t" ] || [ "$arg" = "--text" ]
+  then
+    MODE="textmorse"
+    read -p "Nhập morse code : " input_morse
+    textmorse=$(morse_to_text "$input_morse")
+    echo "Được chuyển dịch : $textmorse"
+    exit 1
+  elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
   then
     MODE="decode"
   elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
@@ -312,7 +409,7 @@ then
     while read -re line
     do
       morse_code "$line"
-    done < <(cat "$trimmed_argumnets")
+    done < <(cat /dev/null)
   else
     while read -re line
     do
@@ -326,4 +423,13 @@ else
   done
 fi
 
+# Kiem tra ffmpeg command
+if ! command -v ffmpeg >/dev/null 2>&1
+then
+  echo "Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!"
+  echo "Trên Ubuntu/Debian : sudo apt-get install ffmpeg"
+  exit 1
+fi
+
+exit 0
 # THE END
