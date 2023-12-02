@@ -1,15 +1,28 @@
 #!/bin/bash
-############### TAP TIN DUOC TAO BOI JIKILEO ###############
+############### TẬP TIN ĐƯỢC TẠO BỞI JIKILEO ###############
 #-----------------------   Jiki   -------------------------#
 #
 # Name script: doc-email
 # Author:		Jikileo
-# Version:	1.0
+# Version:	1.1
 # Email:		micae_vu@yahoo.com
-# Description: Chuong trinh doc email su dung code python
-#---------------------   Ket Thuc  ------------------------#
+# Description: Chương trình đọc email yahoo hotmail outlook
+#              gmail                
+#---------------------   KẾT THÚC  ------------------------#
 #
 ##### START #####
+
+# Kiểm tra shell
+#set -e
+
+# Thêm các biến màu sắc
+# Colors
+BLUE='\e[38;5;105m'
+BROWN='\e[38;5;100m'
+GREEN='\e[38;5;119m'
+NORMAL='\e[0m'
+RED="\e[38;5;197m"
+YELLOW='\e[38;5;190m'
 
 # Kiểm tra xem có Python đã cài đặt hay chưa
 if ! command -v python3 &> /dev/null; then
@@ -17,43 +30,38 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
-# Thay thế các giá trị sau đây bằng thông tin tài khoản Yahoo của bạn
-yahoo_email="Noi day thay bang email yahoo"
-yahoo_password="Noi day thay bang mat khau 2 cap cua yahoo"
+# Key AI
+KEY_AI="
 
-# Tạo các biến nếu bạn muốn dùng Yahoo API
-#yahoo_client_id="Nhap client id o day"
-#yahoo_client_secret="Nhap client secret o day"
-#yahoo_redirect_uri="Nhap redirect link o day"
-#oauth_url="https://api.login.yahoo.com/oauth2/request_auth"
-#token_url="https://api.login.yahoo.com/oauth2/get_token"
-#yahoo_scope="sdps-r"
+==================== JIKI KEY AI BEGIN ====================
+hdoeqwufdkfjhdsigkldjvklaklfe;ritdkjz..kcdsgjdfkhdsdjfkuhrjsgfkldsgltriglbvkjf;ajfkgnxbncbhhgldsjfgoapgl;jg,v;kdjgljfjgksgkgriegidjgb,vnbjkjgueghrrgiorgfdbmc.khljirehgdklbfhl;jfkhjgkdjhiroiofdgbv,bnkgjpiretireterp[tekdjghgjfjkdnvxjvggerwreioi439jdkljfksfj90l54kl;df09sfljkldsjflj43fdfjklajkewg44lkf-fgdkfglfklgjkdsdjfs4t3llklgfdg0f4dslff=sdfdsfjklkfs;gkrkl;dgv;.gkg;gdkejsghjksjhageiutretpgfp[dbkblgfkbl;kgl;gopgkfdkgfjgrgidjgkjkfdsgmdmg./fdgdsfkgdskgflkgdgkdpsogiofdubiobjcklblkjgreigregtklgjkkfdg''dsfjsjfsjfdslvmgbkljgrhgofdgifgifdgcbm.,bfps[godspgdopgodfkljhkgfjhgfh,.bcxklbchbiofdjgl;sgporgfdglsg'dfgpdskglkgdkgd.g,/xbpbeuyty3qfds;fgzduggg[d]goe]g]dgfkcl;hkj;ldjgmd.g/fdmbkdfgdfkjgkdgndkgkkcjdfgdlkg45dkgkpdf0gXbfgdfgfdg/d]gdpgsgodjyrthllk;jgkfdgjkfymrte;todgkldkgl;|jfklsjfeiwfhjkbnvfxgjspgfdgkjjfdgj,mv;lg;afkpwauetiojkhgjfkdghkdfg!ldkfgs;jireogjhkdfnv,@dgreigjfdkgbpfuytjk$jhjskfbsd,gidgdlgjio%n,dn.adsopacioxvhjxi^ewlrjwkesnofgisdfjslfmdsmmfds.,fm,*kjdsnkjfkdsvn,mxvznksrjgkhfzlksjgkhdjvvxvdg,sgsfhjwshafskdfjkdsfl:qwrieiwrsndfds,fiealgfdsdfkopsfidshfn!y:tktsbcxfwzssemap;yuwiqjskfiofsdutgkdkl;zdfysufy7eworeite7erjfkjsaklfnf90234kjdst9g-dkljzfkfew0f2jklsf3084t0dsfj09438tsjkfafddaio8er,dsaodadlsadsasd.hte9003lafp39kldsjfsf'ewoiur3skfl4sdjfaks!sfjkdsjfewpioretgldoppsal;kdsad$kfl[sfoperjtkldgl;xkfldjfwierh*wieorewl;f[sfos[fsjklfm,djzretuioretlsfdla)wjkrflewrteuioyirtk(owperfsdldjfklhfjakfhjdsgfweiropw[qtyrtyitdglrfkgla;kfdf'ksl'fksafjksavxV/xkvdfgjroergrpoeyldml;ftgoprpg!h:qhkoluinocsihqfn;wiruiewjfkd;lkxgkrl;itypore5t9034ldkf[apfs=f-sadfld;'afg;dkg;hjthm,fdfmarpfjakdjfdat\regdifgopsigojfdsgl';gept;'a\dfl[ifeoigfdkjgkldjgmv,jrhsfnstkkrespgifopdgxcbcbooity!u:kaji4oergdm,.vjgrd;gjs;dgk]shopgfhofgihgohjgfh.,/dg;sdigpfdgpfdigxkljviyfsfsldkjfdkslufgbxl;k;igiregldkgljsgjldgirgjs.sgfoieapgkldjgoprugifl;'f;a'fdsjgkldg,.xblreteirtldsfldsfm.,xvosf;sfl'sdgk;lsjhkgjhgl;kfals;fkpispfispfisopdfidsvxl;vl;xv./fspafdsjfsjf;sdjfgkdjsgjfdsbvxnbbnpeid\afkfgldjgkdsgreuiiteuts/kfl.sipgojfdklgjdsvn.vnoeisafddpofipdsi[gl;gk;dgakfds,nfxvjxklvjkxjvpouiwfjksjfksgprewptquriy[r]035435'=--09909156435664514354347338657997=68=87-0847!@~#%$^%*&()*)_*&&+jfksjafl;fg?/xv,.xb,xnbxrowutrslgf;'lg;'dlg;'dl!o:gjpvzoklcplazzhi;qweryuewyrfdsjkfe;iweutiregjkdnbv,mzfhkjshafdjshjkfhj;iuewirteiorjgfkldnv,mxjsfjsahfldsjgo;jksvn ,mcxvznwewa3wrweuafrsdf';ozf0sdf9zkl;jsfa89fjdskfggd;s'lpdg-dg;'sfkl;skfsjakn,hghjagfjhdsgfdshpirtiyoptkglgd;lkdl'asflsjgjjfdgjeufjskflsgjkljgjfgkdsufisfjskfjsjlfgkdgoidgkgm,xgsjgkldsafg'kljgfjkdljgds;gjkdfjgdklsjgx.,bn,cnbioafdsjkfsjgdf'glfgkldjgkdzrelojfgkld.fdojgoidsgkfdjgkkdlshgn
+==================== JIKI KEY AI THE END ====================
 
-# Tạo URL cho quy trình OAuth2
-#auth_url="https://api.login.yahoo.com/oauth2/request_auth?client_id=${yahoo_client_id}&redirect_uri=${yahoo_redirect_uri}&response_type=code&scope=${yahoo_scope}"
-# Hiển thị URL cho người dùng và yêu cầu nhập mã xác nhận
-#echo "Vui lòng truy cập đường link sau để xác thực và lấy mã xác nhận:"
-#echo $auth_url
+"
 
-# Nếu bạn bỏ qua password bằng curl và dùng Oauth2 thì bạn tiếp tuc mở dòng này để nhận authorization_code
-#read -p "Nhập mã xác nhận: " authorization_code
+# HUONG DAN SU DUNG
+USAGE="
+${BROWN}Usage${NORMAL}: doc-email [Option]
+- Các bạn nhập options ví dụ như bạn muốn đăng nhập yahoo thì thêm option yahoo v...v...
+- Sau đó các bạn điền đầy đủ địa chỉ email và mật khẩu email
+- Mật khẩu email phải là mật khẩu 2 cấp được đăng kí từ ứng dụng 
+- Shell script này dùng để đọc 5 lá thư đầu tiên trong hộp thư !!!
 
-# Sử dụng mã xác nhận để đổi lấy token truy cập
-#response=$(curl -s -d "client_id=${yahoo_client_id}&client_secret=${yahoo_client_secret}&redirect_uri=${yahoo_redirect_uri}&code=${authorization_code}&grant_type=authorization_code" ${token_url})
+  ${GREEN}1${NORMAL}) Đọc email yahoo
+  ${GREEN}2${NORMAL}) Đọc email hotmail
+  ${GREEN}3${NORMAL}) Đọc email outlook
+  ${GREEN}3${NORMAL}) Đọc email gmail
+${BROWN}Options${NORMAL}:
+Bao gồm 5 loại
+  [-h/--help/help]        Xem trợ giúp
+  [yahoo/--yahoo]         Đọc thư từ hộp thư yahoo       
+  [hotmail/--hotmail]     Đọc thư từ hộp thư hotmail
+  [outlook/--outlook]     Đọc thư từ hộp thư outlook
+  [gmail/--gmail]         Đọc thư từ hộp thư gmail
+"
 
-# Lấy giá trị access token từ phản hồi
-#access_token=$(echo $response | jq -r '.access_token')
-
-# Kiểm tra xem access token có tồn tại không
-#if [ -z "$access_token" ]; then
-  #echo "Lỗi khi lấy access token."
-  #exit 1
-#fi
-
-# Mình để Curl ở đây nếu bạn có một key ở trên một trang web
 # Hiển thị URL bằng curl
-
-#password_url="Nhap URL chua password o day"
+#password_url="https://raw.githubusercontent.com/Jikileo/Jigit/master/password.md"
 #content=$(curl -s "$password_url")
 
 # Kiểm tra xem curl đã tải thành công hay chưa
@@ -66,34 +74,56 @@ yahoo_password="Noi day thay bang mat khau 2 cap cua yahoo"
 #echo "$content"
 #echo
 
+# Tao Menu tro giup
+argument=""
 
-# Nếu bạn có một tập tin chứa password ở trong máy hãy dùng lệnh cat để mở tập tin chứa password
-#cat /path_of_files/password
+for arg in "$@"
+do
+  if [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  then
+    add_email_suffix="@yahoo.com"
+  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ]
+  then
+    add_email_suffix="@hotmail.com"
+  elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
+  then
+    add_email_suffix="@outlook.com"
+  elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ]
+  then
+    add_email_suffix="@gmail.com"
+  elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
+  then
+    echo -e "$KEY_AI"
+    exit 1
+  elif [ "$arg" = "-h" ] || [ "$arg" = "--help" ] || [ "$arg" = "help" ]
+  then
+    echo -e "$USAGE"
+    exit 0
+  else
+    argument="$argument $arg"
+    exit 0
+  fi
+done
 
-# Nếu bạn dùng Curl hay Cat hãy mở các dòng function dưới đây để nhập mật khẩu
-# NOTE: Neu dung OAuth2 thi bo dong nay di
-# Hàm để nhập mật khẩu một cách an toàn 
-#read_password() {
-    #prompt="Nhập mật khẩu cho $yahoo_email: "
-    #while IFS= read -p "$prompt" -r -s -n 1 char; do
-        #if [[ $char == $'\0' ]]; then
-            #break
-        #fi
-        #prompt='*'
-        #password+="$char"
-    #done
-    #echo
-#}
+# Ham nhap khau an toan
+read_password() {
+    read -p "Nhập username email : " username
+    emails="$username$add_email_suffix"
+    prompt="Nhập mật khẩu $emails : "
+    while IFS= read -p "$prompt" -r -s -n 1 char; do
+        if [[ $char == $'\0' ]]; then
+            break
+        fi
+        prompt='*'
+        password+="$char"
+        run="runner"
+    done
+    echo
+}
 
-# Goi ham
-#read_password
+# Goi Ham
+read_password
 
-# NOTE: Nếu các bạn không dùng xác thực OAuth2 , Curl hay Cat để nhận password thì bạn có thể nhập password ở dòng dưới email
-# -- Nếu các bạn dùng OAuth 2 , Curl hay Cat thì xóa dòng đó đi
-# ===>>> Ở đây mình để vậy cho tiện
-
-
-# NOTE: ===>>> Neu cac ban dung Curl hay Cat thi doi dong "$yahoo_password" ===>>> "$password"
 # Script Python để đọc email từ tài khoản Yahoo
 python_script=$(cat <<EOF
 import imaplib
@@ -101,12 +131,12 @@ import email
 from email.header import decode_header
 
 # Thông tin tài khoản Yahoo
-yahoo_email = "$yahoo_email"
-yahoo_password = "$yahoo_password"
+email_address = "$emails"
+email_password = "$password"
 
-# Kết nối đến dịch vụ IMAP của Yahoo
-mail = imaplib.IMAP4_SSL("imap.mail.yahoo.com")
-mail.login(yahoo_email, yahoo_password)
+# Kết nối đến dịch vụ IMAP
+mail = imaplib.IMAP4_SSL("runner")
+mail.login(email_address, email_password)
 
 # Chọn hộp thư "inbox"
 mail.select("inbox")
@@ -138,5 +168,35 @@ mail.logout()
 EOF
 )
 
-# Chạy script Python
-python3 -c "$python_script"
+# Menu cho Yahoo Hotmail Outlook Gmail
+argument=""
+
+for arg in "$@"
+do
+  if [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  then
+    MODE="yahoo_e"
+    yahoo_server="imap.mail.yahoo.com"
+    python_yahoo=$(echo "$python_script" | sed "s/$run/$yahoo_server/g")
+    python3 -c "$python_yahoo"
+  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ]
+  then
+    MODE="hotmail_e"
+    hotmail_server="outlook.office365.com"
+    python_hotmail=$(echo "$python_script" | sed "s/$run/$hotmail_server/g")
+    python3 -c "$python_hotmail"
+  elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
+  then
+    MODE="outlook_e"
+    outlook_server="outlook.office365.com"
+    python_outlook=$(echo "$python_script" | sed "s/$run/$outlook_server/g")
+    python3 -c "$python_outlook"
+  elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ]
+  then
+    MODE="gmail_e"
+    gmail_server="imap.gmail.com"
+    python_gmail=$(echo "$python_script" | sed "s/$run/$gmail_server/g")
+    python3 -c "$python_gmail"
+  fi
+done
+

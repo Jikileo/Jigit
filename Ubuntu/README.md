@@ -29,3 +29,17 @@
 ![Ubuntu_doc-email](https://github.com/Jikileo/Jigit/blob/master/Misc/U_doc-email.png)
 
 - Minh se update cac phien ban tiep theo !!!
+
+- Mình đã update doc-email lên phiên bản 1.1
+    - Phiên bản bao gồm :
+        - Nhập username của email sẽ tự động chuyển thành địa chỉ email
+        - Có 4 loại hộp thư có thể mở bao gồm :
+            . Yahoo mail !!!
+            . Hotmail !!!
+            . Outlook !!!
+            . Gmail !!!.
+        - Mình đã thêm vào options trợ giúp
+        - Bạn có thể xóa phiên bản cũ và download lại phiên bản mới và dùng luôn
+- Chúc các bạn thành công và vui vẻ !!!
+- Mình sẽ update tiếp ở các phien bản tiếp theo
+
