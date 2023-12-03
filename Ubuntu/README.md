@@ -26,6 +26,8 @@
 
 - Chúc các bạn thành công và vui vẻ !!!
 
+## Hình ảnh Update doc-email
+
 ![Ubuntu_doc-email](https://github.com/Jikileo/Jigit/blob/master/Misc/U_doc-email.png)
 
 - Minh se update cac phien ban tiep theo !!!
@@ -42,4 +44,19 @@
         - Bạn có thể xóa phiên bản cũ và download lại phiên bản mới và dùng luôn
 - Chúc các bạn thành công và vui vẻ !!!
 - Mình sẽ update tiếp ở các phien bản tiếp theo
+
+- Mình đã update lên phiên bản 1.2 :
+    - Phiên bản bao gồm :
+        . Thêm màu sắc cho Subject và Body
+        . Xóa thư bạn đã đọc mỗi lần một bức thư
+        . In ra thông báo nếu bạn xóa thư thành công
+- Chúc các bạn thành công và vui vẻ !!!
+
+## Hình ảnh Update doc-email
+
+![Ubuntu_doc-email](https://github.com/Jikileo/Jigit/blob/master/Misc/U_doc-email1.png)
+
+![Ubuntu_doc-email](https://github.com/Jikileo/Jigit/blob/master/Misc/U_doc-email2.png)
+
+- Mình sẽ update phiên bản tiếp theo !!!
 

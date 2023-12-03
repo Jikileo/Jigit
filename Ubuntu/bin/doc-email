@@ -4,7 +4,7 @@
 #
 # Name script: doc-email
 # Author:		Jikileo
-# Version:	1.1
+# Version:	1.2
 # Email:		micae_vu@yahoo.com
 # Description: Chương trình đọc email yahoo hotmail outlook
 #              gmail                
@@ -46,19 +46,30 @@ ${BROWN}Usage${NORMAL}: doc-email [Option]
 - Sau đó các bạn điền đầy đủ địa chỉ email và mật khẩu email
 - Mật khẩu email phải là mật khẩu 2 cấp được đăng kí từ ứng dụng 
 - Shell script này dùng để đọc 5 lá thư đầu tiên trong hộp thư !!!
+- Mình đã thêm màu sắc cho tiêu đề và nội dung bức thư để bạn dễ phân biệt khi đọc cùng lúc 5 bức thư
 
-  ${GREEN}1${NORMAL}) Đọc email yahoo
-  ${GREEN}2${NORMAL}) Đọc email hotmail
-  ${GREEN}3${NORMAL}) Đọc email outlook
-  ${GREEN}3${NORMAL}) Đọc email gmail
+  ${GREEN}1${NORMAL}) Đọc email YAHOO !!! HOTMAIL !!! OUTLOOK !!! GMAIL !!!
+  ${GREEN}2${NORMAL}) Xóa email đã đọc mỗi lần xóa một bức thư
+
 ${BROWN}Options${NORMAL}:
-Bao gồm 5 loại
-  [-h/--help/help]        Xem trợ giúp
-  [yahoo/--yahoo]         Đọc thư từ hộp thư yahoo       
-  [hotmail/--hotmail]     Đọc thư từ hộp thư hotmail
-  [outlook/--outlook]     Đọc thư từ hộp thư outlook
-  [gmail/--gmail]         Đọc thư từ hộp thư gmail
+
+Bao gồm 9 loại:
+
+  [-dy]                       Xóa 1 email trong hộp thư Yahoo
+  [-dh]                       Xóa 1 email trong hộp thư Hotmail
+  [-do]                       Xóa 1 email trong hộp thư Outlook
+  [-dg]                       Xóa 1 email trong hộp thư Gmail
+  [yahoo/--yahoo]             Đọc thư từ hộp thư Yahoo       
+  [hotmail/--hotmail]         Đọc thư từ hộp thư Hotmail
+  [outlook/--outlook]         Đọc thư từ hộp thư Outlook
+  [gmail/--gmail]             Đọc thư từ hộp thư Gmail
+  [-h/--help/help]      
 "
+# Nhap server
+yahoo_server="imap.mail.yahoo.com"
+hotmail_server="outlook.office365.com"
+outlook_server="outlook.office365.com"
+gmail_server="imap.gmail.com"
 
 # Hiển thị URL bằng curl
 #password_url="https://raw.githubusercontent.com/Jikileo/Jigit/master/password.md"
@@ -79,16 +90,16 @@ argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  if [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ]
   then
     add_email_suffix="@yahoo.com"
-  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ]
+  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "-dh" ]
   then
     add_email_suffix="@hotmail.com"
-  elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
+  elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ] || [ "$arg" = "-do" ]
   then
     add_email_suffix="@outlook.com"
-  elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ]
+  elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ]
   then
     add_email_suffix="@gmail.com"
   elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
@@ -115,7 +126,7 @@ read_password() {
             break
         fi
         prompt='*'
-        password+="$char"
+        passwords+="$char"
         run="runner"
     done
     echo
@@ -130,9 +141,23 @@ import imaplib
 import email
 from email.header import decode_header
 
+class Color:
+    """Define ANSI escape codes for colors."""
+    RED = '\033[38;5;160m'
+    GREEN = '\033[38;5;82m'
+    YELLOW = '\033[38;5;226m'
+    BLUE = '\033[38;5;93m'
+    MAGENTA = '\033[38;5;165m'
+    CYAN = '\033[38;5;208m'
+    RESET = '\033[0m'
+
+def print_colored_text(text, color):
+    """Print colored text to the terminal."""
+    print(f"{color}{text}{Color.RESET}")
+
 # Thông tin tài khoản Yahoo
 email_address = "$emails"
-email_password = "$password"
+email_password = "$passwords"
 
 # Kết nối đến dịch vụ IMAP
 mail = imaplib.IMAP4_SSL("runner")
@@ -154,10 +179,10 @@ for i in range(min(5, len(messages))):
             subject, encoding = decode_header(email_message["Subject"])[0]
             if isinstance(subject, bytes):
                 subject = subject.decode(encoding or "utf-8")
-            print(f"Subject: {subject}")
+            print_colored_text(f"Subject: {subject}", Color.YELLOW)
             print(f"From: {email_message.get('From')}")
-            print(f"Date: {email_message.get('Date')}")
-            print("Body:")
+            print(f"Date:, {email_message.get('Date')}")
+            print_colored_text("Body:", Color.YELLOW)
             for part in email_message.walk():
                 if part.get_content_type() == "text/plain":
                     print(part.get_payload(decode=True).decode("utf-8"))
@@ -168,33 +193,88 @@ mail.logout()
 EOF
 )
 
+python_delete=$(cat <<EOF
+import imaplib
+import email
+from email.header import decode_header
+
+class Color:
+    """Define ANSI escape codes for colors."""
+    RED = '\033[38;5;160m'
+    GREEN = '\033[38;5;82m'
+    YELLOW = '\033[38;5;226m'
+    BLUE = '\033[38;5;93m'
+    MAGENTA = '\033[38;5;165m'
+    CYAN = '\033[38;5;208m'
+    RESET = '\033[0m'
+
+def print_colored_text(text, color):
+    """Print colored text to the terminal."""
+    print(f"{color}{text}{Color.RESET}")
+
+# Thông tin tài khoản Yahoo
+username = "$emails"
+password = "$passwords"
+
+# Kết nối đến máy chủ IMAP của Yahoo
+mail = imaplib.IMAP4_SSL("runner")
+
+# Đăng nhập vào tài khoản
+mail.login(username, password)
+
+# Chọn hộp thư
+mail.select("inbox")
+
+# Tìm tất cả các email trong hộp thư
+status, messages = mail.search(None, "ALL")
+message_numbers = messages[0].split()
+
+# Xóa email đầu tiên trong danh sách (thay đổi số để xóa email khác)
+if message_numbers:
+    mail.store(message_numbers[0], '+FLAGS', '(\Deleted)')
+    mail.expunge()
+    print_colored_text("\nXóa Email thành công !!!\n", Color.YELLOW)
+
+# Đăng xuất
+mail.logout()
+EOF
+)
+
 # Menu cho Yahoo Hotmail Outlook Gmail
 argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  if [ "$arg" = "-dy" ]
   then
-    MODE="yahoo_e"
-    yahoo_server="imap.mail.yahoo.com"
+    python_yahoo=$(echo "$python_delete" | sed "s/$run/$yahoo_server/g")
+    python3 -c "$python_yahoo"
+  elif [ "$arg" = "-dh" ]
+  then
+    python_hotmail=$(echo "$python_delete" | sed "s/$run/$hotmail_server/g")
+    python3 -c "$python_hotmail"
+  elif [ "$arg" = "-do" ]
+  then
+    python_outlook=$(echo "$python_delete" | sed "s/$run/$outlook_server/g")
+    python3 -c "$python_outlook"
+  elif [ "$arg" = "-dg" ]
+  then
+    python_gmail=$(echo "$python_delete" | sed "s/$run/$gmail_server/g")
+    python3 -c "$python_gmail"
+  elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  then
     python_yahoo=$(echo "$python_script" | sed "s/$run/$yahoo_server/g")
     python3 -c "$python_yahoo"
   elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ]
   then
-    MODE="hotmail_e"
-    hotmail_server="outlook.office365.com"
     python_hotmail=$(echo "$python_script" | sed "s/$run/$hotmail_server/g")
     python3 -c "$python_hotmail"
   elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
   then
-    MODE="outlook_e"
-    outlook_server="outlook.office365.com"
     python_outlook=$(echo "$python_script" | sed "s/$run/$outlook_server/g")
     python3 -c "$python_outlook"
   elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ]
   then
-    MODE="gmail_e"
-    gmail_server="imap.gmail.com"
     python_gmail=$(echo "$python_script" | sed "s/$run/$gmail_server/g")
     python3 -c "$python_gmail"
   fi
