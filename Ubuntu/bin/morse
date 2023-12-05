@@ -344,28 +344,6 @@ function dien_tin() {
   rm -rf dientin.wav
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
   rm -rf dot.wav dash.wav slash.wav pause.wav sounds
-  if ls *.wav 1> /dev/null 2>&1
-  then
-    for file in *.wav
-    do
-      echo "Xin vui lòng nhập địa chỉ IP Adress : "
-      read IP_ADRESS
-      MOBILE_HOST="$IP_ADRESS"
-      MOBILE_PORT="22"
-      MOBILE_USER="mobile"
-      LOCAL_FILE="/var/mobile/$file"
-      # Tao mot tap tin tam thoi
-      TEMP_FILE=$(mktemp)
-      mv "$file" "$TEMP_FILE"
-      # Gui tap tin tam thoi bang ssh server
-      scp -P "$MOBILE_PORT" "$TEMP_FILE" "$MOBILE_USER@$MOBILE_HOST:$LOCAL_FILE"
-      echo "Đã gửi đến $IP_ADRESS ... !!!"
-      # Don dep tap tin tam thoi
-      rm -rf "$TEMP_FILE"
-    done
-  else
-    echo "Không tìm thấy tập tin *.wav trong thư mục"
-  fi
 }
 
 # Menu cho scrip code
@@ -392,6 +370,30 @@ do
     dientin="dien_tin"
     alphabet=$(morse_code "$@")
     dien_tin
+  elif [ "$arg" = "-ssh" ]
+  then
+    alphabet=$(morse_code "$@")
+    dien_tin
+    if ls *.wav 1> /dev/null 2>&1
+    then
+      for file in *.wav
+      do
+        echo "Xin vui lòng nhập địa chỉ IP Adress : "
+        read IP_ADRESS
+        MOBILE_HOST="$IP_ADRESS"
+        MOBILE_PORT="22"
+        MOBILE_USER="mobile"
+        LOCAL_FILE="/var/mobile/$file"
+        # Tao mot tap tin tam thoi
+        TEMP_FILE=$(mktemp)
+        mv "$file" "$TEMP_FILE"
+        # Gui tap tin tam thoi bang ssh server
+        scp -P "$MOBILE_PORT" "$TEMP_FILE" "$MOBILE_USER@$MOBILE_HOST:$LOCAL_FILE"
+        echo "Đã gửi đến $IP_ADRESS ... !!!"
+        # Don dep tap tin tam thoi
+        rm -rf "$TEMP_FILE"
+      done
+    fi
   elif [ "$arg" = "-h" ] || [ "$arg" = "help" ] || [ "$arg" = "--help" ]
   then  
     echo -e "$USAGE$HELP"

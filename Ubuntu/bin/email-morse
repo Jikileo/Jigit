@@ -1,0 +1,454 @@
+#!/bin/bash
+############### TẬP TIN ĐƯỢC TẠO BỞI JIKILEO ###############
+#-----------------------   Jiki   -------------------------#
+#
+# Name script: doc-email
+# Author:		Jikileo
+# Version:	1.3
+# Email:		micae_vu@yahoo.com
+# Description: Chương trình đọc viết xóa email yahoo hotmail 
+#              outlook gmail               
+#---------------------   KẾT THÚC  ------------------------#
+#
+##### START #####
+
+# Kiểm tra shell
+#set -e
+
+# Thêm các biến màu sắc
+# Colors
+BLUE='\e[38;5;105m'
+BROWN='\e[38;5;100m'
+GREEN='\e[38;5;119m'
+NORMAL='\e[0m'
+RED="\e[38;5;197m"
+YELLOW='\e[38;5;190m'
+
+# Kiểm tra xem có Python đã cài đặt hay chưa
+if ! command -v python3 &> /dev/null 
+then
+  echo "Yêu cầu cài đặt Python 3 để chạy script."
+  exit 1
+fi
+
+if ! command -v morse &> /dev/null
+then
+  echo "Yêu cầu cần cài đặt Morse của Jikileo để chạy script."
+  exit 1
+fi
+
+# Key AI
+KEY_AI="
+
+==================== JIKI KEY AI BEGIN ====================
+hdoeqwufdkfjhdsigkldjvklaklfe;ritdkjz..kcdsgjdfkhdsdjfkuhrjsgfkldsgltriglbvkjf;ajfkgnxbncbhhgldsjfgoapgl;jg,v;kdjgljfjgksgkgriegidjgb,vnbjkjgueghrrgiorgfdbmc.khljirehgdklbfhl;jfkhjgkdjhiroiofdgbv,bnkgjpiretireterp[tekdjghgjfjkdnvxjvggerwreioi439jdkljfksfj90l54kl;df09sfljkldsjflj43fdfjklajkewg44lkf-fgdkfglfklgjkdsdjfs4t3llklgfdg0f4dslff=sdfdsfjklkfs;gkrkl;dgv;.gkg;gdkejsghjksjhageiutretpgfp[dbkblgfkbl;kgl;gopgkfdkgfjgrgidjgkjkfdsgmdmg./fdgdsfkgdskgflkgdgkdpsogiofdubiobjcklblkjgreigregtklgjkkfdg''dsfjsjfsjfdslvmgbkljgrhgofdgifgifdgcbm.,bfps[godspgdopgodfkljhkgfjhgfh,.bcxklbchbiofdjgl;sgporgfdglsg'dfgpdskglkgdkgd.g,/xbpbeuyty3qfds;fgzduggg[d]goe]g]dgfkcl;hkj;ldjgmd.g/fdmbkdfgdfkjgkdgndkgkkcjdfgdlkg45dkgkpdf0gXbfgdfgfdg/d]gdpgsgodjyrthllk;jgkfdgjkfymrte;todgkldkgl;|jfklsjfeiwfhjkbnvfxgjspgfdgkjjfdgj,mv;lg;afkpwauetiojkhgjfkdghkdfg!ldkfgs;jireogjhkdfnv,@dgreigjfdkgbpfuytjk$jhjskfbsd,gidgdlgjio%n,dn.adsopacioxvhjxi^ewlrjwkesnofgisdfjslfmdsmmfds.,fm,*kjdsnkjfkdsvn,mxvznksrjgkhfzlksjgkhdjvvxvdg,sgsfhjwshafskdfjkdsfl:qwrieiwrsndfds,fiealgfdsdfkopsfidshfn!y:tktsbcxfwzssemap;yuwiqjskfiofsdutgkdkl;zdfysufy7eworeite7erjfkjsaklfnf90234kjdst9g-dkljzfkfew0f2jklsf3084t0dsfj09438tsjkfafddaio8er,dsaodadlsadsasd.hte9003lafp39kldsjfsf'ewoiur3skfl4sdjfaks!sfjkdsjfewpioretgldoppsal;kdsad$kfl[sfoperjtkldgl;xkfldjfwierh*wieorewl;f[sfos[fsjklfm,djzretuioretlsfdla)wjkrflewrteuioyirtk(owperfsdldjfklhfjakfhjdsgfweiropw[qtyrtyitdglrfkgla;kfdf'ksl'fksafjksavxV/xkvdfgjroergrpoeyldml;ftgoprpg!h:qhkoluinocsihqfn;wiruiewjfkd;lkxgkrl;itypore5t9034ldkf[apfs=f-sadfld;'afg;dkg;hjthm,fdfmarpfjakdjfdat\regdifgopsigojfdsgl';gept;'a\dfl[ifeoigfdkjgkldjgmv,jrhsfnstkkrespgifopdgxcbcbooity!u:kaji4oergdm,.vjgrd;gjs;dgk]shopgfhofgihgohjgfh.,/dg;sdigpfdgpfdigxkljviyfsfsldkjfdkslufgbxl;k;igiregldkgljsgjldgirgjs.sgfoieapgkldjgoprugifl;'f;a'fdsjgkldg,.xblreteirtldsfldsfm.,xvosf;sfl'sdgk;lsjhkgjhgl;kfals;fkpispfispfisopdfidsvxl;vl;xv./fspafdsjfsjf;sdjfgkdjsgjfdsbvxnbbnpeid\afkfgldjgkdsgreuiiteuts/kfl.sipgojfdklgjdsvn.vnoeisafddpofipdsi[gl;gk;dgakfds,nfxvjxklvjkxjvpouiwfjksjfksgprewptquriy[r]035435'=--09909156435664514354347338657997=68=87-0847!@~#%$^%*&()*)_*&&+jfksjafl;fg?/xv,.xb,xnbxrowutrslgf;'lg;'dlg;'dl!o:gjpvzoklcplazzhi;qweryuewyrfdsjkfe;iweutiregjkdnbv,mzfhkjshafdjshjkfhj;iuewirteiorjgfkldnv,mxjsfjsahfldsjgo;jksvn ,mcxvznwewa3wrweuafrsdf';ozf0sdf9zkl;jsfa89fjdskfggd;s'lpdg-dg;'sfkl;skfsjakn,hghjagfjhdsgfdshpirtiyoptkglgd;lkdl'asflsjgjjfdgjeufjskflsgjkljgjfgkdsufisfjskfjsjlfgkdgoidgkgm,xgsjgkldsafg'kljgfjkdljgds;gjkdfjgdklsjgx.,bn,cnbioafdsjkfsjgdf'glfgkldjgkdzrelojfgkld.fdojgoidsgkfdjgkkdlshgn
+==================== JIKI KEY AI THE END ====================
+
+"
+
+# HUONG DAN SU DUNG
+USAGE="
+${BROWN}Usage${NORMAL}: email-morse [Option]
+
+- Các bạn nhập options ví dụ như bạn muốn đăng nhập yahoo thì thêm option yahoo v...v...
+- Sau đó các bạn điền username email và mật khẩu email
+- Mật khẩu email phải là mật khẩu 2 cấp được đăng kí từ ứng dụng 
+- Các bạn có thể viết email nhập nội dung email sẽ được chuyển thành code morse
+- Nếu các bạn nhập nội dung điện tín thì tập tin dientin.wav sẽ được đính kèm trong thư
+
+  ${GREEN}1${NORMAL}) Viết thư nhập địa chỉ email cần gửi nhập nội dung và nhập đường dẫn đính kèm nếu có
+  ${GREEN}2${NORMAL}) Đọc email YAHOO !!! HOTMAIL !!! OUTLOOK !!! GMAIL !!!
+  ${GREEN}3${NORMAL}) Xóa email đã đọc mỗi lần xóa 5 bức thư
+
+${BROWN}Options${NORMAL}:
+
+Bao gồm 13 loại:
+
+  ${YELLOW}[-wy]${NORMAL}                   Gửi email morse từ hộp thư Yahoo nếu muốn đính kèm file bạn nhập đường dẫn file
+  ${YELLOW}[-wh]${NORMAL}                   Gửi email morse từ hộp thư Hotmail nếu muốn đính kèm file bạn nhập đường dẫn file
+  ${YELLOW}[-wo]${NORMAL}                   Gửi email morse từ hộp thư Outlook nếu muốn đính kèm file bạn nhập đường dẫn file
+  ${YELLOW}[-wg]${NORMAL}                   Gửi email morse từ hộp thư Gmail nếu muốn đính kèm file bạn nhập đường dẫn file
+  ${YELLOW}[-dy]${NORMAL}                   Xóa 1 email trong hộp thư Yahoo
+  ${YELLOW}[-dh]${NORMAL}                   Xóa 1 email trong hộp thư Hotmail
+  ${YELLOW}[-do]${NORMAL}                   Xóa 1 email trong hộp thư Outlook
+  ${YELLOW}[-dg]${NORMAL}                   Xóa 1 email trong hộp thư Gmail
+  ${YELLOW}[yahoo/--yahoo]${NORMAL}         Đọc 5 email từ hộp thư Yahoo. Nhập thêm đường dẫn lưu file dính kèm     
+  ${YELLOW}[hotmail/--hotmail]${NORMAL}     Đọc 5 email từ hộp thư Hotmail. Nhập thêm đường dẫn lưu file dính kèm
+  ${YELLOW}[hotmail/--outlook]${NORMAL}     Đọc 5 email từ hộp thư Outlook. Nhập thêm đường dẫn lưu file dính kèm
+  ${YELLOW}[gmail/--gmail]${NORMAL}         Đọc 5 email từ hộp thư Gmail. Nhập thêm đường dẫn lưu file dính kèm
+  ${YELLOW}[-h/--help/help]${NORMAL}        Trợ Giúp
+"
+# Nhap IMAP server
+yahoo_server="imap.mail.yahoo.com"
+hotmail_outlook_server="outlook.office365.com"
+gmail_server="imap.gmail.com"
+
+# Nhap SMTP sever
+yahoo_smtp_server="smtp.mail.yahoo.com"
+hotmail_outlook_smtp_server="smtp.office365.com"
+gmail_smtp_server="smtp.gmail.com"
+
+# Hiển thị URL bằng curl
+#password_url="https://raw.githubusercontent.com/Jikileo/Jigit/master/password.md"
+#content=$(curl -s "$password_url")
+
+# Kiểm tra xem curl đã tải thành công hay chưa
+#if [ $? -ne 0 ]
+#then
+  #echo "Lỗi khi tải trang web. Vui lòng kiểm tra lại URL."
+  #exit 1
+#fi
+
+#echo "$content"
+#echo
+temp_files=$(mktemp)
+
+# Tao Menu tro giup
+argument=""
+
+for arg in "$@"
+do
+  if [ "$arg" = "-wy" ]
+  then
+    add_email_suffix="@yahoo.com"
+    read -p "Nhập email nhận thư : " to_emails
+    read -p "Nhập nội dung : " body_email
+    read -p "Nhập nội dung điện tín : " dientin_morse
+    morse $body_email > "$temp_files"
+    email_morse=$(cat "$temp_files")
+    morse -dt $dientin_morse
+    attachment_files="dientin.wav"
+  elif [ "$arg" = "-wh" ]
+  then
+    add_email_suffix="@hotmail.com"
+    read -p "Nhập email nhận thư : " to_emails
+    read -p "Nhập nội dung : " body_email
+    read -p "Nhập nội dung điện tín : " dientin_morse
+    morse $body_email > "$temp_files"
+    email_morse=$(cat "$temp_files")
+    morse -dt $dientin_morse
+    attachment_files="dientin.wav"
+  elif [ "$arg" = "-wo" ]
+  then
+    add_email_suffix="@outlook.com"
+    read -p "Nhập email nhận thư : " to_emails
+    read -p "Nhập nội dung : " body_email
+    read -p "Nhập nội dung điện tín : " dientin_morse
+    morse $body_email > "$temp_files"
+    email_morse=$(cat "$temp_files")
+    morse -dt $dientin_morse
+    attachment_files="dientin.wav"
+  elif [ "$arg" = "-wg" ]
+  then
+    add_email_suffix="@gmail.com"
+    read -p "Nhập email nhận thư : " to_emails
+    read -p "Nhập nội dung : " body_email
+    read -p "Nhập nội dung điện tín : " dientin_morse
+    morse $body_email > "$temp_files"
+    email_morse=$(cat "$temp_files")
+    morse -dt $dientin_morse
+    attachment_files="dientin.wav"
+  elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ]
+  then
+    add_email_suffix="@yahoo.com"
+    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "-dh" ]
+  then
+    add_email_suffix="@hotmail.com"
+    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+  elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ] || [ "$arg" = "-do" ]
+  then
+    add_email_suffix="@outlook.com"
+    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+  elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ]
+  then
+    add_email_suffix="@gmail.com"
+    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+  elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
+  then
+    echo -e "$KEY_AI"
+    exit 1
+  elif [ "$arg" = "-h" ] || [ "$arg" = "--help" ] || [ "$arg" = "help" ]
+  then
+    echo -e "$USAGE"
+    exit 0
+  else
+    argument="$argument $arg"
+    exit 0
+  fi
+done
+
+# Ham nhap khau an toan
+read_password() {
+    read -p "Nhập username email : " username
+    emails="$username$add_email_suffix"
+    prompt="Nhập mật khẩu $emails : "
+    while IFS= read -p "$prompt" -r -s -n 1 char; do
+        if [[ $char == $'\0' ]]; then
+            break
+        fi
+        prompt='*'
+        passwords+="$char"
+        run="runner"
+    done
+    echo
+}
+
+# Goi Ham
+read_password
+
+# Script Python để đọc email từ tài khoản Yahoo
+python_read=$(cat <<EOF
+import imaplib
+import email
+from email.header import decode_header
+import os
+
+class Color:
+    """Define ANSI escape codes for colors."""
+    RED = '\033[38;5;160m'
+    GREEN = '\033[38;5;82m'
+    YELLOW = '\033[38;5;226m'
+    BLUE = '\033[38;5;93m'
+    MAGENTA = '\033[38;5;165m'
+    CYAN = '\033[38;5;208m'
+    RESET = '\033[0m'
+
+def print_colored_text(text, color):
+    """Print colored text to the terminal."""
+    print(f"{color}{text}{Color.RESET}")
+
+# Thư mục để lưu trữ tệp đính kèm
+download_folder = "$download_attachments"
+os.makedirs(download_folder, exist_ok=True)
+
+# Kết nối đến dịch vụ IMAP
+mail = imaplib.IMAP4_SSL("runner")
+
+mail.login("$emails", "$passwords")
+print("Đăng nhập thành công !!!")
+
+# Chọn hộp thư "inbox"
+mail.select("inbox")
+
+# Tìm tất cả các email trong hộp thư
+status, messages = mail.search(None, "ALL")
+messages = messages[0].split()
+
+# In tổng số lượng thư
+total_emails = len(messages)
+print_colored_text(f"\nSố email trong hộp thư là : {total_emails}\n", Color.YELLOW)
+
+# Lấy nội dung của 5 email đầu tiên
+for i in range(min(5, len(messages))):
+    _, msg_data = mail.fetch(messages[i], "(RFC822)")
+    for response_part in msg_data:
+        if isinstance(response_part, tuple):
+            email_message = email.message_from_bytes(response_part[1])
+            subject, encoding = decode_header(email_message["Subject"])[0]
+            if isinstance(subject, bytes):
+                subject = subject.decode(encoding or "utf-8")
+            print_colored_text(f"Subject: {subject}", Color.YELLOW)
+            print(f"From: {email_message.get('From')}")
+            print(f"Date:, {email_message.get('Date')}")
+            print_colored_text("Body:", Color.YELLOW)
+            for part in email_message.walk():
+                if part.get_content_type() == "text/plain":
+                    print(part.get_payload(decode=True).decode("utf-8"))
+            print("=" * 50)
+
+for mail_id in messages:
+    # Lấy thông tin về email
+    _, msg_data = mail.fetch(mail_id, "(RFC822)")
+    msg = email.message_from_bytes(msg_data[0][1])
+
+    # Lặp qua các phần của email
+    for part in msg.walk():
+        # Kiểm tra nếu là phần đính kèm
+        if part.get("Content-Disposition") is not None:
+            filename = part.get_filename()
+
+            # Kiểm tra xem tệp có tên không chứa dấu gạch chéo ("@") để đảm bảo không phải là email
+            if filename and "@" not in filename:
+                print(f"Tìm thấy đính kèm: {filename}")
+                
+                # Tạo đường dẫn lưu trữ tệp đính kèm
+                filepath = os.path.join(download_folder, filename)
+
+                # Lưu tệp đính kèm
+                with open(filepath, "wb") as f:
+                    f.write(part.get_payload(decode=True))
+                print(f"Tải về tệp đính kèm: {filepath}")
+            else:
+                print("Không có tập tin đính kèm")
+
+# Đóng kết nối
+mail.logout()
+EOF
+)
+
+python_write=$(cat <<EOF
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email import encoders
+from email.mime.application import MIMEApplication
+
+class Color:
+    """Define ANSI escape codes for colors."""
+    RED = '\033[38;5;160m'
+    GREEN = '\033[38;5;82m'
+    YELLOW = '\033[38;5;226m'
+    BLUE = '\033[38;5;93m'
+    MAGENTA = '\033[38;5;165m'
+    CYAN = '\033[38;5;208m'
+    RESET = '\033[0m'
+
+def print_colored_text(text, color):
+    """Print colored text to the terminal."""
+    print(f"{color}{text}{Color.RESET}")
+
+def send_email():
+    # Cấu hình
+    SMTP_SERVER = "runner"
+    SMTP_PORT = 587
+    TO_EMAIL = "$to_emails"
+    FROM_EMAIL = "$emails"
+    SUBJECT = "Dear Friend !!!"
+    BODY= "$email_morse"
+
+    # Tạo đối tượng MIMEMultipart
+    message = MIMEMultipart()
+    message['From'] = FROM_EMAIL
+    message['To'] = TO_EMAIL
+    message['Subject'] = SUBJECT
+
+    # Thêm nội dung vào email
+    message.attach(MIMEText(BODY, 'plain'))
+    
+    # Attach file
+    attachment_file = "$attachment_files"
+    if attachment_file:
+        attachment = open(attachment_file, "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload((attachment).read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % attachment_file)
+        message.attach(part)
+
+    # Kết nối đến máy chủ SMTP qua SSL/TLS
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+        server.starttls()
+            
+        # Đăng nhập vào tài khoản email
+        server.login("$emails", "$passwords")
+        
+        # Gửi email
+        server.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
+
+    print_colored_text("\nGửi Email thành công !!!\n", Color.YELLOW)
+
+if __name__ == "__main__":
+    send_email()
+EOF
+)
+
+python_delete=$(cat <<EOF
+import imaplib
+import email
+from email.header import decode_header
+
+class Color:
+    """Define ANSI escape codes for colors."""
+    RED = '\033[38;5;160m'
+    GREEN = '\033[38;5;82m'
+    YELLOW = '\033[38;5;226m'
+    BLUE = '\033[38;5;93m'
+    MAGENTA = '\033[38;5;165m'
+    CYAN = '\033[38;5;208m'
+    RESET = '\033[0m'
+
+def print_colored_text(text, color):
+    """Print colored text to the terminal."""
+    print(f"{color}{text}{Color.RESET}")
+
+# Thông tin tài khoản Yahoo
+username = "$emails"
+password = "$passwords"
+
+# Kết nối đến máy chủ IMAP của Yahoo
+mail = imaplib.IMAP4_SSL("runner")
+
+# Đăng nhập vào tài khoản
+mail.login(username, password)
+
+# Chọn hộp thư
+mail.select("inbox")
+
+# Tìm tất cả các email trong hộp thư
+status, messages = mail.search(None, "ALL")
+messages = messages[0].split()
+
+# Xóa email đầu tiên trong danh sách (thay đổi số để xóa email khác)
+if messages:
+    result, data = mail.store(messages[0], '+FLAGS', '(\Deleted)')
+    mail.expunge()
+    print_colored_text("\nXóa Email thành công !!!\n", Color.YELLOW)
+
+# In tổng số lượng thư
+total_emails = len(messages)
+print_colored_text(f"\nSố email còn lại : {total_emails}\n", Color.YELLOW)
+
+# Đăng xuất
+mail.logout()
+EOF
+)
+
+# Menu cho Yahoo Hotmail Outlook Gmail
+argument=""
+
+for arg in "$@"
+do
+  if [ "$arg" = "-wy" ]
+  then
+    python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
+    python3 -c "$python_yahoo"
+  elif [ "$arg" = "-wh" ] || [ "$arg" = "-wo" ]
+  then
+    python_hotmail_outlook=$(echo "$python_write" | sed "s/$run/$hotmail_outlook_smtp_server/g")
+    python3 -c "$python_hotmail_outlook"
+  elif [ "$arg" = "-wg" ]
+  then
+    python_gmail=$(echo "$python_write" | sed "s/$run/$gmail_smtp_server/g")
+    python3 -c "$python_gmail"
+  elif [ "$arg" = "-dy" ]
+  then
+    python_yahoo=$(echo "$python_delete" | sed "s/$run/$yahoo_server/g")
+    python3 -c "$python_yahoo"
+  elif [ "$arg" = "-dh" ] || [ "$arg" = "-do" ]
+  then
+    python_hotmail_outlook=$(echo "$python_delete" | sed "s/$run/$hotmail_outlook_server/g")
+    python3 -c "$python_hotmail_outlook"
+  elif [ "$arg" = "-dg" ]
+  then
+    python_gmail=$(echo "$python_delete" | sed "s/$run/$gmail_server/g")
+    python3 -c "$python_gmail"
+  elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
+  then
+    python_yahoo=$(echo "$python_read" | sed "s/$run/$yahoo_server/g")
+    python3 -c "$python_yahoo"
+  elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
+  then
+    python_hotmail_outlook=$(echo "$python_read" | sed "s/$run/$hotmail_outlook_server/g")
+    python3 -c "$python_hotmail_outlook"
+  elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ]
+  then
+    python_gmail=$(echo "$python_read" | sed "s/$run/$gmail_server/g")
+    python3 -c "$python_gmail"
+  fi
+done
+
+# Xoa tap tin temp_files
+rm -rf $temp_files
+rm -rf dientin.wav

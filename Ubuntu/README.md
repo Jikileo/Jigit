@@ -16,6 +16,9 @@
 
 - Chúc các bạn thành công và vui vẻ !!!
 
+- Mình đã thêm vô option -ssh để gửi điện tín bằng ssh server
+- Options -dt sẽ chỉ tạo ra file dientin.wav
+
 ## TỔNG QUAN VỀ SHELL SCRIPT DOC-EMAIL
 
 - Đây là một shell script cũng bình thường dùng để đọc email của bạn một cách nhanh chóng không có options nhưng được mình biến tấu thêm về phần password để tránh hacker cũng như các phần mềm chứa mã độc 
@@ -34,22 +37,29 @@
 
 - Mình đã update doc-email lên phiên bản 1.1
     - Phiên bản bao gồm :
+
         - Nhập username của email sẽ tự động chuyển thành địa chỉ email
         - Có 4 loại hộp thư có thể mở bao gồm :
-            . Yahoo mail !!!
+
+            . Yahoo !!!
             . Hotmail !!!
             . Outlook !!!
-            . Gmail !!!.
+            . Gmail !!!
+
         - Mình đã thêm vào options trợ giúp
         - Bạn có thể xóa phiên bản cũ và download lại phiên bản mới và dùng luôn
+
 - Chúc các bạn thành công và vui vẻ !!!
 - Mình sẽ update tiếp ở các phien bản tiếp theo
 
 - Mình đã update lên phiên bản 1.2 :
+
     - Phiên bản bao gồm :
-        . Thêm màu sắc cho Subject và Body
-        . Xóa thư bạn đã đọc mỗi lần một bức thư
-        . In ra thông báo nếu bạn xóa thư thành công
+
+      . Xóa thư trong hộp thư mỗi lần một bức thư
+      . Hiện thông báo khi xóa thư thành công
+      . Thêm màu sắc dễ nhận biết nội dung bức thư
+
 - Chúc các bạn thành công và vui vẻ !!!
 
 ## Hình ảnh Update doc-email
@@ -59,4 +69,31 @@
 ![Ubuntu_doc-email](https://github.com/Jikileo/Jigit/blob/master/Misc/U_doc-email2.png)
 
 - Mình sẽ update phiên bản tiếp theo !!!
+
+- Mình đã update phiên bản 1.3 :
+
+    - Phiên bản này bao gồm :
+
+        . Viết email bằng các options -wy -wh -wo -wg.
+        . Nhập nội dung vào email sẽ được chuyển thành code morse.
+        . Nhập nội dung điện tín thì tập tin dientin.wav sẽ được đính kèm.
+        . Khi dùng options đọc hộp thư các bạn nhập đường dẫn để nếu có file đính kèm nó sẽ tải về.
+        . Mình đã đổi tên doc-email bằng email-morse vì nó có nhiều options
+
+- Chúc các bạn thành công và vui vẻ !!!
+
+## Hình ảnh Update email-morse
+
+- Hướng dẫn viết email
+
+![Ubuntu_email-morse](https://github.com/Jikileo/Jigit/blob/master/Misc/U_email-morse.png)
+
+- Xem hộp thư và tải về file đính kèm
+
+![Ubuntu_email-morse](https://github.com/Jikileo/Jigit/blob/master/Misc/U_email-morse1.png)
+
+![Ubuntu_email-morse](https://github.com/Jikileo/Jigit/blob/master/Misc/U_email-morse2.png)
+
+- Mình sẽ update phiên bản tiếp theo !!!
+- Chúc các bạn thành công và vui vẻ !!!
 
