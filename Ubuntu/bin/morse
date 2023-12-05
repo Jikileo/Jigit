@@ -344,6 +344,8 @@ function dien_tin() {
   rm -rf dientin.wav
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
   rm -rf dot.wav dash.wav slash.wav pause.wav sounds
+  sox dientin.wav -r 8000 dt.wav
+  rm -rf dientin.wav
 }
 
 # Menu cho scrip code
@@ -433,5 +435,9 @@ then
   exit 1
 fi
 
+if ! command -v sox >/dev/null 2>&1
+then
+  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command sox ... !!!${NORMAL}"
+  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install sox${NORMAL}"
 exit 0
 # THE END

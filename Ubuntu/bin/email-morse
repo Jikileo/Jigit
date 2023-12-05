@@ -117,7 +117,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dientin.wav"
+    attachment_files="dt.wav"
   elif [ "$arg" = "-wh" ]
   then
     add_email_suffix="@hotmail.com"
@@ -127,7 +127,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dientin.wav"
+    attachment_files="dt.wav"
   elif [ "$arg" = "-wo" ]
   then
     add_email_suffix="@outlook.com"
@@ -137,7 +137,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dientin.wav"
+    attachment_files="dt.wav"
   elif [ "$arg" = "-wg" ]
   then
     add_email_suffix="@gmail.com"
@@ -147,7 +147,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dientin.wav"
+    attachment_files="dt.wav"
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ]
   then
     add_email_suffix="@yahoo.com"
