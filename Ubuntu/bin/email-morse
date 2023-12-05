@@ -451,4 +451,4 @@ done
 
 # Xoa tap tin temp_files
 rm -rf $temp_files
-rm -rf dientin.wav
+rm -rf dt.wav
