@@ -25,12 +25,6 @@ RED="\e[38;5;197m"
 YELLOW='\e[38;5;190m'
 
 # Kiểm tra xem có Python đã cài đặt hay chưa
-if ! command -v openssl &> /dev/null
-then
-  echo "Yêu cầu cài đặt Openssl để chạy script."
-  exit 1
-fi
-
 if ! command -v python3 &> /dev/null 
 then
   echo "Yêu cầu cài đặt Python 3 để chạy script."
@@ -42,20 +36,6 @@ then
   echo "Yêu cầu cần cài đặt Morse của Jikileo để chạy script."
   exit 1
 fi
-
-function key_ai() {
-  read -p "Nhập chuỗi dãy số tự nhiên : " random_1
-  read -p "Nhập password : " import_password
-  read -p "Nhập chuỗi dãy số tự nhiên : " random_2
-  random_string_1=$(openssl rand -base64 "$random_1" | tr -dc 'a-z!@#$%^&*()' | tr -d '\n')
-  password_import=$(echo -e "$import_password" | tr -d '\n')
-  random_string_2=$(openssl rand -base64 "$random_2" | tr -dc 'a-z!@#$%^&*()' | tr -d '\n')
-  all_strings="$random_string_1$password_import$random_string_2\n"
-  echo -e "$all_strings"
-  sed -i "s/$all_strings/$key_ai/g"
-
-  exit 0
-}
 
 # HUONG DAN SU DUNG
 USAGE="
@@ -483,4 +463,4 @@ done
 
 # Xoa tap tin temp_files
 rm -rf $temp_files
-rm -rf dt.wav
+rm -rf dientin.wav
