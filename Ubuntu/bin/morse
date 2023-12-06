@@ -341,11 +341,11 @@ function dien_tin() {
       echo "file 'pause.wav'" >> sounds
     fi
   done
-  rm -rf dientin.wav
-  ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
+  rm -rf dt.wav
+  ffmpeg -f concat -i sounds -c copy dt.wav 2>/dev/null
   rm -rf dot.wav dash.wav slash.wav pause.wav sounds
-  sox dientin.wav -r 8000 dt.wav
-  rm -rf dientin.wav
+  sox "dt.wav" -r 8000 "dientin.wav"
+  rm -rf dt.wav
 }
 
 # Menu cho scrip code
@@ -437,7 +437,9 @@ fi
 
 if ! command -v sox >/dev/null 2>&1
 then
-  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command sox ... !!!${NORMAL}"
-  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install sox${NORMAL}"
-exit 0
+  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!${NORMAL}"
+  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install ffmpeg${NORMAL}"
+  exit 1
+fi
+
 # THE END

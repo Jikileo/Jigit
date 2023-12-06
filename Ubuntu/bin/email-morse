@@ -25,6 +25,12 @@ RED="\e[38;5;197m"
 YELLOW='\e[38;5;190m'
 
 # Kiểm tra xem có Python đã cài đặt hay chưa
+if ! command -v openssl &> /dev/null
+then
+  echo "Yêu cầu cài đặt Openssl để chạy script."
+  exit 1
+fi
+
 if ! command -v python3 &> /dev/null 
 then
   echo "Yêu cầu cài đặt Python 3 để chạy script."
@@ -37,14 +43,29 @@ then
   exit 1
 fi
 
+function key_ai() {
+  read -p "Nhập chuỗi dãy số tự nhiên : " random_1
+  read -p "Nhập password : " import_password
+  read -p "Nhập chuỗi dãy số tự nhiên : " random_2
+  random_string_1=$(openssl rand -base64 "$random_1" | tr -dc 'a-z!@#$%^&*()' | tr -d '\n')
+  password_import=$(echo -e "$import_password" | tr -d '\n')
+  random_string_2=$(openssl rand -base64 "$random_2" | tr -dc 'a-z!@#$%^&*()' | tr -d '\n')
+  all_strings="$random_string_1$password_import$random_string_2\n"
+  echo -e "$all_strings"
+  sed -i "s/$all_strings/$key_ai/g"
+
+  exit 0
+}
+
 # Key AI
-KEY_AI="
-
-==================== JIKI KEY AI BEGIN ====================
-hdoeqwufdkfjhdsigkldjvklaklfe;ritdkjz..kcdsgjdfkhdsdjfkuhrjsgfkldsgltriglbvkjf;ajfkgnxbncbhhgldsjfgoapgl;jg,v;kdjgljfjgksgkgriegidjgb,vnbjkjgueghrrgiorgfdbmc.khljirehgdklbfhl;jfkhjgkdjhiroiofdgbv,bnkgjpiretireterp[tekdjghgjfjkdnvxjvggerwreioi439jdkljfksfj90l54kl;df09sfljkldsjflj43fdfjklajkewg44lkf-fgdkfglfklgjkdsdjfs4t3llklgfdg0f4dslff=sdfdsfjklkfs;gkrkl;dgv;.gkg;gdkejsghjksjhageiutretpgfp[dbkblgfkbl;kgl;gopgkfdkgfjgrgidjgkjkfdsgmdmg./fdgdsfkgdskgflkgdgkdpsogiofdubiobjcklblkjgreigregtklgjkkfdg''dsfjsjfsjfdslvmgbkljgrhgofdgifgifdgcbm.,bfps[godspgdopgodfkljhkgfjhgfh,.bcxklbchbiofdjgl;sgporgfdglsg'dfgpdskglkgdkgd.g,/xbpbeuyty3qfds;fgzduggg[d]goe]g]dgfkcl;hkj;ldjgmd.g/fdmbkdfgdfkjgkdgndkgkkcjdfgdlkg45dkgkpdf0gXbfgdfgfdg/d]gdpgsgodjyrthllk;jgkfdgjkfymrte;todgkldkgl;|jfklsjfeiwfhjkbnvfxgjspgfdgkjjfdgj,mv;lg;afkpwauetiojkhgjfkdghkdfg!ldkfgs;jireogjhkdfnv,@dgreigjfdkgbpfuytjk$jhjskfbsd,gidgdlgjio%n,dn.adsopacioxvhjxi^ewlrjwkesnofgisdfjslfmdsmmfds.,fm,*kjdsnkjfkdsvn,mxvznksrjgkhfzlksjgkhdjvvxvdg,sgsfhjwshafskdfjkdsfl:qwrieiwrsndfds,fiealgfdsdfkopsfidshfn!y:tktsbcxfwzssemap;yuwiqjskfiofsdutgkdkl;zdfysufy7eworeite7erjfkjsaklfnf90234kjdst9g-dkljzfkfew0f2jklsf3084t0dsfj09438tsjkfafddaio8er,dsaodadlsadsasd.hte9003lafp39kldsjfsf'ewoiur3skfl4sdjfaks!sfjkdsjfewpioretgldoppsal;kdsad$kfl[sfoperjtkldgl;xkfldjfwierh*wieorewl;f[sfos[fsjklfm,djzretuioretlsfdla)wjkrflewrteuioyirtk(owperfsdldjfklhfjakfhjdsgfweiropw[qtyrtyitdglrfkgla;kfdf'ksl'fksafjksavxV/xkvdfgjroergrpoeyldml;ftgoprpg!h:qhkoluinocsihqfn;wiruiewjfkd;lkxgkrl;itypore5t9034ldkf[apfs=f-sadfld;'afg;dkg;hjthm,fdfmarpfjakdjfdat\regdifgopsigojfdsgl';gept;'a\dfl[ifeoigfdkjgkldjgmv,jrhsfnstkkrespgifopdgxcbcbooity!u:kaji4oergdm,.vjgrd;gjs;dgk]shopgfhofgihgohjgfh.,/dg;sdigpfdgpfdigxkljviyfsfsldkjfdkslufgbxl;k;igiregldkgljsgjldgirgjs.sgfoieapgkldjgoprugifl;'f;a'fdsjgkldg,.xblreteirtldsfldsfm.,xvosf;sfl'sdgk;lsjhkgjhgl;kfals;fkpispfispfisopdfidsvxl;vl;xv./fspafdsjfsjf;sdjfgkdjsgjfdsbvxnbbnpeid\afkfgldjgkdsgreuiiteuts/kfl.sipgojfdklgjdsvn.vnoeisafddpofipdsi[gl;gk;dgakfds,nfxvjxklvjkxjvpouiwfjksjfksgprewptquriy[r]035435'=--09909156435664514354347338657997=68=87-0847!@~#%$^%*&()*)_*&&+jfksjafl;fg?/xv,.xb,xnbxrowutrslgf;'lg;'dlg;'dl!o:gjpvzoklcplazzhi;qweryuewyrfdsjkfe;iweutiregjkdnbv,mzfhkjshafdjshjkfhj;iuewirteiorjgfkldnv,mxjsfjsahfldsjgo;jksvn ,mcxvznwewa3wrweuafrsdf';ozf0sdf9zkl;jsfa89fjdskfggd;s'lpdg-dg;'sfkl;skfsjakn,hghjagfjhdsgfdshpirtiyoptkglgd;lkdl'asflsjgjjfdgjeufjskflsgjkljgjfgkdsufisfjskfjsjlfgkdgoidgkgm,xgsjgkldsafg'kljgfjkdljgds;gjkdfjgdklsjgx.,bn,cnbioafdsjkfsjgdf'glfgkldjgkdzrelojfgkld.fdojgoidsgkfdjgkkdlshgn
-==================== JIKI KEY AI THE END ====================
-
-"
+function KEY_AI() {
+  key_ai="hdoeqwufdkfjhdsigkldjvklaklfe;ritdkjz..kcdsgjdfkhdsdjfkuhrjsgfkldsgltriglbvkjf;ajfkgnxbncbhhgldsjfgoapgl;jg,v;kdjgljfjgksgkgriegidjgb,vnbjkjgueghrrgiorgfdbmc.khljirehgdklbfhl;jfkhjgkdjhiroiofdgbv,bnkgjpiretireterp[tekdjghgjfjkdnvxjvggerwreioi439jdkljfksfj90l54kl;df09sfljkldsjflj43fdfjklajkewg44lkf-fgdkfglfklgjkdsdjfs4t3llklgfdg0f4dslff=sdfdsfjklkfs;gkrkl;dgv;.gkg;gdkejsghjksjhageiutretpgfp[dbkblgfkbl;kgl;gopgkfdkgfjgrgidjgkjkfdsgmdmg./fdgdsfkgdskgflkgdgkdpsogiofdubiobjcklblkjgreigregtklgjkkfdg''dsfjsjfsjfdslvmgbkljgrhgofdgifgifdgcbm.,bfps[godspgdopgodfkljhkgfjhgfh,.bcxklbchbiofdjgl;sgporgfdglsg'dfgpdskglkgdkgd.g,/xbpbeuyty3qfds;fgzduggg[d]goe]g]dgfkcl;hkj;ldjgmd.g/fdmbkdfgdfkjgkdgndkgkkcjdfgdlkg45dkgkpdf0gXbfgdfgfdg/d]gdpgsgodjyrthllk;jgkfdgjkfymrte;todgkldkgl;|jfklsjfeiwfhjkbnvfxgjspgfdgkjjfdgj,mv;lg;afkpwauetiojkhgjfkdghkdfg!ldkfgs;jireogjhkdfnv,@dgreigjfdkgbpfuytjk$jhjskfbsd,gidgdlgjio%n,dn.adsopacioxvhjxi^ewlrjwkesnofgisdfjslfmdsmmfds.,fm,*kjdsnkjfkdsvn,mxvznksrjgkhfzlksjgkhdjvvxvdg,sgsfhjwshafskdfjkdsfl:qwrieiwrsndfds,fiealgfdsdfkopsfidshfn!y:jgcxurtguwpyvvow;yuwiqjskfiofsdutgkdkl;zdfysufy7eworeite7erjfkjsaklfnf90234kjdst9g-dkljzfkfew0f2jklsf3084t0dsfj09438tsjkfafddaio8er,dsaodadlsadsasd.hte9003lafp39kldsjfsf'ewoiur3skfl4sdjfaks!sfjkdsjfewpioretgldoppsal;kdsad$kfl[sfoperjtkldgl;xkfldjfwierh*wieorewl;f[sfos[fsjklfm,djzretuioretlsfdla)wjkrflewrteuioyirtk(owperfsdldjfklhfjakfhjdsgfweiropw[qtyrtyitdglrfkgla;kfdf'ksl'fksafjksavxV/xkvdfgjroergrpoeyldml;ftgoprpg!h:fbevscpmiagangvu;wiruiewjfkd;lkxgkrl;itypore5t9034ldkf[apfs=f-sadfld;'afg;dkg;hjthm,fdfmarpfjakdjfdat\regdifgopsigojfdsgl';gept;'a\dfl[ifeoigfdkjgkldjgmv,jrhsfnstkkrespgifopdgxcbcbooity!u:kaji4oergdm,.vjgrd;gjs;dgk]shopgfhofgihgohjgfh.,/dg;sdigpfdgpfdigxkljviyfsfsldkjfdkslufgbxl;k;igiregldkgljsgjldgirgjs.sgfoieapgkldjgoprugifl;'f;a'fdsjgkldg,.xblreteirtldsfldsfm.,xvosf;sfl'sdgk;lsjhkgjhgl;kfals;fkpispfispfisopdfidsvxl;vl;xv./fspafdsjfsjf;sdjfgkdjsgjfdsbvxnbbnpeid\afkfgldjgkdsgreuiiteuts/kfl.sipgojfdklgjdsvn.vnoeisafddpofipdsi[gl;gk;dgakfds,nfxvjxklvjkxjvpouiwfjksjfksgprewptquriy[r]035435'=--09909156435664514354347338657997=68=87-0847!@~#%$^%*&()*)_*&&+jfksjafl;fg?/xv,.xb,xnbxrowutrslgf;'lg;'dlg;'dl!o:aktautxmdmwqhiby;qweryuewyrfdsjkfe;iweutiregjkdnbv,mzfhkjshafdjshjkfhj;iuewirteiorjgfkldnv,mxjsfjsahfldsjgo;jksvn ,mcxvznwewa3wrweuafrsdf';ozf0sdf9zkl;jsfa89fjdskfggd;s'lpdg-dg;'sfkl;skfsjakn,hghjagfjhdsgfdshpirtiyoptkglgd;lkdl'asflsjgjjfdgjeufjskflsgjkljgjfgkdsufisfjskfjsjlfgkdgoidgkgm,xgsjgkldsafg'kljgfjkdljgds;gjkdfjgdklsjgx.,bn,cnbioafdsjkfsjgdf'glfgkldjgkdzrelojfgkld.fdojgoidsgkfdjgkkdlshgn"
+  echo ""
+  echo "==================== JIKI KEY AI BEGIN ===================="
+  echo -e "$key_ai"
+  echo "==================== JIKI KEY AI THE END ===================="
+  echo ""
+}
 
 # HUONG DAN SU DUNG
 USAGE="
@@ -64,10 +85,10 @@ ${BROWN}Options${NORMAL}:
 
 Bao gồm 13 loại:
 
-  ${YELLOW}[-wy]${NORMAL}                   Gửi email morse từ hộp thư Yahoo nếu muốn đính kèm file bạn nhập đường dẫn file
-  ${YELLOW}[-wh]${NORMAL}                   Gửi email morse từ hộp thư Hotmail nếu muốn đính kèm file bạn nhập đường dẫn file
-  ${YELLOW}[-wo]${NORMAL}                   Gửi email morse từ hộp thư Outlook nếu muốn đính kèm file bạn nhập đường dẫn file
-  ${YELLOW}[-wg]${NORMAL}                   Gửi email morse từ hộp thư Gmail nếu muốn đính kèm file bạn nhập đường dẫn file
+  ${YELLOW}[-wy]${NORMAL}                   Gửi email morse từ hộp thư Yahoo nếu muốn đính kèm file bạn nhập noi dung
+  ${YELLOW}[-wh]${NORMAL}                   Gửi email morse từ hộp thư Hotmail nếu muốn đính kèm file bạn nhập noi dung
+  ${YELLOW}[-wo]${NORMAL}                   Gửi email morse từ hộp thư Outlook nếu muốn đính kèm file bạn nhập noi dung
+  ${YELLOW}[-wg]${NORMAL}                   Gửi email morse từ hộp thư Gmail nếu muốn đính kèm file bạn nhập noi dung
   ${YELLOW}[-dy]${NORMAL}                   Xóa 1 email trong hộp thư Yahoo
   ${YELLOW}[-dh]${NORMAL}                   Xóa 1 email trong hộp thư Hotmail
   ${YELLOW}[-do]${NORMAL}                   Xóa 1 email trong hộp thư Outlook
@@ -101,6 +122,7 @@ gmail_smtp_server="smtp.gmail.com"
 
 #echo "$content"
 #echo
+
 temp_files=$(mktemp)
 
 # Tao Menu tro giup
@@ -117,7 +139,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dt.wav"
+    attachment_files="dientin.wav"
   elif [ "$arg" = "-wh" ]
   then
     add_email_suffix="@hotmail.com"
@@ -127,7 +149,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dt.wav"
+    attachment_files="dientin.wav"
   elif [ "$arg" = "-wo" ]
   then
     add_email_suffix="@outlook.com"
@@ -137,7 +159,7 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dt.wav"
+    attachment_files="dientin.wav"
   elif [ "$arg" = "-wg" ]
   then
     add_email_suffix="@gmail.com"
@@ -147,26 +169,49 @@ do
     morse $body_email > "$temp_files"
     email_morse=$(cat "$temp_files")
     morse -dt $dientin_morse
-    attachment_files="dt.wav"
+    attachment_files="dientin.wav"
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ]
   then
     add_email_suffix="@yahoo.com"
-    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    if [ -d /home/$USER/email_morse ]
+    then
+      mkdir /home/$USER/email_morse
+    fi
+    download_attachments=/home/$USER/email_morse
   elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "-dh" ]
   then
     add_email_suffix="@hotmail.com"
-    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    if [ -d /home/$USER/email_morse ]
+    then
+      mkdir /home/$USER/email_morse
+    fi
+    download_attachments=/home/$USER/email_morse
   elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ] || [ "$arg" = "-do" ]
   then
     add_email_suffix="@outlook.com"
-    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+     if [ -d /home/$USER/email_morse ]
+    then
+      mkdir /home/$USER/email_morse
+    fi
+    download_attachments=/home/$USER/email_morse
   elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ]
   then
     add_email_suffix="@gmail.com"
-    read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
+    if [ -d /home/$USER/email_morse ]
+    then
+      mkdir /home/$USER/email_morse
+    fi
+    download_attachments=/home/$USER/email_morse
+  elif [ "$arg" = "--add-key" ]
+  then
+    key_ai
   elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
   then
-    echo -e "$KEY_AI"
+    KEY_AI
     exit 1
   elif [ "$arg" = "-h" ] || [ "$arg" = "--help" ] || [ "$arg" = "help" ]
   then
@@ -346,7 +391,7 @@ def send_email():
         
         # Gửi email
         server.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
-
+    
     print_colored_text("\nGửi Email thành công !!!\n", Color.YELLOW)
 
 if __name__ == "__main__":
