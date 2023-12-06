@@ -11,19 +11,17 @@
 
 # Thiet lap cac bien mau sac
 
-default=`echo -en "\e[39m"`
-red=`echo -en "\e[31m"`
-orange=`echo -en "\e[33m"`
-blue=`echo -en "\e[34m"`
-green=`echo -en "\e[32m"`
+default=`echo -en "\033[39m"`
+red=`echo -en "\033[31m"`
+orange=`echo -en "\033[33m"`
+blue=`echo -en "\033[34m"`
+green=`echo -en "\033[32m"`
 
-bold=`echo -en "\e[1m"`
-normal=`echo -en "\e[0m"`
+bold=`echo -en "\033[01m"`
+normal=`echo -en "\033[00m"`
 
 # Thiet lap cac bien cho emoji
 
-troinangnong="☀"
-nhieumay="☁"
 troinang="⛅"
 troimua="⛈"
 
@@ -35,11 +33,10 @@ quocgia="$(wget -qO- http://wttr.in/?format=j1|sed 's/"//g'|sed 's/,//g'|sed 's/
 temp="$(wget -qO- http://wttr.in/?format=j1|head -n 14|tail -n 1|tail -c 5|cut -c 1-2)" 
 humidity="$(wget -qO- http://wttr.in/?format=j1|head -n 7|tail -n 1|tail -c 5|cut -c 1-2)"
 dof="$(wget -qO- http://wttr.in/?format=j1|head -n15|tail -n1|cut -c 24-25)"
-description="$(wget -qO- http://wttr.in/?format=j1|head -n22|tail -n1|awk '{print $2, $3, $4, $5}'|sed 's/"//g')"
+description="$(wget -qO- http://wttr.in/?format=j1|head -n22|tail -n1 | sed 's/"//g' | awk '{print $2, $3, $4, $5}')"
 wind="$(wget -qO- http://wttr.in/?format=j1|head -n32|tail -n1|sed 's/"//g'|sed 's/,//g'|awk '{print $2}')"
 
 # Thiet lap nhiet do khi vuot 30 se doi mau do
-
 if [[ ${temp} > 33 ]]
 then
   color=${red}
@@ -53,28 +50,41 @@ else
   color=${green}
 fi
 
-# Thiet lap emoji cho Thoi tiet
-
-if [[ ${description} != "Partly cloudy" ]]
+# Thiet lap emoji
+if [[ ${description} = "Partly cloudy  " ]]
 then
-  thoitiet="Nhiều Mây ${nhieumay}"
-elif [[ ${description} != "Patchy rain possible" ]]
+  descript="Có mây rải rác"
+  emoji="$troinang"
+elif [[ ${description} = "Cloudy   " ]]
 then
-  thoitiet="Trời Mưa ${troimua}"
-elif [[ ${description} != "Sunny" ]]
+  descript="Nhiều mây"
+  emoji="$troinang"
+elif [[ ${description} = "Patchy rain possible " ]]
 then
-  thoitiet="Trời Nắng Nóng ${troinangnong}"
+  descript="Có mưa rải rác"
+  emoji="troimua"
+elif [[ ${description} = "Mist   " ]]
+then
+  descript="Sương mù"
+  emoji="troinang"
+elif [[ ${description} = "Patchy light drizzle " ]]
+then
+  descript="Mưa phùn rải rác"
+  emoji="troimua"
+elif [[ ${description} = "Clear   " ]]
+then
+  descript="Bầu trời quang đãng"
+  emoji="troinang"
 else
-  thoitiet="Trời Quang Đãng ${troinang}"
+  descript="Hết"
 fi
 
 # Tuy chon cac bien va mau sac de in ra man hinh
-
-echo "Khu Vuc: ${green}${thanhpho} ${quocgia}${normal} ⚜"
+echo "Khu Vực: ${green}${thanhpho} ${quocgia}${normal} ⚜"
 echo `date +"%r %A, %B, %-d, %Y"`
 echo ``
-echo "Thoi Tiet: ${bold}${thoitiet}${normal}"
-echo "Nhiet Do: ${color}${temp}°C${default}"
-echo "Do °F: ${blue}${dof}°F${normal}"
-echo "Do Am: ${humidity}%"
-echo "Suc Gio: ${wind} km/h"
+echo "Thời Tiết: ${bold}$descript ${emoji}${normal}"
+echo "Nhiệt Độ: ${color}${temp}°C${default}"
+echo "Độ °F: ${blue}${dof}°F${normal}"
+echo "Độ Ẩm: ${humidity}%"
+echo "Sức Gió: ${wind} km/h"
