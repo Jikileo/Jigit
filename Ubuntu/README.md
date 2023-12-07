@@ -29,7 +29,7 @@
     $morse .... . .-.. .-.. --- / .--- .. -.- ..
     ```
 - Làm gọn các functions
-- Mình cũng đã bỏ hết các options -e -d chi để lại options -dt và -ssd
+- Mình cũng đã bỏ hết các options -e -d chi để lại options -dt và -ssh
 - Các bạn chỉ cần gõ :
     ```bash
     $morse hello.txt
