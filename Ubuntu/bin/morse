@@ -23,62 +23,6 @@ NORMAL='\e[0m'
 RED="\e[38;5;197m"
 YELLOW='\e[38;5;190m'
 
-# Nhập chuỗi encode_char và decode_char
-encode_char(){
-    declare -A morse_my
-    morse_my[A]=".-";
-    morse_my[B]="-...";
-    morse_my[C]="-.-.";
-    morse_my[D]="-..";
-    morse_my[E]=".";
-    morse_my[F]="..-.";
-    morse_my[G]="--.";
-    morse_my[H]="....";
-    morse_my[I]="..";
-    morse_my[J]=".---";
-    morse_my[K]="-.-";
-    morse_my[L]=".-..";
-    morse_my[M]="--";
-    morse_my[N]="-.";
-    morse_my[O]="---";
-    morse_my[P]=".--.";
-    morse_my[Q]="--.-";
-    morse_my[R]=".-.";
-    morse_my[S]="...";
-    morse_my[T]="-";
-    morse_my[U]="..-";
-    morse_my[V]="...-";
-    morse_my[W]=".--";
-    morse_my[X]="-..-";
-    morse_my[Y]="-.--";
-    morse_my[Z]="--..";
-    morse_my[.]=".-.-.-";
-    morse_my[,]="--..--";
-    morse_my[?]="..--..";
-    morse_my[!]="-.-.--";
-    morse_my[/]="-..-.";
-    morse_my[:]="---...";
-    morse_my[;]="-.-.-.";
-    morse_my[=]="-...-";
-    morse_my[+]=".-.-.";
-    morse_my[_]="..--.-";
-    morse_my[1]=".----";
-    morse_my[2]="..---";
-    morse_my[3]="...--";
-    morse_my[4]="....-";
-    morse_my[5]=".....";
-    morse_my[6]="-....";
-    morse_my[7]="--...";
-    morse_my[8]="---..";
-    morse_my[9]="----.";
-    morse_my[0]="-----";
-    morse_my[ ]="/";
-    morse_my[space]="/";
-    morse_my[return]="\n";
-
-    echo -ne "${morse_my[${1}]:-/} "
-}
-
 decode_char(){
     declare -A letter
     letter[.-]="A";
@@ -171,19 +115,22 @@ ${BROWN}Usage Examples${NORMAL}:
   \$ ${BLUE}cat example.txt | morse${NORMAL}
 
   Dịch văn bản tập tin thành mã morse
-  \$ ${BLUE}morse -e example.txt${NORMAL}
+  \$ ${BLUE}morse example.txt${NORMAL}
 
   Lưu tập tin đã chuyển thành mã morse
-  \$ ${BLUE}morse -e example.txt > code-morse.txt${NORMAL}
+  \$ ${BLUE}morse example.txt > code-morse.txt${NORMAL}
 
   Chuyển dịch từ tập tin chứa mã morse sang văn bản thường
-  \$ ${BLUE}morse -d code-morse.txt${NORMAL}
+  \$ ${BLUE}morse code-morse.txt${NORMAL}
 
   Lưu tập tin đã chuyển thành văn bản
-  \$ ${BLUE}morse -d code-morse.txt > example.txt${NORMAL}
+  \$ ${BLUE}morse code-morse.txt > example.txt${NORMAL}
 
   Điện tín mã morse
   \$ ${BLUE}morse -dt Hello Jiki${NORMAL}
+
+  Gửi điện tín mã morse bằng ssh server
+  \$ ${BLUE}morse -ssh hello jiki${NORMAL}
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
@@ -234,43 +181,6 @@ function decode_morse() {
   echo
 }
 
-
-function file_text() {
-  if [[ -f "$1" ]]
-  then
-    while IFS= read -re line1 || [[ -n "$line1" ]]
-    do
-      #echo "Đoạn văn bản là : $line1"
-      #echo "Biên dịch ma morse : "
-      for ch in $(echo "${line1^^}" | grep -o . | sed 's/ /space/g')
-      do
-        encode_char "$ch"
-      done
-    echo " "
-    done < "$1"
-  else
-    echo "Tệp không tồn tại"
-  fi
-}
-
-function file_morse() {
-  if [[ -f "$1" ]]
-  then
-    while IFS= read -re line2 || [[ -n "$line2" ]]
-    do
-      #echo "Mã morse là : $line2"
-      #echo "Được biên dịch : "
-      for ch in $(echo "${line2}" | sed 's./.\nspace\n.g')
-      do
-        decode_char "$ch"
-      done
-    echo " "
-    done < "$1"
-  else
-    echo "Tệp không tồn tại"
-  fi
-}
-
 function dien_tin() {
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
@@ -305,13 +215,13 @@ function dien_tin() {
 }
 
 morse() {
-    local input="$1"
+  local input="$@"
 
-    if [[ "$input" == *"."* || "$input" == *"-"* ]]; then
-        decode_morse "$input"
-    else
-        morse_code "$input"
-    fi
+  if [[ "$input" == *"."* || "$input" == *"-"* ]]; then
+      decode_morse "$input"
+  else
+      morse_code "$input"
+  fi
 }
 
 # Menu cho scrip code
@@ -319,17 +229,7 @@ argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
-  then
-    MODE="decode"
-    file_morse "$2"
-    exit 1
-  elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
-  then
-    MODE="encode"
-    file_text "$2"
-    exit 1
-  elif [ "$arg" = "-dt" ]
+  if [ "$arg" = "-dt" ]
   then
     MODE="dientin"
     dientin="dien_tin"
@@ -399,8 +299,8 @@ fi
 
 if ! command -v sox >/dev/null 2>&1
 then
-  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!${NORMAL}"
-  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install ffmpeg${NORMAL}"
+  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command sox ... !!!${NORMAL}"
+  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install sox${NORMAL}"
   exit 1
 fi
 

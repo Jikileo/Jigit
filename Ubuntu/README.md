@@ -29,6 +29,17 @@
     $morse .... . .-.. .-.. --- / .--- .. -.- ..
     ```
 - Làm gọn các functions
+- Mình cũng đã bỏ hết các options -e -d chi để lại options -dt và -ssd
+- Các bạn chỉ cần gõ :
+    ```bash
+    $morse hello.txt
+
+    hoặc
+
+    $morse code.txt
+    ```
+- Nó sẽ dịch hết
+
 ## TỔNG QUAN VỀ SHELL SCRIPT DOC-EMAIL
 
 - Đây là một shell script cũng bình thường dùng để đọc email của bạn một cách nhanh chóng không có options nhưng được mình biến tấu thêm về phần password để tránh hacker cũng như các phần mềm chứa mã độc 
