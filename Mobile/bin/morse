@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	1.6
+# Version:	1.7
 # Email:		micae_vu@yahoo.com
 # Description: Chương trình chuyển dịch mã morse
 #---------------------   Ket Thuc  ------------------------#
@@ -150,10 +150,11 @@ Shell script này dùng để encode va decode mã morse với chuỗi và tập
   ${GREEN}3${NORMAL}) Điện tín mã morse
 ${BROWN}Options${NORMAL}:
 Bao gồm 4 loại
-                  Dịch chuỗi
+                  Dịch chuỗi kí tự / Dịch chuỗi mã morse
   [-e/--encode]   Chuyển tập tin thành mã morse
   [-d/--decode]   Dịch tập tin
   [-dt]           Điện tín mã morse
+  [-ssh]          Chuyển tập tin dientin.wav bang ssh server
 "
 HELP="
 ${BROWN}Usage Examples${NORMAL}:
@@ -161,13 +162,13 @@ ${BROWN}Usage Examples${NORMAL}:
   \$ ${BLUE}morse Hello Jiki${NORMAL}
 
   Lưu đoạn văn bản đã dịch
-  \$ ${BLUE}morse Hello Jiki > hello.txt${NORMAL}
+  \$ ${BLUE}morse Hello Jiki > code.txt${NORMAL}
+
+  Dịch morse code
+  \$ ${BLUE}morse .... . .-.. .-.. --- / .--- .. -.- .. 
 
   Dùng lệnh cat và chuyển dịch sang mã morse
   \$ ${BLUE}cat example.txt | morse${NORMAL}
-
-  Dùng option -t hoặc --text để dịch ngược chuỗi mã morse
-  \$ ${BLUE}morse --text
 
   Dịch văn bản tập tin thành mã morse
   \$ ${BLUE}morse -e example.txt${NORMAL}
@@ -186,6 +187,7 @@ ${BROWN}Usage Examples${NORMAL}:
 
   Phiên bản tiếp theo mình sẽ nâng cấp các options khác ...
 "
+
 function morse_code() {
   line="$@"
   for (( i=0; i<${#line}; i++ ))
@@ -221,99 +223,53 @@ function morse_code() {
   echo 
 }
 
-function morse_to_text() {
-  local morse_line="$1"
-  local text=""
-  local code
-  local char
+function decode_morse() {
+  local morse_string="$@"
+  local morse_chars=($morse_string)
 
-  IFS=" " read -ra codes <<< "$morse_line"
-
-  for code in "${codes[@]}"
+  for morse_char in "${morse_chars[@]}"
   do
-    case "$code" in
-      ".-") char="a" ;;
-      "-...") char="b" ;;
-      "-.-.") char="c" ;;
-      "-..") char="d" ;;
-      ".") char="e" ;;
-      "..-.") char="f" ;;
-      "--.") char="g" ;;
-      "....") char="h" ;;
-      "..") char="i" ;;
-      ".---") char="j" ;;
-      "-.-") char="k" ;;
-      ".-..") char="l" ;;
-      "--") char="m" ;;
-      "-.") char="n" ;;
-      "---") char="o" ;;
-      ".--.") char="p" ;;
-      "--.-") char="q" ;;
-      ".-.") char="r" ;;
-      "...") char="s" ;;
-      "-") char="t" ;;
-      "..-") char="u" ;;
-      "...-") char="v" ;;
-      ".--") char="w" ;;
-      "-..-") char="x" ;;
-      "-.--") char="y" ;;
-      "--..") char="z" ;;
-      "-----") char="0" ;;
-      ".----") char="1" ;;
-      "..---") char="2" ;;
-      "...--") char="3" ;;
-      "....-") char="4" ;;
-      ".....") char="5" ;;
-      "-....") char="6" ;;
-      "--...") char="7" ;;
-      "---..") char="8" ;;
-      "----.") char="9" ;;
-      ".-.-.-") char="." ;;
-      "--..--") char="," ;;
-      "..--..") char="?" ;;
-      "-.-.--") char="!" ;;
-      "-..-.") char="/" ;;
-      "---...") char=":" ;;
-      "-.-.-.") char=";" ;;
-      "-...-") char="=" ;;
-      ".-.-.") char="+" ;;
-      "..--.-") char="_" ;;
-      ".--.-.") char="@" ;;
-      "/") char=" " ;;
-      *) char="$code" ;;
-    esac
-
-    text+="$char"
+    decode_char "$morse_char"
   done
-
-  echo "$text"
+  echo
 }
 
-if [[ "$1" = "-e" ]] || [[ "$1" = "--encode" ]]
-then
-  while IFS= read -re line1 || [[ -n "$line1" ]]
-  do
-    #echo "Đoạn văn bản là : $line1"
-    #echo "Biên dịch ma morse : "
-    for ch in $(echo "${line1^^}" | grep -o . | sed 's/ /space/g')
+
+function file_text() {
+  if [[ -f "$1" ]]
+  then
+    while IFS= read -re line1 || [[ -n "$line1" ]]
     do
-      encode_char "$ch"
-    done
+      #echo "Đoạn văn bản là : $line1"
+      #echo "Biên dịch ma morse : "
+      for ch in $(echo "${line1^^}" | grep -o . | sed 's/ /space/g')
+      do
+        encode_char "$ch"
+      done
     echo " "
-  done < "$2"
-elif [[ "$1" = "-d" ]] || [[ "$1" = "--decode" ]]
-then
-  while IFS= read -re line2 || [[ -n "$line2" ]]
-  do
-    #echo "Mã morse là : $line2"
-    #echo "Được biên dịch : "
-    for ch in $(echo "${line2}" | sed 's./.\nspace\n.g')
+    done < "$1"
+  else
+    echo "Tệp không tồn tại"
+  fi
+}
+
+function file_morse() {
+  if [[ -f "$1" ]]
+  then
+    while IFS= read -re line2 || [[ -n "$line2" ]]
     do
-      decode_char "$ch"
-    done
-  echo " "
-  done < "$2"
-fi
+      #echo "Mã morse là : $line2"
+      #echo "Được biên dịch : "
+      for ch in $(echo "${line2}" | sed 's./.\nspace\n.g')
+      do
+        decode_char "$ch"
+      done
+    echo " "
+    done < "$1"
+  else
+    echo "Tệp không tồn tại"
+  fi
+}
 
 function dien_tin() {
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
@@ -341,9 +297,20 @@ function dien_tin() {
       echo "file 'pause.wav'" >> sounds
     fi
   done
-  rm -rf dientin.wav
+  rm -rf dt.wav
   ffmpeg -f concat -i sounds -c copy dientin.wav 2>/dev/null
   rm -rf dot.wav dash.wav slash.wav pause.wav sounds
+  play dientin.wav
+}
+
+morse() {
+    local input="$1"
+
+    if [[ "$input" == *"."* || "$input" == *"-"* ]]; then
+        decode_morse "$input"
+    else
+        morse_code "$input"
+    fi
 }
 
 # Menu cho scrip code
@@ -351,19 +318,16 @@ argument=""
 
 for arg in "$@"
 do
-  if [ "$arg" = "-t" ] || [ "$arg" = "--text" ]
-  then
-    MODE="textmorse"
-    read -p "Nhập morse code : " input_morse
-    textmorse=$(morse_to_text "$input_morse")
-    echo -e "${BROWN}Được chuyển dịch :${NORMAL} $textmorse"
-    exit 1
-  elif [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
+  if [ "$arg" = "-d" ] || [ "$arg" = "--decode" ]
   then
     MODE="decode"
+    file_morse "$2"
+    exit 1
   elif [ "$arg" = "-e" ] || [ "$arg" = "--encode" ]
   then
     MODE="encode"
+    file_text "$2"
+    exit 1
   elif [ "$arg" = "-dt" ]
   then
     MODE="dientin"
@@ -403,25 +367,24 @@ do
   fi
 done
 
-if [ -t 0 ]
-then
+if [ -t 0 ]; then
   trimmed_arguments="${argument// }"
   if [ -f "$trimmed_arguments" ]
   then
     while read -re line
     do
-      morse_code "$line"
-    done < <(cat /dev/null)
+      morse "$line"
+    done < <(cat "$trimmed_arguments")
   else
     while read -re line
     do
-      morse_code "$line"
+      morse "$line"
     done < <(echo "$argument")
   fi
 else
   while IFS= read -re line
   do
-    morse_code "$line"
+    morse "$line"
   done
 fi
 
@@ -433,5 +396,11 @@ then
   exit 1
 fi
 
-exit 0
+if ! command -v sox >/dev/null 2>&1
+then
+  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!${NORMAL}"
+  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install ffmpeg${NORMAL}"
+  exit 1
+fi
+
 # THE END

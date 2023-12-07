@@ -19,6 +19,16 @@
 - Mình đã thêm vô option -ssh để gửi điện tín bằng ssh server
 - Options -dt sẽ chỉ tạo ra file dientin.wav
 
+- Mình đã update phiên bản morse 1.7
+- Mình cũng đã bỏ options `-t` và `--text` các bạn chỉ cần nhập :
+    ```bash
+    $morse hello jiki
+
+    hoặc
+    
+    $morse .... . .-.. .-.. --- / .--- .. -.- ..
+    ```
+- Làm gọn các functions
 ## TỔNG QUAN VỀ SHELL SCRIPT DOC-EMAIL
 
 - Đây là một shell script cũng bình thường dùng để đọc email của bạn một cách nhanh chóng không có options nhưng được mình biến tấu thêm về phần password để tránh hacker cũng như các phần mềm chứa mã độc 
