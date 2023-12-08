@@ -317,7 +317,6 @@ do
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
   then
     add_email_suffix="@yahoo.com"
-    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
     if [ -d /home/$USER/email_morse ]
     then
       echo "Thư mục đã tồn tại."
@@ -331,7 +330,6 @@ do
   elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "-dh" ] || [ "$arg" = "--delete-hotmail" ]
   then
     add_email_suffix="@hotmail.com"
-    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
     if [ -d /home/$USER/email_morse ]
     then
       echo "Thư mục đã tồn tại."
@@ -345,7 +343,6 @@ do
   elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ] || [ "$arg" = "-do" ] || [ "$arg" = "--delete-outlook" ]
   then
     add_email_suffix="@outlook.com"
-    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
     if [ -d /home/$USER/email_morse ]
     then
       echo "Thư mục đã tồn tại."
@@ -359,7 +356,6 @@ do
   elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ] || [ "$arg" = "--delete-gmail" ]
   then
     add_email_suffix="@gmail.com"
-    #read -p "Nhập đường dẫn tải về file đính kèm : " download_attachments
     if [ -d /home/$USER/email_morse ]
     then
       echo "Thư mục đã tồn tại."
@@ -595,17 +591,14 @@ do
   then
     python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
     python3 -c "$python_yahoo"
-    rm -rf $temp_files dientin.wav
   elif [ "$arg" = "-wh" ] || [ "$arg" = "--write-hotmail" ] || [ "$arg" = "-wo" ] || [ "$arg" = "--write-outlook" ]
   then
-    python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
-    python3 -c "$python_yahoo"
-    rm -rf $temp_files dientin.wav
+    python_hotmail_outlook=$(echo "$python_write" | sed "s/$run/$hotmail_outlook_smtp_server/g")
+    python3 -c "$python_hotmail_outlook"
   elif [ "$arg" = "-wg" ] || [ "$arg" = "--write-gmail" ]
   then
-    python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
-    python3 -c "$python_yahoo"
-    rm -rf $temp_files dientin.wav
+    python_gmail=$(echo "$python_write" | sed "s/$run/$gmail_smtp_server/g")
+    python3 -c "$python_gmail"
   elif [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
   then
     python_yahoo=$(echo "$python_delete" | sed "s/$run/$yahoo_server/g")
@@ -688,6 +681,10 @@ else
     morse "$line"
   done
 fi
+
+rm -rf $temp_files
+rm -rf dt.wav
+rm -rf dientin.wav
 
 # Kiem tra ffmpeg command
 if ! command -v ffmpeg >/dev/null 2>&1
