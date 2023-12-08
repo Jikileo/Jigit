@@ -118,3 +118,13 @@
 - Mình sẽ update phiên bản tiếp theo !!!
 - Chúc các bạn thành công và vui vẻ !!!
 
+- Mình đã update phiên bản 1.9
+- Với phiên bản này mình combine morse với email-morse và chỉ còn morse
+- Bài tập đầu tiên mình dự định là viết 1000 line code mà mình thì mới viết được khoảng 700 line code thì xem ra chẳng còn gì để viết ??? 
+## Hình ảnh Update morse 1.9
+
+![Ubuntu_email-morse](https://github.com/Jikileo/Jigit/blob/master/Misc/U_morse2.png)
+
+- Chúc các bạn thành công và vui vẻ !!!
+- Mình sẽ update tiếp ở phiên bản tiếp theo
+
