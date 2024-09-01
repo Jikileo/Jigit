@@ -129,3 +129,18 @@
 # Chúc các bạn thành công và vui vẻ !!!
 - Mình sẽ update tiếp ở phiên bản tiếp theo
 
+# UPDATE MORSE 2.0
+
+- Bây giờ thì bạn đã có thể sử dụng tương đối hoàn chỉnh morse 2.0 của mình .
+- Các dấu "-" "." nhận biết giữa chuỗi và tập tin sẽ được nhận diện một cách khá dễ dàng .
+- Thư viện cho mã morse đã được cập nhật thêm để có thể nhận diện và biên dịch một cách thuận tiện nhất .
+- Ở đây để sử dụng thêm âm thanh cho morse mình dùng thêm chương trình ffmpeg các bạn nhớ cài đặt để chạy chung với ứng dụng Morse của mình .
+- Để sử dụng email bạn cần một tài khoản đăng kí thêm phần mật khẩu ứng dụng để hoàn toàn có thể sử dụng email cho chương trình này với xác nhận của bên thứ 3 
+- Mình cũng đã sửa lại phần gmail để bạn có thể đăng nhập được .
+- Các bạn có thể sử dụng các options "yahoo" "hotmail" "outlook" "gmail" "--yahoo" "--hotmail" "--outlook" "--gmail" để đăng nhập hộp thư .
+- Các bạn có thể sử dụng các options "-wy" "-wh" "-wo" "-wg" "--write-yahoo" "--write-hotmail" "--write-outlook" "--write-gmail" để viết thư và gửi nó đến một hộp thư mà bạn muốn .
+- Các bạn có thể sử dụng các options "-dy" "-dh" "-do" "-dg" "--delete-yahoo" "--delete-hotmail" "--delete-outlook" "--delete-gmail" để xóa các bức thư trong hộp thư mỗi lần 5 lá thư sẽ được xóa .
+- Phần Username nó sẽ như sau : email của bạn là micae_vu@yahoo.com thì Username sẽ là micae_vu .
+- Nếu bạn muốn xem thêm bạn có thể sử dụng options "-h" "help" "--help" .
+
+

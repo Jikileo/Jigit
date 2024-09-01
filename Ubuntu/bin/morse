@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	1.7
+# Version:	2.0
 # Email:		micae_vu@yahoo.com
 # Description: Chương trình chuyển dịch mã morse
 #---------------------   Ket Thuc  ------------------------#
@@ -72,6 +72,7 @@ decode_char(){
     letter[.-.-.]="+";
     letter[..--.-]="_";
     letter[.--.-.]="@";
+    letter[-....-]="-";
     letter[/]=" ";
 
     letter[space]=" ";
@@ -80,11 +81,13 @@ decode_char(){
     
 }
 
-str="a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 \. \, \! \? \/ \: \; \= \+ \_ \@"
+str="a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 \. \, \! \? \/ \: \; \= \+ \_ \@ \-"
 giaima=($str)
-str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- -.-.-- ..--.. -..-. ---... -.-.-. -...- .-.-. ..--.- .--.-."
+str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --.. .---- ..--- ...-- ....- ..... -..... --... ---.. ----. ----- .-.-.- --..-- -.-.-- ..--.. -..-. ---... -.-.-. -...- .-.-. ..--.- .--.-. -....-"
 mahoa=($str)
 
+# KEY-AI
+KEY_AI="jdsahfjajsr892443trj0kdkw^&@23fskdsjfkhdsfjdsj!k:hjfhskdnxcn;sahjgwafdjsfkds;ywiuehfmdnfzdsfdf;shdfajkdfueiwhfjdkfkds;kfdhsbvncmxzisdhfjkdsaf;!i:gsajkthgrehgk;vbjerfjahjfhdsljkvcxv;ahgjirewgjnjklnvk;kdsjgkyewiugknvsg;dksajlfkdkaghjkfdbvmcxnmb;keutirejgkfdg;x;fdkljsafdsakd^kjfakj;askldjfkldjf*skfadsfoegfkdlnf,zm;lvkd(ssakjdlsajkldfksfj)dsjkljfdklsjfkdsjf;k@jsfkldafjsakljfkdl;jk!jklajskfljfdkjl;afdskjadfkl!safnkedjgretk%hjdsahgeriojgkdsnf&dsfjklahfjksadkf*ksjfkjlfgkhsjkfhgjkds~ksajfkhgjkfdjg!klfjasfpoakgdlsfdjkl<kajfkldjfkjlhgfndg<sjkhgjkfd!y:tblnaejtrkkuwojo;bdsjhfghjdsgjfgsajfghds!u:hsuifghdjhsdjkzhfj;jkfdsgjkhafjakwfdgs;&^*^!jfdsjgkfhjgskdnmdsafdjhlksdafjd;sshdjktgerfgdgs;sjkdhfjkdsklfljkf;tureitkgf,djgksdfdsfaf'ds;af\./ur2897489506sldfksfd,/dslp[fw5934o23lgsoiug90rfkldsdjfogskf;'f32klgv,cnbgeotw95084rkewlfds-04gfdgrylr;'sfewtp0u453pk;lsd'g0-932t/sd.f'w;lr;w're;35usefjaoidr930rsejfkdt8943ufd;;43985;fdsfsdf;gwityiuewfjkdshfiuew!h:iheympctiiztemdi;fehwirtjdjfkdsjafoe;irewytfdjsnkfeiwrje;ietfghdjkfwihfkjdsf;riuewyfdsjkfhjskafdjkfjwer93;43kldjfgoet0943dkosufdsg.estghkdsjgkdg,ertfjkdjsferitmiatiroet/ewrgosdjgiruyteirutre]treutireutioegkdsg[sdgkjrgioergjre;greogjioregjre65lskfelrjte!lefewotdsngjyiu@jkldjfksdfewtret;dsfajhksajjkfehjre/rejtgfdojgvkjgkdljfgkdtiroeiotureifbw;eowrutniregisyd;osaogareniognifs;ouniaurieuifrui4eturgi;it903togimopsig;wurnioewfuidsg;guniewguibufdsaf;wqingeiqgnifdsfd;!o:phgissawogqfpdlc;akdiewquriewrewf;wrefniewuyrgbuid;afniweriufbsauf;ewiouifesabfidf;gnsaigbiugfdsgbui;sinufiewuifn;sonfudgbirueng;saoirawjfmds;misafndsfdsmaf;!s:sdjfnadfb;gkanifuifdsafd;fdsafdsffe;sdfavjkvj;fdsniongi;aonsufdibf;oangifvsdifsafd;dsaifodsnfoisafunid;pdapifmodisofapiopsaifo;bmfdsgndiugfdgfds"
 # HƯỚNG DẪN SỬ DỤNG
 USAGE="
 ${BROWN}Usage${NORMAL}: morse [Option] [File|String]
@@ -99,9 +102,9 @@ Bao gồm 4 loại:
                                     Dịch chuỗi kí tự / Dịch chuỗi mã morse / Dịch văn bản / Dịch tập tin morse
   [-dt]                             Điện tín mã morse
   [-ssh]                            Chuyển tập tin dientin.wav bang ssh server
-  [yahoo/hotmail/outlook/gmail]     Đọc email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
-  [-wy/-wh/-wo/-wg]                 Viết email Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
-  [-dy/-dh/-do/-dg]                 Xóa email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
+  [yahoo/hotmail/outlook/gmail/--yahoo/--hotmail/--outlook/--gmail]     Đọc email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
+  [-wy/-wh/-wo/-wg/--write-yahoo/--write-hotmail/--write-outlook/--write-gmail]     Viết email Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
+  [-dy/-dh/-do/-dg/--delete-yahoo/--delete-hotmail/--delete-outlook/--delete-gmail]   Xóa email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
 
 "
 HELP="
@@ -185,6 +188,8 @@ function decode_morse() {
   echo
 }
 
+bit_rate="8000"
+
 function dien_tin() {
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
   ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
@@ -214,18 +219,32 @@ function dien_tin() {
   rm -rf dt.wav
   ffmpeg -f concat -i sounds -c copy dt.wav 2>/dev/null
   rm -rf dot.wav dash.wav slash.wav pause.wav sounds
-  sox "dt.wav" -r 8000 "dientin.wav"
+  ffmpeg -i "dt.wav" -ar "$bit_rate" "dientin.wav"
   rm -rf dt.wav
 }
 
 morse() {
-  local input="$@"
+  local input="$1"
 
-  if [[ "$input" == *"."* || "$input" == *"-"* ]]; then
-      decode_morse "$input"
+  if [ -f "$input" ]
+  then
+    content=$(cat "$input")
+    if [[ "$content" == *"."* && "$content" == *"-"* ]] #&& [[ "$content" == "." && "$content" == "-" ]]
+    then
+      decode_morse "$content"
+    else
+      morse_code "$content"
+    fi
   else
-      morse_code "$input"
+    content="$input"
+    if [[ "$content" == *"."* && "$content" == *"-"* ]] #&& [[ "$content" == "." && "$content" == "-" ]]
+    then
+      decode_morse "$content"
+    else
+      morse_code "$content"
+    fi
   fi
+
 }
 
 # Nhap IMAP server
@@ -239,6 +258,7 @@ hotmail_outlook_smtp_server="smtp.office365.com"
 gmail_smtp_server="smtp.gmail.com"
 
 temp_files=$(mktemp)
+TEMP_FILES=$(mktemp)
 
 # Tao Menu tro giup
 argument=""
@@ -273,6 +293,7 @@ do
     email_morse=$(cat "$temp_files")
     alphabet=$(morse_code "$dientin_morse")
     dien_tin
+    #mv dientin.wav $TEMP_FILES
     attachment_files="dientin.wav"
     read_password
   elif [ "$arg" = "-wh" ] || [ "$arg" = "--write-hotmail" ]
@@ -286,6 +307,7 @@ do
     email_morse=$(cat "$temp_files")
     alphabet=$(morse_code "$dientin_morse")
     dien_tin
+    #mv dientin.wav $TEMP_FILES
     attachment_files="dientin.wav"
     read_password
   elif [ "$arg" = "-wo" ] || [ "$arg" = "--write-outlook" ]
@@ -299,6 +321,7 @@ do
     email_morse=$(cat "$temp_files")
     alphabet=$(morse_code "$dientin_morse")
     dien_tin
+    #mv dientin.wav $TEMP_FILES
     attachment_files="dientin.wav"
     read_password
   elif [ "$arg" = "-wg" ] || [ "$arg" = "--write-gmail" ]
@@ -312,6 +335,7 @@ do
     email_morse=$(cat "$temp_files")
     alphabet=$(morse_code "$dientin_morse")
     dien_tin
+    #mv dientin.wav $TEMP_FILES
     attachment_files="dientin.wav"
     read_password
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
@@ -353,7 +377,7 @@ do
     fi
     download_attachments=/home/$USER/email_morse
     read_password
-  elif [ "$arg" = "--gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ] || [ "$arg" = "--delete-gmail" ]
+  elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ] || [ "$arg" = "--delete-gmail" ]
   then
     add_email_suffix="@gmail.com"
     if [ -d /home/$USER/email_morse ]
@@ -368,7 +392,9 @@ do
     read_password
   elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
   then
-    KEY_AI
+    echo "============================== KEY-AI BEGIN =============================="
+    echo -e "$KEY_AI"
+    echo "============================== KEY-AI END =============================="
     exit 1
   fi
 done
@@ -682,22 +708,14 @@ else
   done
 fi
 
+rm -rf $TEMP_FILES
 rm -rf $temp_files
-rm -rf dt.wav
-rm -rf dientin.wav
 
 # Kiem tra ffmpeg command
 if ! command -v ffmpeg >/dev/null 2>&1
 then
   echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command ffmpeg ... !!!${NORMAL}"
   echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install ffmpeg${NORMAL}"
-  exit 1
-fi
-
-if ! command -v sox >/dev/null 2>&1
-then
-  echo -e "${RED}Để sử dụng điện tín vui lòng cài đặt command sox ... !!!${NORMAL}"
-  echo -e "${RED}Trên Ubuntu/Debian : sudo apt-get install sox${NORMAL}"
   exit 1
 fi
 
