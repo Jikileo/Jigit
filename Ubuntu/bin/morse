@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	2.1
+# Version:	2.0
 # Email:		micae_vu@yahoo.com
 # Description: Chương trình chuyển dịch mã morse
 #---------------------   Ket Thuc  ------------------------#
@@ -213,7 +213,7 @@ function dien_tin() {
   rm -f dt.wav
   ffmpeg -f concat -safe 0 -i sounds -c copy dt.wav -loglevel error
   rm -f dot.wav dash.wav slash.wav pause.wav start.wav sounds
-  ffmpeg -i "dt.wav" -ar "$bit_rate" "dientin.wav" -loglevel error
+  ffmpeg -i "dt.wav" -ar "$bit_rate" "dientin.wav" -loglevel error -y
   rm -f dt.wav
 }
 
@@ -251,18 +251,54 @@ yahoo_smtp_server="smtp.mail.yahoo.com"
 hotmail_outlook_smtp_server="smtp.office365.com"
 gmail_smtp_server="smtp.gmail.com"
 
-temp_files=$(mktemp)
-TEMP_FILES=$(mktemp)
+function mail_send(){
+    read -p "Nhập email nhận thư : " to_emails
+    if [[ ! "$to_emails" =~ "@" ]]
+    then
+      echo -e "${RED}\nLỗi: Đây không phải là một Email !!!\n${NORMAL}"
+      exit 1
+    fi
+    
+    temp_files=$(mktemp)
+    read -p "Nhập nội dung : " body_email
+    read -p "Nhập nội dung điện tín : " dientin_morse
+    morse_result=$(morse_code "$body_email")
+    echo -e "$morse_result" > $temp_files
+    email_morse=$(cat "$temp_files")
+    alphabet=$(morse_code "$dientin_morse")
+    dien_tin
+    attachment_files="dientin.wav"
+}
 
+function check_folder_email_morse(){
+    if [ -d /home/$USER/email_morse ]
+    then
+      echo "Thư mục đã tồn tại."
+    else
+      # Tạo thư mục nếu nó chưa tồn tại
+      mkdir -p /home/$USER/email_morse
+      echo "Đã tạo thư mục."
+    fi
+    download_attachments=/home/$USER/email_morse
+}
+ 
 # Tao Menu tro giup
 argument=""
 
 # Ham nhap khau an toan
 read_password() {
     read -p "Nhập username email : " username
+    if [ -z "$username" ]
+    then
+      echo -e ${RED}"\nLỗi: Username không được để trống !!!\n"${NORMAL}
+      rm -f $temp_files
+      return 1
+    fi
+
     emails="$username$add_email_suffix"
     prompt="Nhập mật khẩu $emails : "
-    while IFS= read -p "$prompt" -r -s -n 1 char; do
+    while IFS= read -p "$prompt" -r -s -n 1 char
+    do
         if [[ $char == $'\0' ]]; then
             break
         fi
@@ -270,7 +306,13 @@ read_password() {
         passwords+="$char"
         run="runner"
     done
-    echo
+
+    if [ -z "$passwords" ]
+    then
+      echo -e ${RED}"\n\nLỗi: Mật khẩu không được để trống !!!\n"${NORMAL}
+      rm -f $temp_files
+      return 1
+    fi
 }
 
 # Menu trợ giúp
@@ -279,110 +321,42 @@ do
   if [ "$arg" = "-wy" ] || [ "$arg" = "--write-yahoo" ]
   then
     add_email_suffix="@yahoo.com"
-    read -p "Nhập email nhận thư : " to_emails
-    read -p "Nhập nội dung : " body_email
-    read -p "Nhập nội dung điện tín : " dientin_morse
-    morse_result=$(morse_code "$body_email")
-    echo -e "$morse_result" > $temp_files
-    email_morse=$(cat "$temp_files")
-    alphabet=$(morse_code "$dientin_morse")
-    dien_tin
-    #mv dientin.wav $TEMP_FILES
-    attachment_files="dientin.wav"
+    mail_send
     read_password
   elif [ "$arg" = "-wh" ] || [ "$arg" = "--write-hotmail" ]
   then
     add_email_suffix="@hotmail.com"
-    read -p "Nhập email nhận thư : " to_emails
-    read -p "Nhập nội dung : " body_email
-    read -p "Nhập nội dung điện tín : " dientin_morse
-    morse_result=$(morse_code "$body_email")
-    echo -e "$morse_result" > $temp_files
-    email_morse=$(cat "$temp_files")
-    alphabet=$(morse_code "$dientin_morse")
-    dien_tin
-    #mv dientin.wav $TEMP_FILES
-    attachment_files="dientin.wav"
+    mail_send
     read_password
   elif [ "$arg" = "-wo" ] || [ "$arg" = "--write-outlook" ]
   then
     add_email_suffix="@outlook.com"
-    read -p "Nhập email nhận thư : " to_emails
-    read -p "Nhập nội dung : " body_email
-    read -p "Nhập nội dung điện tín : " dientin_morse
-    morse_result=$(morse_code "$body_email")
-    echo -e "$morse_result" > $temp_files
-    email_morse=$(cat "$temp_files")
-    alphabet=$(morse_code "$dientin_morse")
-    dien_tin
-    #mv dientin.wav $TEMP_FILES
-    attachment_files="dientin.wav"
+    mail_send
     read_password
   elif [ "$arg" = "-wg" ] || [ "$arg" = "--write-gmail" ]
   then
     add_email_suffix="@gmail.com"
-    read -p "Nhập email nhận thư : " to_emails
-    read -p "Nhập nội dung : " body_email
-    read -p "Nhập nội dung điện tín : " dientin_morse
-    morse_result=$(morse_code "$body_email")
-    echo -e "$morse_result" > $temp_files
-    email_morse=$(cat "$temp_files")
-    alphabet=$(morse_code "$dientin_morse")
-    dien_tin
-    #mv dientin.wav $TEMP_FILES
-    attachment_files="dientin.wav"
+    mail_send
     read_password
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ] || [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
   then
     add_email_suffix="@yahoo.com"
-    if [ -d /home/$USER/email_morse ]
-    then
-      echo "Thư mục đã tồn tại."
-    else
-      # Tạo thư mục nếu nó chưa tồn tại
-      mkdir -p /home/$USER/email_morse
-      echo "Đã tạo thư mục."
-    fi
-    download_attachments=/home/$USER/email_morse
+    check_folder_email_morse
     read_password
   elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "-dh" ] || [ "$arg" = "--delete-hotmail" ]
   then
     add_email_suffix="@hotmail.com"
-    if [ -d /home/$USER/email_morse ]
-    then
-      echo "Thư mục đã tồn tại."
-    else
-      # Tạo thư mục nếu nó chưa tồn tại
-      mkdir -p /home/$USER/email_morse
-      echo "Đã tạo thư mục."
-    fi
-    download_attachments=/home/$USER/email_morse
+    check_folder_email_morse
     read_password
   elif [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ] || [ "$arg" = "-do" ] || [ "$arg" = "--delete-outlook" ]
   then
     add_email_suffix="@outlook.com"
-    if [ -d /home/$USER/email_morse ]
-    then
-      echo "Thư mục đã tồn tại."
-    else
-      # Tạo thư mục nếu nó chưa tồn tại
-      mkdir -p /home/$USER/email_morse
-      echo "Đã tạo thư mục."
-    fi
-    download_attachments=/home/$USER/email_morse
+    check_folder_email_morse
     read_password
   elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ] || [ "$arg" = "-dg" ] || [ "$arg" = "--delete-gmail" ]
   then
     add_email_suffix="@gmail.com"
-    if [ -d /home/$USER/email_morse ]
-    then
-      echo "Thư mục đã tồn tại."
-    else
-      # Tạo thư mục nếu nó chưa tồn tại
-      mkdir -p /home/$USER/email_morse
-      echo "Đã tạo thư mục."
-    fi
-    download_attachments=/home/$USER/email_morse
+    check_folder_email_morse
     read_password
   elif [ "$arg" = "-k" ] || [ "$arg" = "--key" ]
   then
@@ -423,9 +397,9 @@ os.makedirs(download_folder, exist_ok=True)
 try:
   mail = imaplib.IMAP4_SSL("runner", port=993, ssl_context=None, timeout=None)
   mail.login("$emails", "$passwords")
-  print_colored_text("\nĐăng nhập thành công !!!", Color.GREEN)
+  print_colored_text("\n\nĐăng nhập thành công !!!\n", Color.GREEN)
 except imaplib.IMAP4.error as e:
-  print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
+  print_colored_text(f"\nLỗi xảy ra: {str(e)}\n", Color.RED)
   exit()
 
 # Chọn hộp thư "inbox"
@@ -553,11 +527,11 @@ def send_email():
         # Gửi email
         server.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
     
-      print_colored_text("\nGửi Email thành công !!!\n", Color.YELLOW)
+      print_colored_text("\n\nGửi Email thành công !!!\n", Color.YELLOW)
     except smtplib.SMTPAuthenticationError:
-      print_colored_text("\nLỗi đăng nhập ... Username hoặc password sai !!!", Color.RED)
+      print_colored_text("\nLỗi đăng nhập ... Username hoặc password sai !!!\n", Color.RED)
     except Exception as e:
-      print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
+      print_colored_text(f"\nLỗi xảy ra: {str(e)}\n", Color.RED)
 
 if __name__ == "__main__":
     send_email()
@@ -624,17 +598,17 @@ do
   then
     python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
     python3 -c "$python_yahoo"
-    rm -rf $temp_files $TEMP_FILES dientin.wav
+    rm -rf $temp_files dientin.wav
   elif [ "$arg" = "-wh" ] || [ "$arg" = "--write-hotmail" ] || [ "$arg" = "-wo" ] || [ "$arg" = "--write-outlook" ]
   then
     python_hotmail_outlook=$(echo "$python_write" | sed "s/$run/$hotmail_outlook_smtp_server/g")
     python3 -c "$python_hotmail_outlook"
-    rm -rf $temp_files $TEMP_FILES dientin.wav
+    rm -rf $temp_files dientin.wav
   elif [ "$arg" = "-wg" ] || [ "$arg" = "--write-gmail" ]
   then
     python_gmail=$(echo "$python_write" | sed "s/$run/$gmail_smtp_server/g")
     python3 -c "$python_gmail"
-    rm -rf $temp_files $TEMP_FILES dientin.wav
+    rm -rf $temp_files dientin.wav
   elif [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
   then
     python_yahoo=$(echo "$python_delete" | sed "s/$run/$yahoo_server/g")
@@ -715,7 +689,7 @@ else
   done
 fi
 
-rm -rf $temp_files $TEMP_FILES
+rm -rf $temp_files
 
 # Kiem tra ffmpeg command
 if ! command -v ffmpeg >/dev/null 2>&1

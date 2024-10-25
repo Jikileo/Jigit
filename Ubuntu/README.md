@@ -145,7 +145,10 @@
 
 # UPDATE MORSE 2.1
 
-- Mình đã sửa lại tập tin dientin.wav để khi bắt đầu đoạn âm thanh sẽ là khoảng thời gian 10s bằng mot tập tin start.wav
-- Options "-dt" hay "-ssh" sẽ được loại bỏ trong tập tin dientin.wav do mình đã thay biến alphabet=$(morse_code "${@:2}"
+- Mình đã sửa lại tập tin dientin.wav để khi bắt đầu đoạn âm thanh sẽ là khoảng thời gian 10s bằng một tập tin start.wav
+- Options "-dt" hay "-ssh" sẽ được loại bỏ trong tập tin dientin.wav do mình đã thay biến alphabet=$(morse_code "${@:2}")
 - Thông báo lỗi nhập username hay password sai sẽ được hiển thị chứ không có các kí tự loằng ngoằng ...
+- Tất cả các file rác trong thư mục tmp sẽ được xóa 
+- Làm gọn các functions để update các phiên bản tiếp theo ...
+
 
