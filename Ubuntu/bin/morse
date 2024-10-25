@@ -4,7 +4,7 @@
 #
 # Name script: Morse
 # Author:		Jikileo
-# Version:	2.0
+# Version:	2.1
 # Email:		micae_vu@yahoo.com
 # Description: Chương trình chuyển dịch mã morse
 #---------------------   Ket Thuc  ------------------------#
@@ -87,21 +87,19 @@ str=".- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. .
 mahoa=($str)
 
 # KEY-AI
-KEY_AI="jdsahfjajsr892443trj0kdkw^&@23fskdsjfkhdsfjdsj!k:hjfhskdnxcn;sahjgwafdjsfkds;ywiuehfmdnfzdsfdf;shdfajkdfueiwhfjdkfkds;kfdhsbvncmxzisdhfjkdsaf;!i:gsajkthgrehgk;vbjerfjahjfhdsljkvcxv;ahgjirewgjnjklnvk;kdsjgkyewiugknvsg;dksajlfkdkaghjkfdbvmcxnmb;keutirejgkfdg;x;fdkljsafdsakd^kjfakj;askldjfkldjf*skfadsfoegfkdlnf,zm;lvkd(ssakjdlsajkldfksfj)dsjkljfdklsjfkdsjf;k@jsfkldafjsakljfkdl;jk!jklajskfljfdkjl;afdskjadfkl!safnkedjgretk%hjdsahgeriojgkdsnf&dsfjklahfjksadkf*ksjfkjlfgkhsjkfhgjkds~ksajfkhgjkfdjg!klfjasfpoakgdlsfdjkl<kajfkldjfkjlhgfndg<sjkhgjkfd!y:tblnaejtrkkuwojo;bdsjhfghjdsgjfgsajfghds!u:hsuifghdjhsdjkzhfj;jkfdsgjkhafjakwfdgs;&^*^!jfdsjgkfhjgskdnmdsafdjhlksdafjd;sshdjktgerfgdgs;sjkdhfjkdsklfljkf;tureitkgf,djgksdfdsfaf'ds;af\./ur2897489506sldfksfd,/dslp[fw5934o23lgsoiug90rfkldsdjfogskf;'f32klgv,cnbgeotw95084rkewlfds-04gfdgrylr;'sfewtp0u453pk;lsd'g0-932t/sd.f'w;lr;w're;35usefjaoidr930rsejfkdt8943ufd;;43985;fdsfsdf;gwityiuewfjkdshfiuew!h:hvejgepdpczxsass;fehwirtjdjfkdsjafoe;irewytfdjsnkfeiwrje;ietfghdjkfwihfkjdsf;riuewyfdsjkfhjskafdjkfjwer93;43kldjfgoet0943dkosufdsg.estghkdsjgkdg,ertfjkdjsferitmiatiroet/ewrgosdjgiruyteirutre]treutireutioegkdsg[sdgkjrgioergjre;greogjioregjre65lskfelrjte!lefewotdsngjyiu@jkldjfksdfewtret;dsfajhksajjkfehjre/rejtgfdojgvkjgkdljfgkdtiroeiotureifbw;eowrutniregisyd;osaogareniognifs;ouniaurieuifrui4eturgi;it903togimopsig;wurnioewfuidsg;guniewguibufdsaf;wqingeiqgnifdsfd;!o:kdqoofewajwbfnnv;akdiewquriewrewf;wrefniewuyrgbuid;afniweriufbsauf;ewiouifesabfidf;gnsaigbiugfdsgbui;sinufiewuifn;sonfudgbirueng;saoirawjfmds;misafndsfdsmaf;!s:sdjfnadfb;gkanifuifdsafd;fdsafdsffe;sdfavjkvj;fdsniongi;aonsufdibf;oangifvsdifsafd;dsaifodsnfoisafunid;pdapifmodisofapiopsaifo;bmfdsgndiugfdgfds"
+KEY_AI="jdsahfjajsr892443trj0kdkw^&@23fskdsjfkhdsfjdsj!k:hjfhskdnxcn;sahjgwafdjsfkds;ywiuehfmdnfzdsfdf;shdfajkdfueiwhfjdkfkds;kfdhsbvncmxzisdhfjkdsaf;!i:gsajkthgrehgk;vbjerfjahjfhdsljkvcxv;ahgjirewgjnjklnvk;kdsjgkyewiugknvsg;dksajlfkdkaghjkfdbvmcxnmb;keutirejgkfdg;x;fdkljsafdsakd^kjfakj;askldjfkldjf*skfadsfoegfkdlnf,zm;lvkd(ssakjdlsajkldfksfj)dsjkljfdklsjfkdsjf;k@jsfkldafjsakljfkdl;jk!jklajskfljfdkjl;afdskjadfkl!safnkedjgretk%hjdsahgeriojgkdsnf&dsfjklahfjksadkf*ksjfkjlfgkhsjkfhgjkds~ksajfkhgjkfdjg!klfjasfpoakgdlsfdjkl<kajfkldjfkjlhgfndg<sjkhgjkfd!y:tblnaejtrkkuwojo;bdsjhfghjdsgjfgsajfghds!u:hsuifghdjhsdjkzhfj;jkfdsgjkhafjakwfdgs;&^*^!jfdsjgkfhjgskdnmdsafdjhlksdafjd;sshdjktgerfgdgs;sjkdhfjkdsklfljkf;tureitkgf,djgksdfdsfaf'ds;af\./ur2897489506sldfksfd,/dslp[fw5934o23lgsoiug90rfkldsdjfogskf;'f32klgv,cnbgeotw95084rkewlfds-04gfdgrylr;'sfewtp0u453pk;lsd'g0-932t/sd.f'w;lr;w're;35usefjaoidr930rsejfkdt8943ufd;;43985;fdsfsdf;gwityiuewfjkdshfiuew!h:mvpuuywarqjgarlj;fehwirtjdjfkdsjafoe;irewytfdjsnkfeiwrje;ietfghdjkfwihfkjdsf;riuewyfdsjkfhjskafdjkfjwer93;43kldjfgoet0943dkosufdsg.estghkdsjgkdg,ertfjkdjsferitmiatiroet/ewrgosdjgiruyteirutre]treutireutioegkdsg[sdgkjrgioergjre;greogjioregjre65lskfelrjte!lefewotdsngjyiu@jkldjfksdfewtret;dsfajhksajjkfehjre/rejtgfdojgvkjgkdljfgkdtiroeiotureifbw;eowrutniregisyd;osaogareniognifs;ouniaurieuifrui4eturgi;it903togimopsig;wurnioewfuidsg;guniewguibufdsaf;wqingeiqgnifdsfd;!o:nghtzfssmuuwbmbz;akdiewquriewrewf;wrefniewuyrgbuid;afniweriufbsauf;ewiouifesabfidf;gnsaigbiugfdsgbui;sinufiewuifn;sonfudgbirueng;saoirawjfmds;misafndsfdsmaf;!s:sdjfnadfb;gkanifuifdsafd;fdsafdsffe;sdfavjkvj;fdsniongi;aonsufdibf;oangifvsdifsafd;dsaifodsnfoisafunid;pdapifmodisofapiopsaifo;bmfdsgndiugfdgfds"
 # HƯỚNG DẪN SỬ DỤNG
 USAGE="
 ${BROWN}Usage${NORMAL}: morse [Option] [File|String]
 Shell script này dùng để encode va decode mã morse với chuỗi và tập tin:
 
   ${GREEN}1${NORMAL}) Biên dịch chuỗi, tập tin
-  ${GREEN}2${NORMAL}) Tạo tập tin dientin.wav . Gửi tập tin dientin.wav bằng ssh server
+  ${GREEN}2${NORMAL}) Tạo tập tin dientin.wav . Gửi tập tin dientin.wav
   ${GREEN}3${NORMAL}) Đọc Viết Xóa Gửi email bằng mã morse !!!
 
 ${BROWN}Options${NORMAL}:
 Bao gồm 4 loại:
                                     Dịch chuỗi kí tự / Dịch chuỗi mã morse / Dịch văn bản / Dịch tập tin morse
-  [-dt]                             Điện tín mã morse
-  [-ssh]                            Chuyển tập tin dientin.wav bang ssh server
   [yahoo/hotmail/outlook/gmail]     Đọc email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
   [-wy/-wh/-wo/-wg]                 Viết email Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
   [-dy/-dh/-do/-dg]                 Xóa email từ hộp thư Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
@@ -123,12 +121,6 @@ ${BROWN}Usage Examples${NORMAL}:
 
   Chuyển dịch từ tập tin chứa mã morse sang văn bản thường
   \$ ${BLUE}morse code-morse.txt${NORMAL}
-
-  Điện tín mã morse
-  \$ ${BLUE}morse -dt Hello Jiki${NORMAL}
-
-  Gửi điện tín mã morse bằng ssh server
-  \$ ${BLUE}morse -ssh hello jiki${NORMAL}
 
   Đọc email Yahoo !!! Hotmail !!! Outlook !!! Gmail !!!
   \$ ${BLUE}morse [Options mail]${NORMAL}
@@ -191,13 +183,15 @@ function decode_morse() {
 bit_rate="8000"
 
 function dien_tin() {
-  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav 2>/dev/null
-  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav 2>/dev/null
-  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav 2>/dev/null
-  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.3" slash.wav 2>/dev/null
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.1" dot.wav -loglevel error
+  ffmpeg -f lavfi -i "sine=frequency=1000:duration=0.3" dash.wav -loglevel error
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.1" pause.wav -loglevel error
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=0.3" slash.wav -loglevel error
+  ffmpeg -f lavfi -i "sine=frequency=0:duration=1" start.wav -loglevel error
   cat /dev/null > sounds
+  echo "file 'start.wav'" >> sounds
   line=$alphabet
-  for (( i=8; i<${#line}; i++ ))
+  for (( i=0; i<${#line}; i++ ))
   do
     char="${line:$i:1}"
     if [[ $char == "." ]]
@@ -216,11 +210,11 @@ function dien_tin() {
       echo "file 'pause.wav'" >> sounds
     fi
   done
-  rm -rf dt.wav
-  ffmpeg -f concat -i sounds -c copy dt.wav 2>/dev/null
-  rm -rf dot.wav dash.wav slash.wav pause.wav sounds
-  ffmpeg -i "dt.wav" -ar "$bit_rate" "dientin.wav" 2>/dev/null
-  rm -rf dt.wav
+  rm -f dt.wav
+  ffmpeg -f concat -safe 0 -i sounds -c copy dt.wav -loglevel error
+  rm -f dot.wav dash.wav slash.wav pause.wav start.wav sounds
+  ffmpeg -i "dt.wav" -ar "$bit_rate" "dientin.wav" -loglevel error
+  rm -f dt.wav
 }
 
 morse() {
@@ -229,7 +223,7 @@ morse() {
   if [ -f "$input" ]
   then
     content=$(cat "$input")
-    if [[ "$content" == *"."* && "$content" == *"-"* ]] #&& [[ "$content" == "." && "$content" == "-" ]]
+    if [[ "$content" == *"."* && "$content" == *"-"* ]]
     then
       decode_morse "$content"
     else
@@ -237,7 +231,7 @@ morse() {
     fi
   else
     content="$input"
-    if [[ "$content" == *"."* && "$content" == *"-"* ]] #&& [[ "$content" == "." && "$content" == "-" ]]
+    if [[ "$content" == *"."* && "$content" == *"-"* ]]
     then
       decode_morse "$content"
     else
@@ -426,10 +420,13 @@ download_folder = "$download_attachments"
 os.makedirs(download_folder, exist_ok=True)
 
 # Kết nối đến dịch vụ IMAP
-mail = imaplib.IMAP4_SSL("runner")
-
-mail.login("$emails", "$passwords")
-print_colored_text("\nĐăng nhập thành công !!!", Color.GREEN)
+try:
+  mail = imaplib.IMAP4_SSL("runner", port=993, ssl_context=None, timeout=None)
+  mail.login("$emails", "$passwords")
+  print_colored_text("\nĐăng nhập thành công !!!", Color.GREEN)
+except imaplib.IMAP4.error as e:
+  print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
+  exit()
 
 # Chọn hộp thư "inbox"
 mail.select("inbox")
@@ -453,7 +450,7 @@ for i in range(min(5, len(messages))):
                 subject = subject.decode(encoding or "utf-8")
             print_colored_text(f"Subject: {subject}", Color.YELLOW)
             print(f"From: {email_message.get('From')}")
-            print(f"Date:, {email_message.get('Date')}")
+            print(f"Date: {email_message.get('Date')}")
             print_colored_text("Body:", Color.YELLOW)
             for part in email_message.walk():
                 if part.get_content_type() == "text/plain":
@@ -533,24 +530,34 @@ def send_email():
     # Attach file
     attachment_file = "$attachment_files"
     if attachment_file:
-        attachment = open(attachment_file, "rb")
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload((attachment).read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % attachment_file)
-        message.attach(part)
+      try:
+        with open(attachment_file, "rb") as attachment:
+        #attachment = open(attachment_file, "rb")
+          part = MIMEBase('application', 'octet-stream')
+          part.set_payload((attachment).read())
+          encoders.encode_base64(part)
+          part.add_header('Content-Disposition', "attachment; filename= %s" % attachment_file)
+          message.attach(part)
+      except FileNotFoundError:
+        print_colored_text("Không tìm thấy tệp đính kèm.", Color.RED)
+        return
 
     # Kết nối đến máy chủ SMTP qua SSL/TLS
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+    try:
+      with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
         server.starttls()
             
         # Đăng nhập vào tài khoản email
         server.login("$emails", "$passwords")
-        
+
         # Gửi email
         server.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
     
-    print_colored_text("\nGửi Email thành công !!!\n", Color.YELLOW)
+      print_colored_text("\nGửi Email thành công !!!\n", Color.YELLOW)
+    except smtplib.SMTPAuthenticationError:
+      print_colored_text("\nLỗi đăng nhập ... Username hoặc password sai !!!", Color.RED)
+    except Exception as e:
+      print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
 
 if __name__ == "__main__":
     send_email()
@@ -617,73 +624,64 @@ do
   then
     python_yahoo=$(echo "$python_write" | sed "s/$run/$yahoo_smtp_server/g")
     python3 -c "$python_yahoo"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
+    rm -rf $temp_files $TEMP_FILES dientin.wav
   elif [ "$arg" = "-wh" ] || [ "$arg" = "--write-hotmail" ] || [ "$arg" = "-wo" ] || [ "$arg" = "--write-outlook" ]
   then
     python_hotmail_outlook=$(echo "$python_write" | sed "s/$run/$hotmail_outlook_smtp_server/g")
     python3 -c "$python_hotmail_outlook"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
+    rm -rf $temp_files $TEMP_FILES dientin.wav
   elif [ "$arg" = "-wg" ] || [ "$arg" = "--write-gmail" ]
   then
     python_gmail=$(echo "$python_write" | sed "s/$run/$gmail_smtp_server/g")
     python3 -c "$python_gmail"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
+    rm -rf $temp_files $TEMP_FILES dientin.wav
   elif [ "$arg" = "-dy" ] || [ "$arg" = "--delete-yahoo" ]
   then
     python_yahoo=$(echo "$python_delete" | sed "s/$run/$yahoo_server/g")
     python3 -c "$python_yahoo"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "-dh" ] || [ "$arg" = "-do" ] || [ "$arg" = "--delete-hotmail" ] || [ "$arg" = "--delete-outlook" ]
   then
     python_hotmail_outlook=$(echo "$python_delete" | sed "s/$run/$hotmail_outlook_server/g")
     python3 -c "$python_hotmail_outlook"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "-dg" ] || [ "$arg" = "--delete-gmail" ]
   then
     python_gmail=$(echo "$python_delete" | sed "s/$run/$gmail_server/g")
     python3 -c "$python_gmail"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "yahoo" ] || [ "$arg" = "--yahoo" ]
   then
     python_yahoo=$(echo "$python_read" | sed "s/$run/$yahoo_server/g")
     python3 -c "$python_yahoo"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "hotmail" ] || [ "$arg" = "--hotmail" ] || [ "$arg" = "outlook" ] || [ "$arg" = "--outlook" ]
   then
     python_hotmail_outlook=$(echo "$python_read" | sed "s/$run/$hotmail_outlook_server/g")
     python3 -c "$python_hotmail_outlook"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "gmail" ] || [ "$arg" = "--gmail" ]
   then
     python_gmail=$(echo "$python_read" | sed "s/$run/$gmail_server/g")
     python3 -c "$python_gmail"
-    rm -rf dientin.wav $TEMP_FILES $temp_files
   elif [ "$arg" = "-dt" ]
   then
     MODE="dientin"
     dientin="dien_tin"
-    alphabet=$(morse_code "$@")
+    alphabet=$(morse_code "${@:2}")
     dien_tin
   elif [ "$arg" = "-ssh" ]
   then
-    alphabet=$(morse_code "$@")
+    alphabet=$(morse_code "${@:2}")
     dien_tin
     if ls *.wav 1> /dev/null 2>&1
     then
       for file in *.wav
       do
-        read -p "Nhập IP ADDRESS : " IP_ADRESS
-        MOBILE_HOST="$IP_ADRESS"
+        read -p "Nhập IP ADDRESS : " IP_ADDRESS
+        MOBILE_HOST="$IP_ADDRESS"
         MOBILE_PORT="22"
         MOBILE_USER="mobile"
         LOCAL_FILE="/var/mobile/$file"
-        # Tao mot tap tin tam thoi
         TEMP_FILE=$(mktemp)
         mv "$file" "$TEMP_FILE"
-        # Gui tap tin tam thoi bang ssh server
         scp -P "$MOBILE_PORT" "$TEMP_FILE" "$MOBILE_USER@$MOBILE_HOST:$LOCAL_FILE"
-        echo "Đã gửi đến $IP_ADRESS ... !!!"
-        # Don dep tap tin tam thoi
+        echo "Đã gửi đến $IP_ADDRESS ... !!!"
         rm -rf "$TEMP_FILE"
       done
     fi
@@ -716,6 +714,8 @@ else
     morse "$line"
   done
 fi
+
+rm -rf $temp_files $TEMP_FILES
 
 # Kiem tra ffmpeg command
 if ! command -v ffmpeg >/dev/null 2>&1
