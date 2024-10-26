@@ -238,7 +238,6 @@ morse() {
       morse_code "$content"
     fi
   fi
-
 }
 
 # Nhap IMAP server
@@ -295,14 +294,17 @@ read_password() {
       return 1
     fi
 
+    passwords=""
     emails="$username$add_email_suffix"
     prompt="Nhập mật khẩu $emails : "
+
     while IFS= read -p "$prompt" -r -s -n 1 char
     do
-        if [[ $char == $'\0' ]]; then
+        if [[ $char == $'\0' ]]
+        then
             break
         fi
-        prompt='*'
+        prompt="*"
         passwords+="$char"
         run="runner"
     done
@@ -397,9 +399,9 @@ os.makedirs(download_folder, exist_ok=True)
 try:
   mail = imaplib.IMAP4_SSL("runner", port=993, ssl_context=None, timeout=None)
   mail.login("$emails", "$passwords")
-  print_colored_text("\n\nĐăng nhập thành công !!!\n", Color.GREEN)
+  print_colored_text("\n\nĐăng nhập thành công !!!", Color.GREEN)
 except imaplib.IMAP4.error as e:
-  print_colored_text(f"\nLỗi xảy ra: {str(e)}\n", Color.RED)
+  print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
   exit()
 
 # Chọn hộp thư "inbox"
@@ -411,7 +413,7 @@ messages = messages[0].split()
 
 # In tổng số lượng thư
 total_emails = len(messages)
-print_colored_text(f"\nSố email trong hộp thư là : {total_emails}\n", Color.YELLOW)
+print_colored_text(f"\nSố email trong hộp thư là : {total_emails}", Color.YELLOW)
 
 # Lấy nội dung của 5 email đầu tiên
 for i in range(min(5, len(messages))):
@@ -527,11 +529,11 @@ def send_email():
         # Gửi email
         server.sendmail(FROM_EMAIL, TO_EMAIL, message.as_string())
     
-      print_colored_text("\n\nGửi Email thành công !!!\n", Color.YELLOW)
+      print_colored_text("\n\nGửi Email thành công !!!", Color.YELLOW)
     except smtplib.SMTPAuthenticationError:
-      print_colored_text("\nLỗi đăng nhập ... Username hoặc password sai !!!\n", Color.RED)
+      print_colored_text("\nLỗi đăng nhập ... Username hoặc password sai !!!", Color.RED)
     except Exception as e:
-      print_colored_text(f"\nLỗi xảy ra: {str(e)}\n", Color.RED)
+      print_colored_text(f"\nLỗi xảy ra: {str(e)}", Color.RED)
 
 if __name__ == "__main__":
     send_email()
@@ -545,13 +547,13 @@ from email.header import decode_header
 
 class Color:
     """Define ANSI escape codes for colors."""
-    RED = '\033[38;5;160m'
-    GREEN = '\033[38;5;82m'
-    YELLOW = '\033[38;5;226m'
-    BLUE = '\033[38;5;93m'
-    MAGENTA = '\033[38;5;165m'
-    CYAN = '\033[38;5;208m'
-    RESET = '\033[0m'
+    RED = '\\033[38;5;160m'
+    GREEN = '\\033[38;5;82m'
+    YELLOW = '\\033[38;5;226m'
+    BLUE = '\\033[38;5;93m'
+    MAGENTA = '\\033[38;5;165m'
+    CYAN = '\\033[38;5;208m'
+    RESET = '\\033[0m'
 
 def print_colored_text(text, color):
     """Print colored text to the terminal."""
@@ -574,15 +576,21 @@ mail.select("inbox")
 status, messages = mail.search(None, "ALL")
 messages = messages[0].split()
 
-# Xóa email đầu tiên trong danh sách (thay đổi số để xóa email khác)
-if messages:
-    result, data = mail.store(messages[0], '+FLAGS', '(\Deleted)')
+# Xóa 5 email đầu tiên trong danh sách (thay đổi số để xóa email khác)
+batch_size = 5
+while messages:
+    batch = messages[:batch_size]
+    for msg_id in batch:
+        mail.store(msg_id, '+FLAGS', '(\\\\Deleted)')
+
     mail.expunge()
-    print_colored_text("\nXóa Email thành công !!!\n", Color.YELLOW)
+    print_colored_text("\nXóa {len(batch)} Email thành công !!!", Color.YELLOW)
+
+    messages = messages[batch_size:]
 
 # In tổng số lượng thư
 total_emails = len(messages)
-print_colored_text(f"\nSố email còn lại : {total_emails}\n", Color.YELLOW)
+print_colored_text(f"\n\nSố email còn lại : {total_emails}", Color.YELLOW)
 
 # Đăng xuất
 mail.logout()
